@@ -4,7 +4,7 @@ A modern monorepo for the Colourfully Digital Foundation website built with Astr
 
 ## Architecture
 
-- **Frontend**: Astro 5.9 with React 19.0.0 islands
+- **Frontend**: Astro 5.10.1 with React 19.0.0 islands
 - **Content Management**: Sanity.io headless CMS
 - **Forms**: Netlify Forms with Make.com automation
 - **Styling**: Tailwind CSS
