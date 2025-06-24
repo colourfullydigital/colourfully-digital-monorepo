@@ -6,11 +6,27 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   integrations: [
-    react()
+    react({
+      include: ['**/react/*']
+    })
   ],
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    server: {
+      hmr: true,
+      host: true
+    },
+    build: {
+      sourcemap: true
+    }
   },
   output: 'static',
-  site: 'https://colourfullydigital.org'
+  site: 'https://www.colourfully.digital',
+  server: {
+    port: 4321,
+    host: true
+  },
+  devToolbar: {
+    enabled: true
+  }
 });

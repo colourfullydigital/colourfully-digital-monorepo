@@ -1,0 +1,15 @@
+
+
+> @colourfully-digital/website@1.0.0 type-check /Users/davidelisma/Repos/Colourfully.Digital/colourfully-digital-monorepo/apps/website
+> astro check
+
+[2m23:19:31[22m [34m[vite][39m Re-optimizing dependencies because lockfile has changed
+[2m23:19:31[22m [34m[content][39m Syncing content
+[2m23:19:31[22m [34m[content][39m Synced content
+[2m23:19:31[22m [34m[types][39m Generated [2m92ms[22m
+[2m23:19:31[22m [34m[check][39m Getting diagnostics for Astro files in /Users/davidelisma/Repos/Colourfully.Digital/colourfully-digital-monorepo/apps/website...
+[1mResult (3 files): [22m
+[2m-[22m [1m[31m0 errors[39m[22m
+[2m-[22m [1m[33m0 warnings[39m[22m
+[2m-[22m [2m0 hints
+[22m

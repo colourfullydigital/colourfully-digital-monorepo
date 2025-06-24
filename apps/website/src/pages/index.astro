@@ -1,17 +1,62 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Counter from '../components/react/Counter.tsx';
 import '../styles/global.css';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Colourfully Digital Foundation</title>
-	</head>
-	<body>
-		<h1 class="text-3xl font-bold text-blue-600">Colourfully Digital Foundation</h1>
-		<p class="text-gray-700 mt-4">Welcome to our website!</p>
-	</body>
-</html>
+<BaseLayout title="Colourfully Digital Foundation">
+  <Hero 
+    title="Colourfully Digital Foundation" 
+    subtitle="Building digital literacy and accessibility for all communities"
+    className="mb-8"
+  >
+    <div class="mt-6 space-y-4">
+      <p class="text-gray-700">
+        Welcome to our development environment! This page demonstrates the Astro.js setup with:
+      </p>
+      <ul class="list-disc list-inside text-gray-700 space-y-2">
+        <li>Astro v5.9 with TypeScript support</li>
+        <li>Tailwind CSS v4.1.7 with Vite integration</li>
+        <li>Component-based architecture</li>
+        <li>Hot module replacement for development</li>
+        <li>Responsive design patterns</li>
+      </ul>
+      <div class="mt-6">
+        <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors">
+          Get Started
+        </button>
+      </div>
+    </div>
+  </Hero>
+  
+  <section class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 mb-8">
+    <h2 class="text-2xl font-semibold text-gray-900 mb-4">Development Environment Status</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-white rounded-md p-4 border border-gray-200">
+        <h3 class="font-medium text-green-800">✅ Astro.js Initialized</h3>
+        <p class="text-sm text-gray-600 mt-1">v5.9 with TypeScript support</p>
+      </div>
+      <div class="bg-white rounded-md p-4 border border-gray-200">
+        <h3 class="font-medium text-green-800">✅ Tailwind CSS</h3>
+        <p class="text-sm text-gray-600 mt-1">v4.1.7 with Vite integration</p>
+      </div>
+      <div class="bg-white rounded-md p-4 border border-gray-200">
+        <h3 class="font-medium text-green-800">✅ Folder Structure</h3>
+        <p class="text-sm text-gray-600 mt-1">Following Astro best practices</p>
+      </div>
+      <div class="bg-white rounded-md p-4 border border-gray-200">
+        <h3 class="font-medium text-green-800">✅ Hot Reload</h3>
+        <p class="text-sm text-gray-600 mt-1">Ready for development</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-2xl font-semibold text-gray-900 mb-4">Interactive Demo</h2>
+    <p class="text-gray-600 mb-4">
+      Test the hot module replacement by modifying the counter component below:
+    </p>
+    <Counter client:load className="max-w-md mx-auto" />
+  </section>
+</BaseLayout>

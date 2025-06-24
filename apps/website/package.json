@@ -18,7 +18,7 @@
     "@colourfully-digital/types": "workspace:*",
     "@sanity/client": "^6.21.3",
     "@tailwindcss/vite": "^4.1.7",
-    "astro": "^5.10.1",
+    "astro": "^5.9.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwindcss": "^4.1.7"
@@ -26,6 +26,7 @@
   "devDependencies": {
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "^5.5.2"
+    "typescript": "^5.8.3",
+    "vite": "^6.0.0"
   }
 }
