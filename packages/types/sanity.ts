@@ -31,3 +31,24 @@ export interface SanitySlug {
 
 // Basic block content type - will be extended when Sanity is integrated
 export type SanityBlockContent = unknown[];
+
+// Test schema types
+export interface SanityTest extends SanityDocument {
+  _type: 'sanityTest';
+  title: string;
+  message?: string;
+  isActive: boolean;
+}
+
+// API response types
+export interface SanityApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
+}
+
+export interface SanityConnectionTest {
+  success: boolean;
+  data?: SanityTest;
+  error?: string;
+}
