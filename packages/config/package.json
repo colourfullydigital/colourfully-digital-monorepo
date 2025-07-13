@@ -1,0 +1,18 @@
+{
+  "name": "@colourfully-digital/config",
+  "version": "1.0.0",
+  "description": "Shared configuration files for Colourfully Digital Foundation",
+  "main": "./eslint-preset.js",
+  "types": "./tsconfig.base.json",
+  "files": [
+    "eslint-preset.js",
+    "tsconfig.base.json"
+  ],
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.19.0",
+    "@typescript-eslint/parser": "^8.19.0",
+    "eslint": "^9.17.0",
+    "eslint-plugin-astro": "^1.3.1",
+    "typescript": "^5.7.2"
+  }
+}

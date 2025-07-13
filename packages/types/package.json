@@ -1,0 +1,14 @@
+{
+  "name": "@colourfully-digital/types",
+  "version": "1.0.0",
+  "description": "Shared TypeScript types for Colourfully Digital Foundation",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "files": [
+    "index.ts",
+    "sanity.ts"
+  ],
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

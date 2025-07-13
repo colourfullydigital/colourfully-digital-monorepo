@@ -32,14 +32,3 @@ Thumbs.db
 
 # Turbo
 .turbo/
-
-# BMAD-core and development files
-.bmad-*/
-docs/
-stories/
-gemini-cli-instructions/
-.roomodes
-.github/instructions/
-.github/chatmodes/
-.github/copilot-instructions.md
-web-bundles/

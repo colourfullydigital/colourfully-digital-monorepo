@@ -1,0 +1,9 @@
+node_modules
+dist
+.astro
+.turbo
+coverage
+.nyc_output
+*.log
+.env*
+!.env.example
