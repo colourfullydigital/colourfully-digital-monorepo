@@ -1,0 +1,59 @@
+{
+  "folders": [
+    {
+      "name": "🌈 Colourfully Digital (Root)",
+      "path": "."
+    },
+    {
+      "name": "📁 Apps",
+      "path": "./apps"
+    },
+    {
+      "name": "📦 Packages",
+      "path": "./packages"
+    },
+    {
+      "name": "📚 Documentation",
+      "path": "./docs"
+    }
+  ],
+  "settings": {
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "typescript.suggest.autoImports": true,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "files.associations": {
+      "*.astro": "astro"
+    },
+    "emmet.includeLanguages": {
+      "astro": "html"
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/.astro": true,
+      "**/.turbo": true
+    },
+    "files.watcherExclude": {
+      "**/node_modules/**": true,
+      "**/dist/**": true,
+      "**/.astro/**": true,
+      "**/.turbo/**": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "astro-build.astro-vscode",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "bradlc.vscode-tailwindcss",
+      "ms-vscode.vscode-typescript-next",
+      "ms-playwright.playwright",
+      "vitest.explorer"
+    ]
+  }
+}

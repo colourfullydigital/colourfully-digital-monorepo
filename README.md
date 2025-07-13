@@ -1,79 +1,140 @@
 # Colourfully Digital Foundation Monorepo
 
-A modern monorepo for the Colourfully Digital Foundation website built with Astro, React, TypeScript, and Tailwind CSS.
+A modern pnpm-based monorepo for the Colourfully Digital Foundation website built with AstroJS, TypeScript, and Tailwind CSS.
+
+## Project Overview
+
+This repository contains the complete codebase for the Colourfully Digital Foundation website, designed as a monorepo to facilitate code sharing and streamlined development across multiple applications and shared packages.
 
 ## Architecture
 
-- **Frontend**: Astro 5.9 with React 19.0.0 islands
+- **Frontend**: AstroJS v5.11.0 with static site generation
+- **Package Manager**: pnpm v10.12.4+ for efficient dependency management
 - **Content Management**: Sanity.io headless CMS
+- **Styling**: Tailwind CSS v4.1 utility-first framework
 - **Forms**: Netlify Forms with Make.com automation
-- **Styling**: Tailwind CSS
-- **Type Safety**: TypeScript with shared types
+- **Type Safety**: TypeScript with strict mode enabled
+- **Testing**: Vitest (unit) and Playwright (E2E)
+- **CI/CD**: GitHub Actions
 - **Deployment**: Netlify
 
 ## Project Structure
 
 ```
 ├── apps/
-│   └── website/          # Main Astro website
+│   ├── web/                # Main AstroJS frontend application
+│   │   ├── public/         # Static assets (images, fonts, favicons)
+│   │   ├── src/
+│   │   │   ├── components/ # Reusable Astro components
+│   │   │   ├── layouts/    # Main site layouts
+│   │   │   ├── pages/      # Astro's file-based routing
+│   │   │   └── styles/     # Global CSS, Tailwind base styles
+│   │   └── astro.config.mjs
+│   └── sanity-studio/      # Sanity.io CMS configuration and schemas
+│       ├── schemas/
+│       └── sanity.config.ts
 ├── packages/
-│   ├── types/           # Shared TypeScript types
-│   └── config/          # Shared configuration
-├── docs/                # Project documentation
-└── stories/             # User stories and requirements
+│   ├── config/             # Shared configurations
+│   │   ├── eslint-preset.js
+│   │   └── tsconfig.base.json
+│   └── types/              # Shared TypeScript types
+├── docs/                   # Project documentation
+├── .github/
+│   └── workflows/          # GitHub Actions CI/CD
+├── .vscode/                # VS Code editor settings
+├── pnpm-workspace.yaml     # Monorepo workspace configuration
+└── package.json            # Root package.json
 ```
 
 ## Getting Started
 
-1. **Install dependencies**
+### Prerequisites
+
+- Node.js v24.3.0+
+- pnpm v10.12.4+
+
+### Installation
+
+1. **Clone the repository**
+
    ```bash
-   npm install
+   git clone <repository-url>
+   cd colourfully-digital-monorepo
    ```
 
-2. **Set up environment variables**
+2. **Install dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Set up environment variables**
    ```bash
    cp .env.example .env.local
    # Edit .env.local with your values
    ```
 
-3. **Start development server**
-   ```bash
-   npm run dev
-   ```
+### Development
 
-## Development
+**Start development servers:**
 
-### Commands
+```bash
+pnpm dev
+```
 
-- `npm run dev` - Start development servers
-- `npm run build` - Build all packages and apps
-- `npm run lint` - Run linting
-- `npm run type-check` - Run TypeScript checks
-- `npm run clean` - Clean build artifacts
+**Build all packages and apps:**
 
-### Coding Standards
+```bash
+pnpm build
+```
 
-- **Type Sharing**: Always define types in `packages/types` and import from there
-- **Environment Variables**: Access only through validated config objects, never `process.env` directly
-- **Form Handling**: All forms must use Netlify Forms with proper validation
-- **State Updates**: Never mutate state directly - use proper React state management patterns
+**Run tests:**
 
-### Naming Conventions
+```bash
+pnpm test
+```
 
-| Element | Convention | Example |
-|---------|------------|---------|
-| Components | PascalCase | `VolunteerForm.tsx` |
-| Hooks | camelCase with 'use' | `useFormState.ts` |
-| Form Names | kebab-case | `volunteer-application` |
-| Types | PascalCase | `VolunteerApplicationPayload` |
+**Run linting:**
 
-## Deployment
+```bash
+pnpm lint
+```
 
-The website is deployed to Netlify with automatic builds triggered by git commits to the main branch.
+## Coding Standards
+
+This project follows strict coding standards to ensure consistency and quality:
+
+- **TypeScript**: Strict mode enabled, no `any` types
+- **Shared Types**: All shared types must be defined in `packages/types`
+- **File Naming**: kebab-case for folders, PascalCase for components
+- **Styling**: Tailwind CSS utility-first approach
+- **Testing**: TDD approach with Vitest and Playwright
+- **Git**: Conventional Commits and Gitflow branching model
+
+For detailed coding standards, see [Coding Standards](docs/architecture/coding-standards.md).
+
+## Project Documentation
+
+- [Architecture Overview](docs/architecture.md)
+- [Tech Stack](docs/architecture/tech-stack.md)
+- [Data Models](docs/architecture/data-models.md)
+- [Testing Strategy](docs/architecture/testing-strategy.md)
+- [CI/CD Pipeline](docs/architecture/ci-cd-pipeline.md)
 
 ## Contributing
 
-1. Create a feature branch from `main`
+1. Create a feature branch from `develop`
 2. Make your changes following the coding standards
-3. Test your changes
-4. Submit a pull request
+3. Write tests for your changes
+4. Ensure all tests pass
+5. Submit a pull request
+
+For detailed contribution guidelines, see [Coding Standards](docs/architecture/coding-standards.md).
+
+## Deployment
+
+The website is automatically deployed to Netlify via GitHub Actions on every push to the main branch.
+
+## License
+
+This project is proprietary to the Colourfully Digital Foundation.
