@@ -62,3 +62,6 @@ export interface TranslatableContent {
   language: Language;
   translation?: TranslatableContent;
 }
+
+// Export Sanity types
+export * from './sanity'
