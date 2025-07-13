@@ -1,0 +1,104 @@
+---
+// Header component with logo and navigation
+---
+
+<header class="bg-white shadow-sm border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo/Brand -->
+      <div class="flex-shrink-0">
+        <a href="/" class="flex items-center">
+          <span class="text-2xl font-bold text-gray-900">Colourfully Digital</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex space-x-8">
+        <a href="/" class="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors">
+          Home
+        </a>
+        <a href="/about" class="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors">
+          About
+        </a>
+        <a href="/partnerships" class="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors">
+          Partnerships
+        </a>
+        <a href="/blog" class="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors">
+          Blog
+        </a>
+        <a href="/volunteer" class="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors">
+          Volunteer
+        </a>
+      </nav>
+
+      <!-- Mobile menu button -->
+      <div class="md:hidden">
+        <button 
+          type="button" 
+          class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-500"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Open main menu</span>
+          <!-- Hamburger icon -->
+          <svg class="block h-6 w-6 hamburger-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <!-- Close icon (hidden by default) -->
+          <svg class="hidden h-6 w-6 close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu (hidden by default) -->
+  <div class="md:hidden hidden mobile-menu" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 border-t border-gray-200">
+      <a href="/" class="text-gray-700 hover:text-gray-900 block px-3 py-2 text-base font-medium transition-colors">
+        Home
+      </a>
+      <a href="/about" class="text-gray-700 hover:text-gray-900 block px-3 py-2 text-base font-medium transition-colors">
+        About
+      </a>
+      <a href="/partnerships" class="text-gray-700 hover:text-gray-900 block px-3 py-2 text-base font-medium transition-colors">
+        Partnerships
+      </a>
+      <a href="/blog" class="text-gray-700 hover:text-gray-900 block px-3 py-2 text-base font-medium transition-colors">
+        Blog
+      </a>
+      <a href="/volunteer" class="text-gray-700 hover:text-gray-900 block px-3 py-2 text-base font-medium transition-colors">
+        Volunteer
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const hamburgerIcon = document.querySelector('.hamburger-icon');
+    const closeIcon = document.querySelector('.close-icon');
+
+    if (mobileMenuButton && mobileMenu && hamburgerIcon && closeIcon) {
+      mobileMenuButton.addEventListener('click', function() {
+        const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+        
+        // Toggle menu visibility
+        mobileMenu.classList.toggle('hidden');
+        
+        // Toggle icons
+        hamburgerIcon.classList.toggle('block');
+        hamburgerIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('block');
+        
+        // Update aria-expanded
+        mobileMenuButton.setAttribute('aria-expanded', (!isExpanded).toString());
+      });
+    }
+  });
+</script>
