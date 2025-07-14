@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { testConnection, getAllTestDocuments } from '../../lib/sanity';
+
+// Test the Sanity connection for English content
+const connectionTest = await testConnection('en');
+
+// Fetch test documents for English
+const testData = await getAllTestDocuments('en');
+---
+
+<BaseLayout title="Sanity Test - English" currentLang="en">
+  <main class="max-w-4xl mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold text-center mb-8">Sanity.io Connection Test (English)</h1>
+    
+    <div class="space-y-6">
+      <!-- Connection Status -->
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Connection Status</h2>
+        <div class={`p-4 rounded-md ${connectionTest.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+          {connectionTest.success 
+            ? '✅ Successfully connected to Sanity.io (English content)' 
+            : `❌ Connection failed: ${connectionTest.error}`
+          }
+        </div>
+      </div>
+
+      <!-- Project Information -->
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Project Configuration</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <span class="font-medium">Project ID:</span>
+            <span class="ml-2 font-mono text-sm bg-gray-100 px-2 py-1 rounded">ir1my444</span>
+          </div>
+          <div>
+            <span class="font-medium">Dataset:</span>
+            <span class="ml-2 font-mono text-sm bg-gray-100 px-2 py-1 rounded">production</span>
+          </div>
+          <div>
+            <span class="font-medium">Language:</span>
+            <span class="ml-2 font-mono text-sm bg-blue-100 px-2 py-1 rounded">English (en)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test Data -->
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">English Test Data</h2>
+        {testData && testData.length > 0 ? (
+          <div class="space-y-4">
+            {testData.map((item: any) => (
+              <div class="border border-gray-200 p-4 rounded-md">
+                <h3 class="font-medium">{item.title}</h3>
+                {item.message && <p class="text-gray-600 mt-2">{item.message}</p>}
+                <div class="flex items-center gap-2 mt-2">
+                  <span class={`inline-block px-2 py-1 text-xs rounded-full ${
+                    item.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {item.isActive ? 'Active' : 'Inactive'}
+                  </span>
+                  <span class="inline-block px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
+                    {item.language?.toUpperCase() || 'EN'}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="text-center py-8 text-gray-500">
+            <p>No English test data found.</p>
+            <p class="text-sm mt-2">Create an English "Sanity Test" document in your Sanity Studio to see it here.</p>
+          </div>
+        )}
+      </div>
+
+      <!-- Language Switch -->
+      <div class="bg-yellow-50 p-6 rounded-lg">
+        <h2 class="text-xl font-semibold mb-4 text-yellow-800">Language Testing</h2>
+        <p class="text-yellow-700 mb-4">Test the language filtering by viewing the French version:</p>
+        <a 
+          href="/fr/test-sanity" 
+          class="inline-block bg-yellow-600 text-white px-4 py-2 rounded-md hover:bg-yellow-700 transition-colors"
+        >
+          View French Test Page
+        </a>
+      </div>
+
+      <!-- Instructions -->
+      <div class="bg-blue-50 p-6 rounded-lg">
+        <h2 class="text-xl font-semibold mb-4 text-blue-800">Next Steps</h2>
+        <ol class="list-decimal list-inside space-y-2 text-blue-700">
+          <li>Go to your Sanity Studio (run <code class="bg-blue-100 px-1 rounded">pnpm sanity:dev</code>)</li>
+          <li>Create new "Sanity Test" documents for both English and French</li>
+          <li>Set the language field to "en" for English content and "fr" for French content</li>
+          <li>Publish the documents</li>
+          <li>Refresh this page and the French version to see language-specific data</li>
+        </ol>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

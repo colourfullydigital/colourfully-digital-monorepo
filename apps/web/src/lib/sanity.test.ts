@@ -31,17 +31,19 @@ describe('Sanity Integration', () => {
         _rev: 'rev1',
         title: 'Test Document',
         message: 'This is a test',
-        isActive: true
+        isActive: true,
+        language: 'en'
       }
 
       mockClient.fetch.mockResolvedValueOnce(mockData)
 
       const { testConnection } = await import('./sanity')
-      const result = await testConnection()
+      const result = await testConnection('en')
 
       expect(result.success).toBe(true)
       expect(result.data).toEqual(mockData)
       expect(result.error).toBeUndefined()
+      expect(mockClient.fetch).toHaveBeenCalledWith('*[_type == "sanityTest" && language == $language][0]', { language: 'en' })
     })
 
     it('should return error when connection fails', async () => {
@@ -49,7 +51,7 @@ describe('Sanity Integration', () => {
       mockClient.fetch.mockRejectedValueOnce(new Error(errorMessage))
 
       const { testConnection } = await import('./sanity')
-      const result = await testConnection()
+      const result = await testConnection('en')
 
       expect(result.success).toBe(false)
       expect(result.data).toBeUndefined()
@@ -60,7 +62,7 @@ describe('Sanity Integration', () => {
       mockClient.fetch.mockRejectedValueOnce('Unknown error')
 
       const { testConnection } = await import('./sanity')
-      const result = await testConnection()
+      const result = await testConnection('en')
 
       expect(result.success).toBe(false)
       expect(result.error).toBe('Unknown error occurred while connecting to Sanity')
@@ -78,7 +80,8 @@ describe('Sanity Integration', () => {
           _rev: 'rev1',
           title: 'Test Document 1',
           message: 'First test',
-          isActive: true
+          isActive: true,
+          language: 'en'
         },
         {
           _id: 'test2',
@@ -88,17 +91,18 @@ describe('Sanity Integration', () => {
           _rev: 'rev2',
           title: 'Test Document 2',
           message: 'Second test',
-          isActive: false
+          isActive: false,
+          language: 'fr'
         }
       ]
 
       mockClient.fetch.mockResolvedValueOnce(mockData)
 
       const { getAllTestDocuments } = await import('./sanity')
-      const result = await getAllTestDocuments()
+      const result = await getAllTestDocuments('en')
 
       expect(result).toEqual(mockData)
-      expect(mockClient.fetch).toHaveBeenCalledWith('*[_type == "sanityTest"] | order(_createdAt desc)')
+      expect(mockClient.fetch).toHaveBeenCalledWith('*[_type == "sanityTest" && language == $language] | order(_createdAt desc)', { language: 'en' })
     })
 
     it('should return empty array when fetch fails', async () => {
@@ -108,7 +112,7 @@ describe('Sanity Integration', () => {
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
       const { getAllTestDocuments } = await import('./sanity')
-      const result = await getAllTestDocuments()
+      const result = await getAllTestDocuments('en')
 
       expect(result).toEqual([])
       expect(consoleSpy).toHaveBeenCalledWith('Error fetching test documents:', expect.any(Error))
@@ -120,7 +124,7 @@ describe('Sanity Integration', () => {
       mockClient.fetch.mockResolvedValueOnce(null)
 
       const { getAllTestDocuments } = await import('./sanity')
-      const result = await getAllTestDocuments()
+      const result = await getAllTestDocuments('en')
 
       expect(result).toEqual([])
     })
