@@ -58,6 +58,16 @@ const translations: Translations = {
         page: 'Page'
       }
     },
+    volunteer: {
+      title: 'Volunteer Opportunities',
+      description: 'Make a difference in colorful communities by joining our volunteer programs.',
+      applyNow: 'Apply Now',
+      requirements: 'Requirements',
+      timeCommitment: 'Time Commitment',
+      noRolesFound: 'No volunteer opportunities are currently available.',
+      loadingRoles: 'Loading volunteer opportunities...',
+      backToVolunteer: 'Back to Volunteer Opportunities'
+    },
     meta: {
       defaultDescription: 'Colourfully Digital - Supporting colorful communities through digital solutions, partnerships, and volunteer opportunities.'
     }
@@ -103,6 +113,16 @@ const translations: Translations = {
         next: 'Suivant',
         page: 'Page'
       }
+    },
+    volunteer: {
+      title: 'Opportunités de bénévolat',
+      description: 'Faites une différence dans les communautés colorées en rejoignant nos programmes de bénévolat.',
+      applyNow: 'Postuler maintenant',
+      requirements: 'Exigences',
+      timeCommitment: 'Engagement de temps',
+      noRolesFound: 'Aucune opportunité de bénévolat n\'est actuellement disponible.',
+      loadingRoles: 'Chargement des opportunités de bénévolat...',
+      backToVolunteer: 'Retour aux opportunités de bénévolat'
     },
     meta: {
       defaultDescription: 'Colourfully Digital - Soutenir les communautés colorées grâce à des solutions numériques, des partenariats et des opportunités de bénévolat.'
