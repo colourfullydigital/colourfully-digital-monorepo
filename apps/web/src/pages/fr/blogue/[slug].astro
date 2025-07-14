@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PortableText from '../../../components/PortableText.astro';
+import { t, formatDate } from '../../../lib/translations';
+import { getBlogPost, urlFor } from '../../../lib/sanity';
+import type { BlogPost } from '@colourfully-digital/types/sanity';
+
+export async function getStaticPaths() {
+  // This would normally fetch all blog post slugs from Sanity
+  // For now, return empty array - pages will be generated on demand
+  return [];
+}
+
+const { slug } = Astro.params;
+const lang = 'fr';
+
+let blogPost: BlogPost | null = null;
+let pageTitle = `${t('blog.title', lang)} - Colourfully Digital`;
+
+if (slug) {
+  try {
+    blogPost = await getBlogPost(slug, lang);
+    if (blogPost) {
+      pageTitle = `${blogPost.title} - Colourfully Digital`;
+    }
+  } catch (error) {
+    console.error('Error loading blog post:', error);
+  }
+}
+
+// If no blog post found, this will show a 404-like experience
+if (!blogPost) {
+  return Astro.redirect('/fr/blogue');
+}
+---
+
+<BaseLayout title={pageTitle} currentLang={lang}>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Back to blog link -->
+    <div class="mb-8">
+      <a 
+        href="/fr/blogue"
+        class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
+      >
+        <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        {t('blog.backToBlog', lang)}
+      </a>
+    </div>
+
+    <article class="bg-white">
+      <!-- Featured Image -->
+      {blogPost.mainImage && (
+        <div class="mb-8">
+          <img
+            src={urlFor(blogPost.mainImage).width(800).height(400).fit('crop').url()}
+            alt={blogPost.mainImage.alt || blogPost.title}
+            class="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
+          />
+        </div>
+      )}
+
+      <!-- Header -->
+      <header class="mb-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          {blogPost.title}
+        </h1>
+        
+        <div class="flex items-center text-gray-600">
+          <time datetime={blogPost.publishedAt} class="text-sm">
+            {t('blog.publishedOn', lang)} {formatDate(new Date(blogPost.publishedAt), lang)}
+          </time>
+          {blogPost.author && typeof blogPost.author === 'object' && 'name' in blogPost.author && (
+            <>
+              <span class="mx-3">•</span>
+              <div class="flex items-center">
+                {blogPost.author.picture && (
+                  <img
+                    src={urlFor(blogPost.author.picture).width(32).height(32).fit('crop').url()}
+                    alt={blogPost.author.picture.alt || blogPost.author.name}
+                    class="w-8 h-8 rounded-full mr-2"
+                  />
+                )}
+                <span class="text-sm">{t('blog.by', lang)} {blogPost.author.name}</span>
+              </div>
+            </>
+          )}
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="prose prose-lg max-w-none">
+        <PortableText content={blogPost.body} />
+      </div>
+
+      <!-- Footer / Navigation -->
+      <footer class="mt-12 pt-8 border-t border-gray-200">
+        <div class="flex justify-between items-center">
+          <a 
+            href="/fr/blogue"
+            class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
+          >
+            <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            {t('blog.backToBlog', lang)}
+          </a>
+          
+          <!-- Share buttons could go here in the future -->
+        </div>
+      </footer>
+    </article>
+  </div>
+</BaseLayout>

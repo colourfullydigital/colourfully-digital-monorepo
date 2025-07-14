@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { t, formatDate } from '../../../lib/translations';
+import { getBlogPosts, getBlogPostCount, urlFor } from '../../../lib/sanity';
+import type { BlogPost } from '@colourfully-digital/types/sanity';
+
+const lang = 'fr';
+
+// Get current page from URL params for pagination
+const url = new URL(Astro.request.url);
+const currentPage = parseInt(url.searchParams.get('page') || '1', 10);
+const postsPerPage = 10;
+const offset = (currentPage - 1) * postsPerPage;
+
+// Initialize variables
+let blogPosts: BlogPost[] = [];
+let totalPosts = 0;
+let totalPages = 0;
+let hasNextPage = false;
+let hasPrevPage = false;
+const pageTitle = `${t('blog.title', lang)} - Colourfully Digital`;
+
+try {
+  // Fetch blog posts and total count
+  const [posts, count] = await Promise.all([
+    getBlogPosts(lang, postsPerPage, offset),
+    getBlogPostCount(lang)
+  ]);
+
+  blogPosts = posts;
+  totalPosts = count;
+  totalPages = Math.ceil(totalPosts / postsPerPage);
+  hasNextPage = currentPage < totalPages;
+  hasPrevPage = currentPage > 1;
+} catch (error) {
+  console.error('Error loading blog posts:', error);
+}
+---
+
+<BaseLayout title={pageTitle} currentLang={lang}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        {t('blog.title', lang)}
+      </h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        {t('blog.description', lang)}
+      </p>
+    </div>
+
+    <!-- Blog Posts Grid -->
+    {blogPosts && blogPosts.length > 0 ? (
+      <div class="space-y-12">
+        {blogPosts.map((post) => (
+          <article class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <div class="md:flex">
+              <!-- Featured Image -->
+              {post.mainImage && (
+                <div class="md:w-1/3">
+                  <img
+                    src={urlFor(post.mainImage).width(400).height(300).fit('crop').url()}
+                    alt={post.mainImage.alt || post.title}
+                    class="w-full h-48 md:h-full object-cover"
+                  />
+                </div>
+              )}
+              
+              <!-- Content -->
+              <div class={post.mainImage ? "md:w-2/3 p-8" : "w-full p-8"}>
+                <div class="flex items-center text-sm text-gray-500 mb-3">
+                  <time datetime={post.publishedAt}>
+                    {t('blog.publishedOn', lang)} {formatDate(new Date(post.publishedAt), lang)}
+                  </time>
+                  {post.author && typeof post.author === 'object' && 'name' in post.author && (
+                    <>
+                      <span class="mx-2">•</span>
+                      <span>{t('blog.by', lang)} {post.author.name}</span>
+                    </>
+                  )}
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                  <a 
+                    href={`/fr/blogue/${post.slug.current}`}
+                    class="hover:text-blue-600 transition-colors duration-200"
+                  >
+                    {post.title}
+                  </a>
+                </h2>
+                
+                <!-- Excerpt from body content -->
+                {post.body && post.body.length > 0 && post.body[0] && typeof post.body[0] === 'object' && 'children' in post.body[0] && Array.isArray(post.body[0].children) && post.body[0].children.length > 0 && (
+                  <div class="text-gray-600 mb-4 line-clamp-3">
+                    {typeof post.body[0].children[0] === 'object' && post.body[0].children[0] && 'text' in post.body[0].children[0] ? post.body[0].children[0].text : ''}
+                  </div>
+                )}
+                
+                <a 
+                  href={`/fr/blogue/${post.slug.current}`}
+                  class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
+                >
+                  {t('blog.readMore', lang)}
+                  <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+
+        <!-- Pagination -->
+        {totalPages > 1 && (
+          <nav class="flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6" aria-label="Pagination">
+            <div class="hidden sm:block">
+              <p class="text-sm text-gray-700">
+                {t('blog.pagination.page', lang)} <span class="font-medium">{currentPage}</span> de{' '}
+                <span class="font-medium">{totalPages}</span>
+              </p>
+            </div>
+            <div class="flex flex-1 justify-between sm:justify-end space-x-3">
+              {hasPrevPage && (
+                <a
+                  href={`/fr/blogue?page=${currentPage - 1}`}
+                  class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                >
+                  {t('blog.pagination.previous', lang)}
+                </a>
+              )}
+              {hasNextPage && (
+                <a
+                  href={`/fr/blogue?page=${currentPage + 1}`}
+                  class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                >
+                  {t('blog.pagination.next', lang)}
+                </a>
+              )}
+            </div>
+          </nav>
+        )}
+      </div>
+    ) : (
+      <!-- No posts found -->
+      <div class="text-center py-12">
+        <div class="max-w-md mx-auto">
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2H17" />
+          </svg>
+          <h3 class="mt-2 text-sm font-medium text-gray-900">{t('blog.noPostsFound', lang)}</h3>
+        </div>
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

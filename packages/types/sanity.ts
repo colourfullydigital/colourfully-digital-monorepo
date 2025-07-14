@@ -54,6 +54,26 @@ export interface StaticPage extends SanityDocument {
   translation?: SanityReference;
 }
 
+// Author type - not translatable
+export interface Author extends SanityDocument {
+  _type: 'author';
+  name: string;
+  picture?: SanityImage;
+}
+
+// Blog post content type
+export interface BlogPost extends SanityDocument {
+  _type: 'blogPost';
+  title: string;
+  slug: SanitySlug;
+  publishedAt: string;
+  author: SanityReference | Author; // Can be populated or just a reference
+  mainImage?: SanityImage;
+  body: SanityBlockContent;
+  language: SupportedLanguage;
+  translation?: SanityReference;
+}
+
 // API response types
 export interface SanityApiResponse<T> {
   success: boolean;

@@ -1,6 +1,6 @@
 import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
-import type { SanityTest, SanityConnectionTest, SupportedLanguage, StaticPage } from '@colourfully-digital/types/sanity'
+import type { SanityTest, SanityConnectionTest, SupportedLanguage, StaticPage, BlogPost, Author } from '@colourfully-digital/types/sanity'
 
 // Environment variables for Sanity configuration
 const projectId = import.meta.env.SANITY_PROJECT_ID || 'ir1my444'
@@ -119,4 +119,98 @@ export async function getStaticPage(slug: string, language: SupportedLanguage): 
 // Helper function to fetch all static pages for a language
 export async function getAllStaticPages(language: SupportedLanguage): Promise<StaticPage[]> {
   return getLocalizedContent<StaticPage>('staticPage', language)
+}
+
+// Helper function to fetch blog posts with author info and pagination
+export async function getBlogPosts(
+  language: SupportedLanguage, 
+  limit: number = 10, 
+  offset: number = 0
+): Promise<BlogPost[]> {
+  try {
+    const query = `*[_type == "blogPost" && language == $language] | order(publishedAt desc) [$offset...$end] {
+      _id,
+      _type,
+      _createdAt,
+      _updatedAt,
+      title,
+      slug,
+      publishedAt,
+      mainImage,
+      body,
+      language,
+      translation,
+      author->{
+        _id,
+        name,
+        picture
+      }
+    }`
+    
+    const params = { 
+      language, 
+      offset, 
+      end: offset + limit - 1 
+    }
+    
+    const result = await client.fetch<BlogPost[]>(query, params)
+    return result || []
+  } catch (error) {
+    console.error('Error fetching blog posts:', error)
+    return []
+  }
+}
+
+// Helper function to get total count of blog posts for pagination
+export async function getBlogPostCount(language: SupportedLanguage): Promise<number> {
+  try {
+    const query = `count(*[_type == "blogPost" && language == $language])`
+    const result = await client.fetch<number>(query, { language })
+    return result || 0
+  } catch (error) {
+    console.error('Error getting blog post count:', error)
+    return 0
+  }
+}
+
+// Helper function to fetch a single blog post by slug
+export async function getBlogPost(slug: string, language: SupportedLanguage): Promise<BlogPost | null> {
+  try {
+    const query = `*[_type == "blogPost" && slug.current == $slug && language == $language][0] {
+      _id,
+      _type,
+      _createdAt,
+      _updatedAt,
+      title,
+      slug,
+      publishedAt,
+      mainImage,
+      body,
+      language,
+      translation,
+      author->{
+        _id,
+        name,
+        picture
+      }
+    }`
+    
+    const result = await client.fetch<BlogPost>(query, { slug, language })
+    return result || null
+  } catch (error) {
+    console.error('Error fetching blog post:', error)
+    return null
+  }
+}
+
+// Helper function to fetch all authors
+export async function getAllAuthors(): Promise<Author[]> {
+  try {
+    const query = `*[_type == "author"] | order(name asc)`
+    const result = await client.fetch<Author[]>(query)
+    return result || []
+  } catch (error) {
+    console.error('Error fetching authors:', error)
+    return []
+  }
 }

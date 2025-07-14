@@ -43,6 +43,21 @@ const translations: Translations = {
       pageNotFound: 'Page Not Found',
       comingSoon: 'Coming Soon'
     },
+    blog: {
+      title: 'News & Events',
+      description: 'Stay updated with our latest news, events, and community initiatives.',
+      readMore: 'Read More',
+      publishedOn: 'Published on',
+      by: 'by',
+      noPostsFound: 'No blog posts found.',
+      loadingPosts: 'Loading blog posts...',
+      backToBlog: 'Back to News & Events',
+      pagination: {
+        previous: 'Previous',
+        next: 'Next',
+        page: 'Page'
+      }
+    },
     meta: {
       defaultDescription: 'Colourfully Digital - Supporting colorful communities through digital solutions, partnerships, and volunteer opportunities.'
     }
@@ -73,6 +88,21 @@ const translations: Translations = {
       backToHome: 'Retour à l\'accueil',
       pageNotFound: 'Page non trouvée',
       comingSoon: 'Bientôt disponible'
+    },
+    blog: {
+      title: 'Nouvelles et événements',
+      description: 'Restez informé de nos dernières nouvelles, événements et initiatives communautaires.',
+      readMore: 'Lire la suite',
+      publishedOn: 'Publié le',
+      by: 'par',
+      noPostsFound: 'Aucun article trouvé.',
+      loadingPosts: 'Chargement des articles...',
+      backToBlog: 'Retour aux nouvelles et événements',
+      pagination: {
+        previous: 'Précédent',
+        next: 'Suivant',
+        page: 'Page'
+      }
     },
     meta: {
       defaultDescription: 'Colourfully Digital - Soutenir les communautés colorées grâce à des solutions numériques, des partenariats et des opportunités de bénévolat.'
