@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PortableText from '../../components/PortableText.astro';
+import { t } from '../../lib/translations';
+import { getStaticPage } from '../../lib/sanity';
+
+const lang = 'fr';
+
+// Try to fetch resource hub page content from Sanity
+const resourceHubContent = await getStaticPage('resource-hub', lang);
+---
+
+<BaseLayout title="Centre de Ressources - Bientôt Disponible - Colourfully Digital" currentLang={lang}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {resourceHubContent ? (
+      <div class="text-center">
+        <h1 class="text-4xl font-bold text-gray-900 mb-8">
+          {resourceHubContent.pageTitle}
+        </h1>
+        <div class="prose prose-lg max-w-none mx-auto mb-12">
+          <PortableText content={resourceHubContent.pageContent} />
+        </div>
+      </div>
+    ) : (
+      <div class="text-center">
+        <h1 class="text-4xl font-bold text-gray-900 mb-8">
+          Centre de Ressources - Bientôt Disponible
+        </h1>
+        <div class="max-w-3xl mx-auto mb-12">
+          <p class="text-xl text-gray-600 mb-6">
+            Nous travaillons sur un nouveau Centre de Ressources passionnant qui fournira des outils précieux, des guides et des ressources pour la construction de communautés numériques.
+          </p>
+          <p class="text-gray-600 mb-8">
+            Notre Centre de Ressources comprendra des modèles, des meilleures pratiques, des études de cas et des guides pratiques pour aider les communautés à tirer parti de la technologie pour un impact positif. Restez à l'écoute pour les mises à jour !
+          </p>
+        </div>
+      </div>
+    )}
+    
+    <!-- EmailOctopus Sign-up Form -->
+    <div class="max-w-md mx-auto bg-gray-50 p-6 rounded-lg">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4 text-center">Soyez Informé</h2>
+      <p class="text-gray-600 mb-6 text-center">
+        Soyez le premier à savoir quand notre Centre de Ressources sera lancé. Inscrivez-vous pour les mises à jour !
+      </p>
+      
+      <!-- EmailOctopus Form - Replace YOUR_LIST_ID with actual EmailOctopus list ID -->
+      <form method="post" action="https://emailoctopus.com/lists/YOUR_LIST_ID/members/embedded/add" class="space-y-4">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Adresse Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email_address" 
+            placeholder="votre@email.com"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            required 
+          />
+        </div>
+        
+        <div>
+          <label for="first-name" class="block text-sm font-medium text-gray-700 mb-1">Prénom (Optionnel)</label>
+          <input 
+            type="text" 
+            id="first-name" 
+            name="field_0" 
+            placeholder="Votre prénom"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        
+        <!-- EmailOctopus anti-spam field -->
+        <div style="position: absolute; left: -5000px;" aria-hidden="true">
+          <input type="text" name="hpbf7ddc0e-2e0e-11ef-a362-3d3c8de83dd1" tabindex="-1" value="">
+        </div>
+        
+        <button 
+          type="submit" 
+          class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium"
+        >
+          Inscrivez-moi !
+        </button>
+        
+        <p class="text-xs text-gray-500 text-center">
+          Nous respectons votre vie privée. Désabonnez-vous à tout moment.
+        </p>
+      </form>
+    </div>
+  </div>
+</BaseLayout>

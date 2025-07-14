@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PortableText from '../../components/PortableText.astro';
+import { t } from '../../lib/translations';
+import { getStaticPage } from '../../lib/sanity';
+
+const lang = 'en';
+
+// Try to fetch partnerships page content from Sanity
+const partnershipsContent = await getStaticPage('partnerships', lang);
+---
+
+<BaseLayout title="Partnerships - Colourfully Digital" currentLang={lang}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {partnershipsContent ? (
+      <div>
+        <h1 class="text-4xl font-bold text-gray-900 mb-8">
+          {partnershipsContent.pageTitle}
+        </h1>
+        <div class="prose prose-lg max-w-none">
+          <PortableText content={partnershipsContent.pageContent} />
+        </div>
+      </div>
+    ) : (
+      <div>
+        <h1 class="text-4xl font-bold text-gray-900 mb-8">
+          Our Partnerships
+        </h1>
+        <div class="prose prose-lg max-w-none">
+          <p class="text-xl text-gray-600 mb-6">
+            We believe in the power of collaboration. Our partnerships with educational institutions and community organizations help us create meaningful digital solutions that make a real difference.
+          </p>
+          <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Educational Partnerships</h2>
+          <p class="text-gray-600 mb-4">
+            We work closely with schools and educational institutions to develop digital tools and resources that enhance learning experiences and support educational goals.
+          </p>
+          <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Community Collaborations</h2>
+          <p class="text-gray-600 mb-4">
+            Through partnerships with community organizations, we help develop digital solutions that address local needs and support community development initiatives.
+          </p>
+          <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Partner with Us</h2>
+          <p class="text-gray-600 mb-4">
+            Interested in collaborating with Colourfully Digital? We're always looking for new partnerships that align with our mission of supporting vibrant communities through technology.
+          </p>
+        </div>
+      </div>
+    )}
+  </div>
+</BaseLayout>

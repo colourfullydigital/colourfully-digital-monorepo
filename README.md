@@ -10,7 +10,7 @@ This repository contains the complete codebase for the Colourfully Digital Found
 
 - **Frontend**: AstroJS v5.11.0 with static site generation
 - **Package Manager**: pnpm v10.12.4+ for efficient dependency management
-- **Content Management**: Sanity.io headless CMS
+- **Content Management**: Sanity.io v3.99.0 headless CMS
 - **Styling**: Tailwind CSS v4.1 utility-first framework
 - **Forms**: Netlify Forms with Make.com automation
 - **Type Safety**: TypeScript with strict mode enabled
@@ -50,7 +50,7 @@ This repository contains the complete codebase for the Colourfully Digital Found
 
 ### Prerequisites
 
-- Node.js v24.3.0+
+- Node.js v24.4.0+
 - pnpm v10.12.4+
 
 ### Installation

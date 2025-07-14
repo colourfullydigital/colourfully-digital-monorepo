@@ -1,6 +1,6 @@
 import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
-import type { SanityTest, SanityConnectionTest, SupportedLanguage } from '@colourfully-digital/types/sanity'
+import type { SanityTest, SanityConnectionTest, SupportedLanguage, StaticPage } from '@colourfully-digital/types/sanity'
 
 // Environment variables for Sanity configuration
 const projectId = import.meta.env.SANITY_PROJECT_ID || 'ir1my444'
@@ -109,4 +109,14 @@ export async function getLocalizedDocument<T>(
     console.error(`Error fetching ${documentType} document:`, error)
     return null
   }
+}
+
+// Helper function to fetch static page by slug
+export async function getStaticPage(slug: string, language: SupportedLanguage): Promise<StaticPage | null> {
+  return getLocalizedDocument<StaticPage>('staticPage', language, slug)
+}
+
+// Helper function to fetch all static pages for a language
+export async function getAllStaticPages(language: SupportedLanguage): Promise<StaticPage[]> {
+  return getLocalizedContent<StaticPage>('staticPage', language)
 }
