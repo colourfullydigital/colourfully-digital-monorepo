@@ -1,0 +1,92 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { testConnection, getAllTestDocuments } from '../lib/sanity';
+
+// Test the Sanity connection
+const connectionTest = await testConnection();
+
+// Fetch test documents with improved error handling
+const testData = await getAllTestDocuments();
+---
+
+<Layout title="Sanity Test">
+  <main class="max-w-4xl mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold text-center mb-8">Sanity.io Connection Test</h1>
+    
+    <div class="space-y-6">
+      <!-- Connection Status -->
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Connection Status</h2>
+        <div class={`p-4 rounded-md ${connectionTest.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+          {connectionTest.success 
+            ? '✅ Successfully connected to Sanity.io' 
+            : `❌ Connection failed: ${connectionTest.error}`
+          }
+        </div>
+      </div>
+
+      <!-- Project Information -->
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Project Configuration</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <span class="font-medium">Project ID:</span>
+            <span class="ml-2 font-mono text-sm bg-gray-100 px-2 py-1 rounded">ir1my444</span>
+          </div>
+          <div>
+            <span class="font-medium">Dataset:</span>
+            <span class="ml-2 font-mono text-sm bg-gray-100 px-2 py-1 rounded">production</span>
+          </div>
+          <div>
+            <span class="font-medium">API Version:</span>
+            <span class="ml-2 font-mono text-sm bg-gray-100 px-2 py-1 rounded">2023-05-03</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test Data -->
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Test Data</h2>
+        {testData && testData.length > 0 ? (
+          <div class="space-y-4">
+            {testData.map((item: any) => (
+              <div class="border border-gray-200 p-4 rounded-md">
+                <h3 class="font-medium">{item.title}</h3>
+                {item.message && <p class="text-gray-600 mt-2">{item.message}</p>}
+                <span class={`inline-block mt-2 px-2 py-1 text-xs rounded-full ${
+                  item.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                }`}>
+                  {item.isActive ? 'Active' : 'Inactive'}
+                </span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="text-center py-8 text-gray-500">
+            <p>No test data found.</p>
+            <p class="text-sm mt-2">Create a "Sanity Test" document in your Sanity Studio to see it here.</p>
+          </div>
+        )}
+      </div>
+
+      <!-- Instructions -->
+      <div class="bg-blue-50 p-6 rounded-lg">
+        <h2 class="text-xl font-semibold mb-4 text-blue-800">Next Steps</h2>
+        <ol class="list-decimal list-inside space-y-2 text-blue-700">
+          <li>Go to your Sanity Studio (run <code class="bg-blue-100 px-1 rounded">pnpm sanity:dev</code>)</li>
+          <li>Create a new "Sanity Test" document</li>
+          <li>Add a title and message</li>
+          <li>Publish the document</li>
+          <li>Refresh this page to see the data</li>
+        </ol>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PortableText from '../../components/PortableText.astro';
+import { t } from '../../lib/translations';
+import { getStaticPage } from '../../lib/sanity';
+
+const lang = 'fr';
+
+// Try to fetch partnerships page content from Sanity
+const partnershipsContent = await getStaticPage('partnerships', lang);
+---
+
+<BaseLayout title="Partenariats - Colourfully Digital" currentLang={lang}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {partnershipsContent ? (
+      <div>
+        <h1 class="text-4xl font-bold text-gray-900 mb-8">
+          {partnershipsContent.pageTitle}
+        </h1>
+        <div class="prose prose-lg max-w-none">
+          <PortableText content={partnershipsContent.pageContent} />
+        </div>
+      </div>
+    ) : (
+      <div>
+        <h1 class="text-4xl font-bold text-gray-900 mb-8">
+          Nos Partenariats
+        </h1>
+        <div class="prose prose-lg max-w-none">
+          <p class="text-xl text-gray-600 mb-6">
+            Nous croyons au pouvoir de la collaboration. Nos partenariats avec des institutions éducatives et des organisations communautaires nous aident à créer des solutions numériques significatives qui font une réelle différence.
+          </p>
+          <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Partenariats Éducatifs</h2>
+          <p class="text-gray-600 mb-4">
+            Nous travaillons étroitement avec des écoles et des institutions éducatives pour développer des outils et des ressources numériques qui améliorent les expériences d'apprentissage et soutiennent les objectifs éducatifs.
+          </p>
+          <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Collaborations Communautaires</h2>
+          <p class="text-gray-600 mb-4">
+            Grâce à des partenariats avec des organisations communautaires, nous aidons à développer des solutions numériques qui répondent aux besoins locaux et soutiennent les initiatives de développement communautaire.
+          </p>
+          <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Partenaire avec Nous</h2>
+          <p class="text-gray-600 mb-4">
+            Intéressé à collaborer avec Colourfully Digital? Nous recherchons toujours de nouveaux partenariats qui s'alignent sur notre mission de soutenir les communautés dynamiques grâce à la technologie.
+          </p>
+        </div>
+      </div>
+    )}
+  </div>
+</BaseLayout>

@@ -1,0 +1,49 @@
+{
+  "name": "@colourfully-digital/monorepo",
+  "private": true,
+  "description": "Colourfully Digital Foundation website monorepo",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/colourfullydigital/colourfully-digital-monorepo.git"
+  },
+  "engines": {
+    "node": ">=24.4.0",
+    "pnpm": ">=10.12.4"
+  },
+  "packageManager": "pnpm@10.12.4",
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "lint:fix": "pnpm -r lint:fix",
+    "type-check": "pnpm -r type-check",
+    "test": "pnpm -r test",
+    "test:watch": "pnpm -r test:watch",
+    "test:e2e": "pnpm -r test:e2e",
+    "clean": "pnpm -r clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{js,ts,json,md,astro}\"",
+    "format:check": "prettier --check \"**/*.{js,ts,json,md,astro}\"",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.4.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^5.7.2"
+  },
+  "lint-staged": {
+    "*.{js,ts,json,md,astro}": [
+      "prettier --write"
+    ],
+    "*.{js,ts,astro}": [
+      "eslint --fix"
+    ]
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
