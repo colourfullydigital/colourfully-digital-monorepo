@@ -44,6 +44,16 @@ export interface SanityTest extends SanityDocument {
   language: SupportedLanguage;
 }
 
+// Static page content type
+export interface StaticPage extends SanityDocument {
+  _type: 'staticPage';
+  pageTitle: string;
+  slug: SanitySlug;
+  pageContent: SanityBlockContent;
+  language: SupportedLanguage;
+  translation?: SanityReference;
+}
+
 // API response types
 export interface SanityApiResponse<T> {
   success: boolean;

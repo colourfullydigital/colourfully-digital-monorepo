@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PortableText from '../../components/PortableText.astro';
+import { t } from '../../lib/translations';
+import { getStaticPage } from '../../lib/sanity';
+
+const lang = 'en';
+
+// Try to fetch resource hub page content from Sanity
+const resourceHubContent = await getStaticPage('resource-hub', lang);
+---
+
+<BaseLayout title="Resource Hub - Coming Soon - Colourfully Digital" currentLang={lang}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {resourceHubContent ? (
+      <div class="text-center">
+        <h1 class="text-4xl font-bold text-gray-900 mb-8">
+          {resourceHubContent.pageTitle}
+        </h1>
+        <div class="prose prose-lg max-w-none mx-auto mb-12">
+          <PortableText content={resourceHubContent.pageContent} />
+        </div>
+      </div>
+    ) : (
+      <div class="text-center">
+        <h1 class="text-4xl font-bold text-gray-900 mb-8">
+          Resource Hub - Coming Soon
+        </h1>
+        <div class="max-w-3xl mx-auto mb-12">
+          <p class="text-xl text-gray-600 mb-6">
+            We're working on an exciting new Resource Hub that will provide valuable tools, guides, and resources for digital community building.
+          </p>
+          <p class="text-gray-600 mb-8">
+            Our Resource Hub will include templates, best practices, case studies, and practical guides to help communities leverage technology for positive impact. Stay tuned for updates!
+          </p>
+        </div>
+      </div>
+    )}
+    
+    <!-- EmailOctopus Sign-up Form -->
+    <div class="max-w-md mx-auto bg-gray-50 p-6 rounded-lg">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4 text-center">Get Notified</h2>
+      <p class="text-gray-600 mb-6 text-center">
+        Be the first to know when our Resource Hub launches. Sign up for updates!
+      </p>
+      
+      <!-- EmailOctopus Form - Replace YOUR_LIST_ID with actual EmailOctopus list ID -->
+      <form method="post" action="https://emailoctopus.com/lists/YOUR_LIST_ID/members/embedded/add" class="space-y-4">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email_address" 
+            placeholder="your@email.com"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            required 
+          />
+        </div>
+        
+        <div>
+          <label for="first-name" class="block text-sm font-medium text-gray-700 mb-1">First Name (Optional)</label>
+          <input 
+            type="text" 
+            id="first-name" 
+            name="field_0" 
+            placeholder="Your first name"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        
+        <!-- EmailOctopus anti-spam field -->
+        <div style="position: absolute; left: -5000px;" aria-hidden="true">
+          <input type="text" name="hpbf7ddc0e-2e0e-11ef-a362-3d3c8de83dd1" tabindex="-1" value="">
+        </div>
+        
+        <button 
+          type="submit" 
+          class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium"
+        >
+          Sign Me Up!
+        </button>
+        
+        <p class="text-xs text-gray-500 text-center">
+          We respect your privacy. Unsubscribe at any time.
+        </p>
+      </form>
+    </div>
+  </div>
+</BaseLayout>

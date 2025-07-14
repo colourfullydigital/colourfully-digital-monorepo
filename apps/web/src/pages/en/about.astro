@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PortableText from '../../components/PortableText.astro';
+import { t } from '../../lib/translations';
+import { getStaticPage } from '../../lib/sanity';
+
+const lang = 'en';
+
+// Try to fetch about page content from Sanity
+const aboutContent = await getStaticPage('about', lang);
+---
+
+<BaseLayout title={t('common.about', lang) + " - Colourfully Digital"} currentLang={lang}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {aboutContent ? (
+      <div>
+        <h1 class="text-4xl font-bold text-gray-900 mb-8">
+          {aboutContent.pageTitle}
+        </h1>
+        <div class="prose prose-lg max-w-none">
+          <PortableText content={aboutContent.pageContent} />
+        </div>
+      </div>
+    ) : (
+      <div>
+        <h1 class="text-4xl font-bold text-gray-900 mb-8">
+          About Us & Our Impact
+        </h1>
+        <div class="prose prose-lg max-w-none">
+          <p class="text-xl text-gray-600 mb-6">
+            Colourfully Digital is dedicated to supporting vibrant communities through digital solutions, meaningful partnerships, and volunteer opportunities.
+          </p>
+          <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Our Mission</h2>
+          <p class="text-gray-600 mb-4">
+            We believe in the power of technology to create positive change in communities around the world. Through our digital initiatives, we work to bridge gaps, create opportunities, and foster connections that make a lasting impact.
+          </p>
+          <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Our Impact</h2>
+          <p class="text-gray-600 mb-4">
+            Through partnerships with educational institutions and community organizations, we've helped create digital solutions that enhance learning, improve communication, and support community development.
+          </p>
+        </div>
+      </div>
+    )}
+  </div>
+</BaseLayout>
