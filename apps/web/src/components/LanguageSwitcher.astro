@@ -1,0 +1,28 @@
+---
+import { getLocalizedPath, type SupportedLanguage } from '../lib/i18n';
+
+export interface Props {
+  currentLang: SupportedLanguage;
+  currentPath: string;
+}
+
+const { currentLang, currentPath } = Astro.props;
+
+// Get the other language URL using the i18n utility
+const otherLang: SupportedLanguage = currentLang === 'en' ? 'fr' : 'en';
+const otherLanguageUrl = getLocalizedPath(currentPath, otherLang);
+
+const switchText = currentLang === 'en' ? 'Français' : 'English';
+const ariaLabel = currentLang === 'en' ? 'Switch to French' : 'Passer à l\'anglais';
+---
+
+<div class="flex items-center">
+  <a
+    href={otherLanguageUrl}
+    class="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1"
+    aria-label={ariaLabel}
+  >
+    <span class="text-xs">🌐</span>
+    {switchText}
+  </a>
+</div>

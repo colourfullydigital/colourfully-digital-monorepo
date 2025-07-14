@@ -18,6 +18,19 @@ export const sanityTestType = defineType({
       description: 'A test message to verify the connection',
     }),
     defineField({
+      name: 'language',
+      title: 'Language',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'English', value: 'en' },
+          { title: 'Français', value: 'fr' }
+        ]
+      },
+      initialValue: 'en',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: 'isActive',
       title: 'Is Active',
       type: 'boolean',
@@ -28,6 +41,14 @@ export const sanityTestType = defineType({
     select: {
       title: 'title',
       subtitle: 'message',
+      language: 'language',
+    },
+    prepare(selection) {
+      const { title, subtitle, language } = selection
+      return {
+        title: `${title} (${language?.toUpperCase()})`,
+        subtitle: subtitle,
+      }
     },
   },
 })

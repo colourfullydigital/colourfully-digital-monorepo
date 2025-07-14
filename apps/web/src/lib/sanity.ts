@@ -1,6 +1,6 @@
 import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
-import type { SanityTest, SanityConnectionTest } from '@colourfully-digital/types/sanity'
+import type { SanityTest, SanityConnectionTest, SupportedLanguage } from '@colourfully-digital/types/sanity'
 
 // Environment variables for Sanity configuration
 const projectId = import.meta.env.SANITY_PROJECT_ID || 'ir1my444'
@@ -24,10 +24,10 @@ export function urlFor(source: any) {
   return builder.image(source)
 }
 
-// Helper function to test the connection
-export async function testConnection(): Promise<SanityConnectionTest> {
+// Helper function to test the connection with language support
+export async function testConnection(language: SupportedLanguage = 'en'): Promise<SanityConnectionTest> {
   try {
-    const result = await client.fetch<SanityTest>('*[_type == "sanityTest"][0]')
+    const result = await client.fetch<SanityTest>('*[_type == "sanityTest" && language == $language][0]', { language })
     return { success: true, data: result }
   } catch (error) {
     return { 
@@ -37,13 +37,76 @@ export async function testConnection(): Promise<SanityConnectionTest> {
   }
 }
 
-// Helper function to fetch all test documents with error handling
-export async function getAllTestDocuments(): Promise<SanityTest[]> {
+// Helper function to fetch all test documents with language filtering
+export async function getAllTestDocuments(language?: SupportedLanguage): Promise<SanityTest[]> {
   try {
-    const result = await client.fetch<SanityTest[]>('*[_type == "sanityTest"] | order(_createdAt desc)')
+    let query = '*[_type == "sanityTest"'
+    let params = {}
+    
+    if (language) {
+      query += ' && language == $language'
+      params = { language }
+    }
+    
+    query += '] | order(_createdAt desc)'
+    
+    const result = await client.fetch<SanityTest[]>(query, params)
     return result || []
   } catch (error) {
     console.error('Error fetching test documents:', error)
     return []
+  }
+}
+
+// Helper function to get localized content by type
+export async function getLocalizedContent<T>(
+  documentType: string, 
+  language: SupportedLanguage,
+  additionalFilters?: string
+): Promise<T[]> {
+  try {
+    let query = `*[_type == "${documentType}" && language == $language`
+    
+    if (additionalFilters) {
+      query += ` && ${additionalFilters}`
+    }
+    
+    query += '] | order(_createdAt desc)'
+    
+    const result = await client.fetch<T[]>(query, { language })
+    return result || []
+  } catch (error) {
+    console.error(`Error fetching ${documentType} documents:`, error)
+    return []
+  }
+}
+
+// Helper function to get a single localized document
+export async function getLocalizedDocument<T>(
+  documentType: string,
+  language: SupportedLanguage,
+  slug?: string,
+  additionalFilters?: string
+): Promise<T | null> {
+  try {
+    let query = `*[_type == "${documentType}" && language == $language`
+    let params: any = { language }
+    
+    if (slug) {
+      query += ' && slug.current == $slug'
+      params.slug = slug
+    }
+    
+    if (additionalFilters) {
+      query += ` && ${additionalFilters}`
+    }
+    
+    query += '][0]'
+    
+    const result = await client.fetch<T>(query, params)
+    return result || null
+  } catch (error) {
+    console.error(`Error fetching ${documentType} document:`, error)
+    return null
   }
 }

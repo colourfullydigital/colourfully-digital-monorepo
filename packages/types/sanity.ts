@@ -1,6 +1,8 @@
 // Sanity.io specific types
 // These types are used for working with Sanity data
 
+export type SupportedLanguage = 'en' | 'fr';
+
 export interface SanityImageAsset {
   _id: string;
   url: string;
@@ -17,6 +19,7 @@ export interface SanityDocument {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  language?: SupportedLanguage; // Add language support to all documents
 }
 
 export interface SanityReference {
@@ -38,6 +41,7 @@ export interface SanityTest extends SanityDocument {
   title: string;
   message?: string;
   isActive: boolean;
+  language: SupportedLanguage;
 }
 
 // API response types

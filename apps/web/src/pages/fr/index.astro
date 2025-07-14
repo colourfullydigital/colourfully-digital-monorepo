@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../lib/translations';
+
+const lang = 'fr';
+---
+
+<BaseLayout title={t('common.home', lang) + " - Colourfully Digital"} currentLang={lang}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center">
+      <h1 class="text-4xl font-bold text-gray-900 mb-6">
+        Bienvenue chez Colourfully Digital
+      </h1>
+      <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+        Soutenir les communautés colorées grâce à des solutions numériques, des partenariats et des opportunités de bénévolat.
+      </p>
+      <div class="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
+        <a 
+          href="/fr/benevole" 
+          class="inline-block bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700 transition-colors"
+        >
+          {t('common.getInvolved', lang)}
+        </a>
+        <a 
+          href="/fr/a-propos" 
+          class="inline-block bg-gray-600 text-white px-6 py-3 rounded-md font-medium hover:bg-gray-700 transition-colors"
+        >
+          {t('common.learnMore', lang)}
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
