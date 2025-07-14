@@ -74,6 +74,18 @@ export interface BlogPost extends SanityDocument {
   translation?: SanityReference;
 }
 
+// Volunteer role content type
+export interface VolunteerRole extends SanityDocument {
+  _type: 'volunteerRole';
+  roleTitle: string;
+  description: string;
+  requirements: string[];
+  timeCommitment: string;
+  isActive: boolean;
+  language: SupportedLanguage;
+  translation?: SanityReference;
+}
+
 // API response types
 export interface SanityApiResponse<T> {
   success: boolean;

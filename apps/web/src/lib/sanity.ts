@@ -1,6 +1,6 @@
 import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
-import type { SanityTest, SanityConnectionTest, SupportedLanguage, StaticPage, BlogPost, Author } from '@colourfully-digital/types/sanity'
+import type { SanityTest, SanityConnectionTest, SupportedLanguage, StaticPage, BlogPost, Author, VolunteerRole } from '@colourfully-digital/types/sanity'
 
 // Environment variables for Sanity configuration
 const projectId = import.meta.env.SANITY_PROJECT_ID || 'ir1my444'
@@ -211,6 +211,30 @@ export async function getAllAuthors(): Promise<Author[]> {
     return result || []
   } catch (error) {
     console.error('Error fetching authors:', error)
+    return []
+  }
+}
+
+// Helper function to fetch active volunteer roles
+export async function getActiveVolunteerRoles(language: SupportedLanguage): Promise<VolunteerRole[]> {
+  try {
+    const query = `*[_type == "volunteerRole" && language == $language && isActive == true] | order(roleTitle asc)`
+    const result = await client.fetch<VolunteerRole[]>(query, { language })
+    return result || []
+  } catch (error) {
+    console.error('Error fetching volunteer roles:', error)
+    return []
+  }
+}
+
+// Helper function to fetch all volunteer roles (including inactive)
+export async function getAllVolunteerRoles(language: SupportedLanguage): Promise<VolunteerRole[]> {
+  try {
+    const query = `*[_type == "volunteerRole" && language == $language] | order(roleTitle asc)`
+    const result = await client.fetch<VolunteerRole[]>(query, { language })
+    return result || []
+  } catch (error) {
+    console.error('Error fetching volunteer roles:', error)
     return []
   }
 }
