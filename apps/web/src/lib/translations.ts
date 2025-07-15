@@ -4,6 +4,9 @@
 
 import type { SupportedLanguage } from './i18n';
 
+// Default fallback language when translations are missing
+const FALLBACK_LANGUAGE: SupportedLanguage = 'en';
+
 // Translation dictionary type - now with language codes at the leaf level
 export interface TranslationLeaf {
   [language: string]: string;
@@ -226,9 +229,9 @@ export function t(key: string, language: SupportedLanguage, fallback?: string): 
     if (current && typeof current === 'object' && k in current) {
       current = current[k];
     } else {
-      // If translation not found, try English as fallback
-      if (language !== 'en') {
-        return t(key, 'en', fallback);
+      // If translation not found, try fallback language
+      if (language !== FALLBACK_LANGUAGE) {
+        return t(key, FALLBACK_LANGUAGE, fallback);
       }
       return fallback || key;
     }
@@ -239,9 +242,9 @@ export function t(key: string, language: SupportedLanguage, fallback?: string): 
     return current[language];
   }
 
-  // If translation not found, try English as fallback
-  if (language !== 'en' && current && typeof current === 'object' && 'en' in current) {
-    return current['en'];
+  // If translation not found, try fallback language
+  if (language !== FALLBACK_LANGUAGE && current && typeof current === 'object' && FALLBACK_LANGUAGE in current) {
+    return current[FALLBACK_LANGUAGE];
   }
 
   return fallback || key;
@@ -267,9 +270,9 @@ export function getNamespaceTranslations(namespace: string, language: SupportedL
       // Check if it's a TranslationLeaf (has language keys)
       if (language in value) {
         result[key] = value[language];
-      } else if (language !== 'en' && 'en' in value) {
-        // Fallback to English
-        result[key] = value['en'];
+      } else if (language !== FALLBACK_LANGUAGE && FALLBACK_LANGUAGE in value) {
+        // Fallback to the configured fallback language
+        result[key] = value[FALLBACK_LANGUAGE];
       }
     }
   }
@@ -312,7 +315,7 @@ export function formatDate(
   language: SupportedLanguage,
   options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
 ): string {
-  const locale = language === 'fr' ? 'fr-CA' : 'en-CA';
+  const locale = language === 'fr' ? 'fr-CA' : `${FALLBACK_LANGUAGE}-CA`;
   return new Intl.DateTimeFormat(locale, options).format(date);
 }
 
@@ -328,7 +331,7 @@ export function formatNumber(
   language: SupportedLanguage,
   options: Intl.NumberFormatOptions = {}
 ): string {
-  const locale = language === 'fr' ? 'fr-CA' : 'en-CA';
+  const locale = language === 'fr' ? 'fr-CA' : `${FALLBACK_LANGUAGE}-CA`;
   return new Intl.NumberFormat(locale, options).format(number);
 }
 
@@ -343,10 +346,18 @@ export function getTextDirection(language: SupportedLanguage): 'ltr' | 'rtl' {
 }
 
 /**
+ * Get the current fallback language
+ * @returns The current fallback language
+ */
+export function getFallbackLanguage(): SupportedLanguage {
+  return FALLBACK_LANGUAGE;
+}
+
+/**
  * Get the appropriate locale string for HTML lang attribute
  * @param language - The target language
  * @returns Locale string (e.g., 'en-CA', 'fr-CA')
  */
 export function getLocaleString(language: SupportedLanguage): string {
-  return language === 'fr' ? 'fr-CA' : 'en-CA';
+  return language === 'fr' ? 'fr-CA' : `${FALLBACK_LANGUAGE}-CA`;
 }

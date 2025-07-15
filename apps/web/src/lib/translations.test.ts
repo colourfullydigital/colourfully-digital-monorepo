@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { t, getNamespaceTranslations, hasTranslation, formatDate, formatNumber, getTextDirection, getLocaleString } from './translations';
+import { t, getNamespaceTranslations, hasTranslation, formatDate, formatNumber, getTextDirection, getLocaleString, getFallbackLanguage } from './translations';
 
 describe('Translation utilities', () => {
   describe('t function', () => {
@@ -119,6 +119,12 @@ describe('Translation utilities', () => {
     it('should return correct locale strings', () => {
       expect(getLocaleString('en')).toBe('en-CA');
       expect(getLocaleString('fr')).toBe('fr-CA');
+    });
+  });
+
+  describe('getFallbackLanguage function', () => {
+    it('should return the configured fallback language', () => {
+      expect(getFallbackLanguage()).toBe('en');
     });
   });
 });
