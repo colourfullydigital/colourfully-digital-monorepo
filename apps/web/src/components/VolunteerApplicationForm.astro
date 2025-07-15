@@ -1,0 +1,530 @@
+---
+import { getActiveVolunteerRoles } from '../lib/sanity';
+import { t } from '../lib/translations';
+import type { SupportedLanguage } from '../lib/i18n';
+import type { VolunteerRole } from '@colourfully-digital/types/sanity';
+
+export interface Props {
+  language: SupportedLanguage;
+}
+
+const { language } = Astro.props;
+
+// Fetch available volunteer roles for the form
+const volunteerRoles: VolunteerRole[] = await getActiveVolunteerRoles(language);
+---
+
+<form
+  name="volunteer-application"
+  method="POST"
+  data-netlify="true"
+  data-netlify-honeypot="bot-field"
+  action={`/${language === 'fr' ? 'fr/benevole' : 'en/volunteer'}/success`}
+  class="volunteer-application-form"
+>
+  <!-- Netlify spam protection -->
+  <input type="hidden" name="form-name" value="volunteer-application" />
+  <input type="hidden" name="language" value={language} />
+  <div class="hidden">
+    <label>
+      Don't fill this out if you're human: <input name="bot-field" />
+    </label>
+  </div>
+
+  <!-- Personal Information Section -->
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold text-gray-900 mb-6 border-b border-gray-200 pb-2">
+      {t('volunteer.application.personalInfo', language)}
+    </h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Full Name -->
+      <div>
+        <label for="fullName" class="block text-sm font-medium text-gray-700 mb-2">
+          {t('volunteer.application.fullName', language)} <span class="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          id="fullName"
+          name="fullName"
+          required
+          placeholder={t('volunteer.application.placeholders.fullName', language)}
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+        />
+        <div class="error-message hidden text-red-600 text-sm mt-1"></div>
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+          {t('volunteer.application.email', language)} <span class="text-red-500">*</span>
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          placeholder={t('volunteer.application.placeholders.email', language)}
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+        />
+        <div class="error-message hidden text-red-600 text-sm mt-1"></div>
+      </div>
+
+      <!-- Phone -->
+      <div>
+        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
+          {t('volunteer.application.phone', language)} <span class="text-red-500">*</span>
+        </label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          required
+          placeholder={t('volunteer.application.placeholders.phone', language)}
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+        />
+        <div class="error-message hidden text-red-600 text-sm mt-1"></div>
+      </div>
+
+      <!-- Address -->
+      <div class="md:col-span-2">
+        <label for="address" class="block text-sm font-medium text-gray-700 mb-2">
+          {t('volunteer.application.address', language)} <span class="text-red-500">*</span>
+        </label>
+        <textarea
+          id="address"
+          name="address"
+          required
+          rows="3"
+          placeholder={t('volunteer.application.placeholders.address', language)}
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-vertical"
+        ></textarea>
+        <div class="error-message hidden text-red-600 text-sm mt-1"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Volunteer Information Section -->
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold text-gray-900 mb-6 border-b border-gray-200 pb-2">
+      {t('volunteer.application.volunteerInfo', language)}
+    </h2>
+
+    <!-- Role Selection -->
+    <div class="mb-6">
+      <label for="roleSelection" class="block text-sm font-medium text-gray-700 mb-2">
+        {t('volunteer.application.roleSelection', language)} <span class="text-red-500">*</span>
+      </label>
+      <select
+        id="roleSelection"
+        name="roleSelection"
+        required
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+      >
+        <option value="">{t('volunteer.application.selectRole', language)}</option>
+        {volunteerRoles.map((role) => (
+          <option value={role.roleTitle}>{role.roleTitle}</option>
+        ))}
+      </select>
+      <div class="error-message hidden text-red-600 text-sm mt-1"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Previous Experience -->
+      <div>
+        <label for="experience" class="block text-sm font-medium text-gray-700 mb-2">
+          {t('volunteer.application.experience', language)}
+        </label>
+        <textarea
+          id="experience"
+          name="experience"
+          rows="4"
+          placeholder={t('volunteer.application.placeholders.experience', language)}
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-vertical"
+        ></textarea>
+      </div>
+
+      <!-- Relevant Skills -->
+      <div>
+        <label for="skills" class="block text-sm font-medium text-gray-700 mb-2">
+          {t('volunteer.application.skills', language)}
+        </label>
+        <textarea
+          id="skills"
+          name="skills"
+          rows="4"
+          placeholder={t('volunteer.application.placeholders.skills', language)}
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-vertical"
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Availability -->
+    <div class="mt-6">
+      <fieldset>
+        <legend class="block text-sm font-medium text-gray-700 mb-3">
+          {t('volunteer.application.availability', language)} <span class="text-red-500">*</span>
+        </legend>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <label class="flex items-center">
+            <input
+              type="checkbox"
+              name="availability"
+              value="weekdays"
+              class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+            />
+            <span class="ml-2 text-sm text-gray-700">
+              {t('volunteer.application.availabilityOptions.weekdays', language)}
+            </span>
+          </label>
+          <label class="flex items-center">
+            <input
+              type="checkbox"
+              name="availability"
+              value="evenings"
+              class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+            />
+            <span class="ml-2 text-sm text-gray-700">
+              {t('volunteer.application.availabilityOptions.evenings', language)}
+            </span>
+          </label>
+          <label class="flex items-center">
+            <input
+              type="checkbox"
+              name="availability"
+              value="weekends"
+              class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+            />
+            <span class="ml-2 text-sm text-gray-700">
+              {t('volunteer.application.availabilityOptions.weekends', language)}
+            </span>
+          </label>
+          <label class="flex items-center">
+            <input
+              type="checkbox"
+              name="availability"
+              value="flexible"
+              class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+            />
+            <span class="ml-2 text-sm text-gray-700">
+              {t('volunteer.application.availabilityOptions.flexible', language)}
+            </span>
+          </label>
+        </div>
+        <div class="error-message hidden text-red-600 text-sm mt-1"></div>
+      </fieldset>
+    </div>
+  </section>
+
+  <!-- Legal Requirements Section -->
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold text-gray-900 mb-6 border-b border-gray-200 pb-2">
+      {t('volunteer.application.legal', language)}
+    </h2>
+
+    <div class="space-y-4">
+      <!-- Background Check Consent -->
+      <label class="flex items-start">
+        <input
+          type="checkbox"
+          id="backgroundCheckConsent"
+          name="backgroundCheckConsent"
+          required
+          value="true"
+          class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded mt-1"
+        />
+        <span class="ml-3 text-sm text-gray-700">
+          {t('volunteer.application.backgroundCheck', language)} <span class="text-red-500">*</span>
+        </span>
+      </label>
+
+      <!-- Terms Agreement -->
+      <label class="flex items-start">
+        <input
+          type="checkbox"
+          id="termsAgreement"
+          name="termsAgreement"
+          required
+          value="true"
+          class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded mt-1"
+        />
+        <span class="ml-3 text-sm text-gray-700">
+          {t('volunteer.application.termsAgreement', language)} <span class="text-red-500">*</span>
+        </span>
+      </label>
+    </div>
+  </section>
+
+  <!-- Additional Comments Section -->
+  <section class="mb-8">
+    <label for="additionalComments" class="block text-sm font-medium text-gray-700 mb-2">
+      {t('volunteer.application.additionalComments', language)}
+    </label>
+    <textarea
+      id="additionalComments"
+      name="additionalComments"
+      rows="4"
+      placeholder={t('volunteer.application.placeholders.comments', language)}
+      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-vertical"
+    ></textarea>
+  </section>
+
+  <!-- Submit Button -->
+  <div class="text-center">
+    <button
+      type="submit"
+      class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+      id="submitButton"
+    >
+      <span class="submit-text">{t('volunteer.application.submit', language)}</span>
+      <span class="submitting-text hidden">{t('volunteer.application.submitting', language)}</span>
+    </button>
+  </div>
+
+  <!-- Form Messages -->
+  <div id="formMessages" class="mt-6 hidden">
+    <div id="successMessage" class="hidden p-4 bg-green-50 border border-green-200 rounded-md">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-green-800">
+            {t('volunteer.application.success.title', language)}
+          </h3>
+          <div class="mt-2 text-sm text-green-700">
+            <p>{t('volunteer.application.success.message', language)}</p>
+            <p class="mt-1">{t('volunteer.application.success.confirmation', language)}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="errorMessage" class="hidden p-4 bg-red-50 border border-red-200 rounded-md">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            {t('volunteer.application.error.title', language)}
+          </h3>
+          <div class="mt-2 text-sm text-red-700">
+            <p>{t('volunteer.application.error.message', language)}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+  // Client-side form validation and enhancement
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.volunteer-application-form') as HTMLFormElement;
+    const submitButton = document.getElementById('submitButton') as HTMLButtonElement;
+    const submitText = submitButton.querySelector('.submit-text') as HTMLElement;
+    const submittingText = submitButton.querySelector('.submitting-text') as HTMLElement;
+    
+    // Email validation pattern - simpler and reliable pattern that excludes leading/trailing dots
+    const emailPattern = /^[a-zA-Z0-9][^\s@]*[a-zA-Z0-9]@[a-zA-Z0-9][^\s@]*[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
+    
+    // Canadian phone number validation pattern
+    const phonePattern = /^(\+?1[-.\s]?)?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/;
+    
+    // Form validation function
+    function validateForm(): boolean {
+      let isValid = true;
+      
+      // Clear previous error messages
+      const errorMessages = form.querySelectorAll('.error-message');
+      errorMessages.forEach(msg => {
+        msg.textContent = '';
+        msg.classList.add('hidden');
+      });
+      
+      // Validate required text fields
+      const requiredFields = ['fullName', 'email', 'phone', 'address', 'roleSelection'];
+      requiredFields.forEach(fieldName => {
+        const field = form.querySelector(`[name="${fieldName}"]`) as HTMLInputElement;
+        const errorDiv = field.parentElement?.querySelector('.error-message') as HTMLElement;
+        
+        if (!field.value.trim()) {
+          errorDiv.textContent = getTranslation('volunteer.application.validation.required');
+          errorDiv.classList.remove('hidden');
+          isValid = false;
+        }
+      });
+      
+      // Validate email format
+      const emailField = form.querySelector('[name="email"]') as HTMLInputElement;
+      const emailError = emailField.parentElement?.querySelector('.error-message') as HTMLElement;
+      if (emailField.value.trim() && !emailPattern.test(emailField.value.trim())) {
+        emailError.textContent = getTranslation('volunteer.application.validation.invalidEmail');
+        emailError.classList.remove('hidden');
+        isValid = false;
+      }
+      
+      // Validate phone format
+      const phoneField = form.querySelector('[name="phone"]') as HTMLInputElement;
+      const phoneError = phoneField.parentElement?.querySelector('.error-message') as HTMLElement;
+      if (phoneField.value.trim() && !phonePattern.test(phoneField.value.trim())) {
+        phoneError.textContent = getTranslation('volunteer.application.validation.invalidPhone');
+        phoneError.classList.remove('hidden');
+        isValid = false;
+      }
+      
+      // Validate availability checkboxes
+      const availabilityCheckboxes = form.querySelectorAll('[name="availability"]:checked');
+      const availabilityError = form.querySelector('fieldset .error-message') as HTMLElement;
+      if (availabilityCheckboxes.length === 0) {
+        availabilityError.textContent = getTranslation('volunteer.application.validation.required');
+        availabilityError.classList.remove('hidden');
+        isValid = false;
+      }
+      
+      // Validate required checkboxes
+      const backgroundCheck = form.querySelector('[name="backgroundCheckConsent"]') as HTMLInputElement;
+      const termsAgreement = form.querySelector('[name="termsAgreement"]') as HTMLInputElement;
+      
+      if (!backgroundCheck.checked || !termsAgreement.checked) {
+        // Show general error at the top of the form
+        showFormMessage('error', getTranslation('volunteer.application.validation.required'));
+        isValid = false;
+      }
+      
+      return isValid;
+    }
+    
+    // Helper function to get translations (simplified for client-side)
+    function getTranslation(key: string): string {
+      const language = form.querySelector('[name="language"]')?.getAttribute('value') || 'en';
+      
+      const translations: { [key: string]: string } = {
+        'volunteer.application.validation.required': 
+          language === 'fr' ? 'Ce champ est obligatoire' : 'This field is required',
+        'volunteer.application.validation.invalidEmail': 
+          language === 'fr' ? 'Veuillez entrer une adresse courriel valide' : 'Please enter a valid email address',
+        'volunteer.application.validation.invalidPhone': 
+          language === 'fr' ? 'Veuillez entrer un numéro de téléphone valide' : 'Please enter a valid phone number'
+      };
+      
+      return translations[key] || key;
+    }
+    
+    // Show form messages
+    function showFormMessage(type: 'success' | 'error', message?: string) {
+      const messagesContainer = document.getElementById('formMessages') as HTMLElement;
+      const successDiv = document.getElementById('successMessage') as HTMLElement;
+      const errorDiv = document.getElementById('errorMessage') as HTMLElement;
+      
+      // Hide both messages first
+      successDiv.classList.add('hidden');
+      errorDiv.classList.add('hidden');
+      
+      if (type === 'success') {
+        successDiv.classList.remove('hidden');
+        messagesContainer.classList.remove('hidden');
+      } else {
+        if (message) {
+          const errorText = errorDiv.querySelector('.text-red-700 p') as HTMLElement;
+          errorText.textContent = message;
+        }
+        errorDiv.classList.remove('hidden');
+        messagesContainer.classList.remove('hidden');
+      }
+      
+      // Scroll to message
+      messagesContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Form submission handler
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (!validateForm()) {
+        return;
+      }
+      
+      // Show loading state
+      submitButton.disabled = true;
+      submitText.classList.add('hidden');
+      submittingText.classList.remove('hidden');
+      
+      // Hide any previous messages
+      document.getElementById('formMessages')?.classList.add('hidden');
+      
+      // Submit the form via fetch to handle the response
+      const formData = new FormData(form);
+      
+      fetch(form.action, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(formData as any).toString()
+      })
+      .then(response => {
+        if (response.ok) {
+          // Show success message
+          showFormMessage('success');
+          form.reset();
+        } else {
+          throw new Error('Network response was not ok');
+        }
+      })
+      .catch(error => {
+        console.error('Form submission error:', error);
+        showFormMessage('error');
+      })
+      .finally(() => {
+        // Reset button state
+        submitButton.disabled = false;
+        submitText.classList.remove('hidden');
+        submittingText.classList.add('hidden');
+      });
+    });
+    
+    // Real-time validation for email and phone
+    const emailField = form.querySelector('[name="email"]') as HTMLInputElement;
+    const phoneField = form.querySelector('[name="phone"]') as HTMLInputElement;
+    
+    emailField?.addEventListener('blur', function() {
+      const errorDiv = this.parentElement?.querySelector('.error-message') as HTMLElement;
+      if (this.value.trim() && !emailPattern.test(this.value.trim())) {
+        errorDiv.textContent = getTranslation('volunteer.application.validation.invalidEmail');
+        errorDiv.classList.remove('hidden');
+      } else {
+        errorDiv.classList.add('hidden');
+      }
+    });
+    
+    phoneField?.addEventListener('blur', function() {
+      const errorDiv = this.parentElement?.querySelector('.error-message') as HTMLElement;
+      if (this.value.trim() && !phonePattern.test(this.value.trim())) {
+        errorDiv.textContent = getTranslation('volunteer.application.validation.invalidPhone');
+        errorDiv.classList.remove('hidden');
+      } else {
+        errorDiv.classList.add('hidden');
+      }
+    });
+  });
+</script>
+
+<style>
+  .volunteer-application-form {
+    @apply max-w-none;
+  }
+  
+  .volunteer-application-form fieldset {
+    @apply border-0 p-0 m-0;
+  }
+  
+  .volunteer-application-form legend {
+    @apply float-none w-auto p-0 m-0;
+  }
+</style>

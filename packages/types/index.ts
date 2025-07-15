@@ -36,6 +36,39 @@ export interface VolunteerRole {
   translation?: VolunteerRole;
 }
 
+export interface VolunteerApplication {
+  // Personal Information
+  fullName: string;
+  email: string;
+  phone: string;
+  address: string;
+  
+  // Volunteer Information
+  roleSelection: string;
+  experience?: string;
+  skills?: string;
+  availability: string[];
+  
+  // Legal Requirements
+  backgroundCheckConsent: boolean;
+  termsAgreement: boolean;
+  
+  // Additional Information
+  additionalComments?: string;
+  
+  // Form metadata
+  language: 'en' | 'fr';
+  submissionDate?: string;
+}
+
+export interface VolunteerApplicationFormProps {
+  language: 'en' | 'fr';
+}
+
+export interface FormValidationErrors {
+  [key: string]: string;
+}
+
 export interface School {
   schoolName: string;
   description: string;

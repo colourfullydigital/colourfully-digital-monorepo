@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import VolunteerApplicationForm from '../../../components/VolunteerApplicationForm.astro';
+import { t } from '../../../lib/translations';
+
+const language = 'fr';
+const pageTitle = t('volunteer.application.title', language);
+const pageDescription = t('volunteer.application.subtitle', language);
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} currentLang={language}>
+  <main class="min-h-screen bg-gray-50 py-12">
+    <div class="container mx-auto px-4 max-w-4xl">
+      <!-- Header Section -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          {pageTitle}
+        </h1>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          {pageDescription}
+        </p>
+      </div>
+
+      <!-- Application Form -->
+      <div class="bg-white rounded-lg shadow-lg p-8">
+        <VolunteerApplicationForm language={language} />
+      </div>
+    </div>
+  </main>
+</BaseLayout>

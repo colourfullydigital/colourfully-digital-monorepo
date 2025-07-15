@@ -203,6 +203,170 @@ const translations: Translations = {
     backToVolunteer: {
       en: 'Back to Volunteer Opportunities',
       fr: 'Retour aux opportunités de bénévolat'
+    },
+    application: {
+      title: {
+        en: 'Volunteer Application',
+        fr: 'Candidature de bénévole'
+      },
+      subtitle: {
+        en: 'Join our mission to support colorful communities',
+        fr: 'Rejoignez notre mission de soutien aux communautés colorées'
+      },
+      personalInfo: {
+        en: 'Personal Information',
+        fr: 'Informations personnelles'
+      },
+      fullName: {
+        en: 'Full Name',
+        fr: 'Nom complet'
+      },
+      email: {
+        en: 'Email Address',
+        fr: 'Adresse courriel'
+      },
+      phone: {
+        en: 'Phone Number',
+        fr: 'Numéro de téléphone'
+      },
+      address: {
+        en: 'Address',
+        fr: 'Adresse'
+      },
+      volunteerInfo: {
+        en: 'Volunteer Information',
+        fr: 'Informations de bénévolat'
+      },
+      roleSelection: {
+        en: 'Which role are you applying for?',
+        fr: 'Pour quel rôle postulez-vous?'
+      },
+      selectRole: {
+        en: 'Select a volunteer role',
+        fr: 'Sélectionnez un rôle de bénévole'
+      },
+      experience: {
+        en: 'Previous Volunteer Experience',
+        fr: 'Expérience de bénévolat antérieure'
+      },
+      skills: {
+        en: 'Relevant Skills',
+        fr: 'Compétences pertinentes'
+      },
+      availability: {
+        en: 'Availability',
+        fr: 'Disponibilité'
+      },
+      availabilityOptions: {
+        weekdays: {
+          en: 'Weekdays',
+          fr: 'Jours de semaine'
+        },
+        evenings: {
+          en: 'Evenings',
+          fr: 'Soirées'
+        },
+        weekends: {
+          en: 'Weekends',
+          fr: 'Fins de semaine'
+        },
+        flexible: {
+          en: 'Flexible schedule',
+          fr: 'Horaire flexible'
+        }
+      },
+      legal: {
+        en: 'Legal Requirements',
+        fr: 'Exigences légales'
+      },
+      backgroundCheck: {
+        en: 'I consent to a background check as required for volunteer positions',
+        fr: 'Je consens à une vérification des antécédents comme requis pour les postes de bénévoles'
+      },
+      termsAgreement: {
+        en: 'I agree to the terms and conditions of volunteering',
+        fr: 'J\'accepte les termes et conditions du bénévolat'
+      },
+      additionalComments: {
+        en: 'Additional Comments',
+        fr: 'Commentaires supplémentaires'
+      },
+      submit: {
+        en: 'Submit Application',
+        fr: 'Soumettre la candidature'
+      },
+      submitting: {
+        en: 'Submitting...',
+        fr: 'Soumission en cours...'
+      },
+      success: {
+        title: {
+          en: 'Application Submitted Successfully!',
+          fr: 'Candidature soumise avec succès!'
+        },
+        message: {
+          en: 'Thank you for your interest in volunteering with us. We will review your application and contact you soon.',
+          fr: 'Merci de votre intérêt à faire du bénévolat avec nous. Nous examinerons votre candidature et vous contacterons bientôt.'
+        },
+        confirmation: {
+          en: 'A confirmation email has been sent to your email address.',
+          fr: 'Un courriel de confirmation a été envoyé à votre adresse.'
+        }
+      },
+      error: {
+        title: {
+          en: 'Submission Failed',
+          fr: 'Échec de la soumission'
+        },
+        message: {
+          en: 'There was an error submitting your application. Please try again or contact us directly.',
+          fr: 'Il y a eu une erreur lors de la soumission de votre candidature. Veuillez réessayer ou nous contacter directement.'
+        }
+      },
+      validation: {
+        required: {
+          en: 'This field is required',
+          fr: 'Ce champ est obligatoire'
+        },
+        invalidEmail: {
+          en: 'Please enter a valid email address',
+          fr: 'Veuillez entrer une adresse courriel valide'
+        },
+        invalidPhone: {
+          en: 'Please enter a valid phone number',
+          fr: 'Veuillez entrer un numéro de téléphone valide'
+        }
+      },
+      placeholders: {
+        fullName: {
+          en: 'Enter your full name',
+          fr: 'Entrez votre nom complet'
+        },
+        email: {
+          en: 'your.email@example.com',
+          fr: 'votre.courriel@exemple.com'
+        },
+        phone: {
+          en: '(555) 123-4567',
+          fr: '(555) 123-4567'
+        },
+        address: {
+          en: 'Enter your full address',
+          fr: 'Entrez votre adresse complète'
+        },
+        experience: {
+          en: 'Describe any previous volunteer experience...',
+          fr: 'Décrivez toute expérience de bénévolat antérieure...'
+        },
+        skills: {
+          en: 'List relevant skills and qualifications...',
+          fr: 'Énumérez les compétences et qualifications pertinentes...'
+        },
+        comments: {
+          en: 'Any additional information you\'d like to share...',
+          fr: 'Toute information supplémentaire que vous aimeriez partager...'
+        }
+      }
     }
   },
   meta: {
