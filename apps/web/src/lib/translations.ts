@@ -25,11 +25,15 @@ const translations: Translations = {
       volunteer: 'Volunteer'
     },
     footer: {
+      brandDescription: 'Supporting colorful communities through digital solutions, partnerships, and volunteer opportunities.',
       contact: 'Contact Us',
-      email: 'hello@colourfullydigital.org',
-      phone: '+1 (123) 456-7890',
+      emailLabel: 'Email:',
+      email: 'hello@colourfully.digital',
+      addressLabel: 'Address:',
+      address: '123 Digital Avenue, Tech City, TC 12345',
+      connectWithUs: 'Connect With Us',
       privacy: 'Privacy Policy',
-      followUs: 'Follow Us'
+      copyright: '© 2025 Colourfully Digital Foundation. All rights reserved.'
     },
     common: {
       languageSwitch: 'Switch to French',
@@ -81,11 +85,15 @@ const translations: Translations = {
       volunteer: 'Bénévole'
     },
     footer: {
+      brandDescription: 'Soutenir les communautés colorées grâce à des solutions numériques, des partenariats et des opportunités de bénévolat.',
       contact: 'Contactez-nous',
-      email: 'bonjour@colourfullydigital.org',
-      phone: '+1 (123) 456-7890',
+      emailLabel: 'Courriel :',
+      email: 'bonjour@colourfully.digital',
+      addressLabel: 'Adresse :',
+      address: '123 Avenue Numérique, Ville Tech, TC 12345',
+      connectWithUs: 'Connectez-vous avec nous',
       privacy: 'Politique de confidentialité',
-      followUs: 'Suivez-nous'
+      copyright: '© 2025 Fondation Colourfully Digital. Tous droits réservés.'
     },
     common: {
       languageSwitch: 'Passer à l\'anglais',

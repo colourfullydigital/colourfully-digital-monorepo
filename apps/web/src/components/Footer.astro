@@ -1,5 +1,23 @@
 ---
 // Footer component with contact info and social links
+import type { SupportedLanguage } from '../lib/i18n';
+import { getNamespaceTranslations } from '../lib/translations';
+
+export interface Props {
+  currentLang?: SupportedLanguage;
+}
+
+const { currentLang = 'en' } = Astro.props;
+
+// Get localized footer translations
+const footerTranslations = getNamespaceTranslations('footer', currentLang);
+
+// Localized privacy policy links
+const privacyLinks = {
+  en: '/en/privacy',
+  fr: '/fr/confidentialite'
+};
+const privacyLink = privacyLinks[currentLang];
 ---
 
 <footer class="bg-gray-900 text-white">
@@ -9,30 +27,30 @@
       <div class="md:col-span-1">
         <h3 class="text-lg font-semibold mb-4">Colourfully Digital</h3>
         <p class="text-gray-300 text-sm leading-relaxed">
-          Supporting colorful communities through digital solutions, partnerships, and volunteer opportunities.
+          {footerTranslations.brandDescription}
         </p>
       </div>
 
       <!-- Contact Information -->
       <div class="md:col-span-1">
-        <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+        <h3 class="text-lg font-semibold mb-4">{footerTranslations.contact}</h3>
         <div class="space-y-2 text-sm text-gray-300">
           <p>
-            <span class="font-medium">Email:</span>
-            <a href="mailto:hello@colourfully.digital" class="hover:text-white transition-colors">
-              hello@colourfully.digital
+            <span class="font-medium">{footerTranslations.emailLabel}</span>
+            <a href={`mailto:${footerTranslations.email}`} class="hover:text-white transition-colors">
+              {footerTranslations.email}
             </a>
           </p>
           <p>
-            <span class="font-medium">Address:</span>
-            <span>123 Digital Avenue, Tech City, TC 12345</span>
+            <span class="font-medium">{footerTranslations.addressLabel}</span>
+            <span>{footerTranslations.address}</span>
           </p>
         </div>
       </div>
 
       <!-- Social Media & Links -->
       <div class="md:col-span-1">
-        <h3 class="text-lg font-semibold mb-4">Connect With Us</h3>
+        <h3 class="text-lg font-semibold mb-4">{footerTranslations.connectWithUs}</h3>
         <div class="flex space-x-4 mb-4">
           <!-- Social Media Icons -->
           <a href="#" class="text-gray-400 hover:text-white transition-colors" aria-label="Twitter">
@@ -52,14 +70,14 @@
           </a>
         </div>
         <div class="text-sm text-gray-300">
-          <a href="/privacy" class="hover:text-white transition-colors">Privacy Policy</a>
+          <a href={privacyLink} class="hover:text-white transition-colors">{footerTranslations.privacy}</a>
         </div>
       </div>
     </div>
     
     <!-- Bottom border and copyright -->
     <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-      <p>&copy; 2025 Colourfully Digital Foundation. All rights reserved.</p>
+      <p>{footerTranslations.copyright}</p>
     </div>
   </div>
 </footer>
