@@ -1,0 +1,131 @@
+/* Design System Typography
+ * This file defines all typography tokens as CSS custom properties
+ */
+
+:root {
+  /* Font Families */
+  --font-primary: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Roboto Mono', 'Courier New', monospace;
+
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+
+  /* Line Heights */
+  --line-height-tight: 1.1;
+  --line-height-snug: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* Base Font Size - used for fluid typography calculations */
+  --font-size-base: 16px;
+
+  /* Fluid Typography Scale - using utopia.fyi approach */
+  /* These will be calculated using CSS clamp() in the Tailwind config */
+  
+  /* Static Font Sizes (for fallback) */
+  --font-size-xs: 0.75rem;      /* 12px */
+  --font-size-sm: 0.875rem;     /* 14px */
+  --font-size-base: 1rem;       /* 16px */
+  --font-size-lg: 1.125rem;     /* 18px */
+  --font-size-xl: 1.25rem;      /* 20px */
+  --font-size-2xl: 1.5rem;      /* 24px */
+  --font-size-3xl: 1.875rem;    /* 30px */
+  --font-size-4xl: 2.25rem;     /* 36px */
+  --font-size-5xl: 3rem;        /* 48px */
+  --font-size-6xl: 3.75rem;     /* 60px */
+  --font-size-7xl: 4.5rem;      /* 72px */
+}
+
+/* Text Style Utility Classes */
+.heading-1 {
+  font-size: var(--font-size-6xl);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-black);
+}
+
+.heading-2 {
+  font-size: var(--font-size-5xl);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-black);
+}
+
+.heading-3 {
+  font-size: var(--font-size-4xl);
+  line-height: var(--line-height-snug);
+  font-weight: var(--font-weight-black);
+}
+
+.heading-4 {
+  font-size: var(--font-size-3xl);
+  line-height: var(--line-height-snug);
+  font-weight: var(--font-weight-black);
+}
+
+.heading-5 {
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-bold);
+}
+
+.heading-6 {
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-bold);
+}
+
+.body-lg {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-regular);
+}
+
+.body {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-regular);
+}
+
+.body-sm {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-regular);
+}
+
+.caption {
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-medium);
+}
+
+.overline {
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.button-text {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-bold);
+}
+
+.link {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-medium);
+  text-decoration: underline;
+}
+
+.code {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-mono);
+}

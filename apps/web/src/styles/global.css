@@ -1,1 +1,8 @@
+/* Import design system styles */
+@import "./design-system/colors.css";
+@import "./design-system/typography.css";
+@import "./design-system/spacing.css";
+@import "./design-system/borders.css";
+
+/* Import Tailwind */
 @import "tailwindcss";

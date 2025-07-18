@@ -1,0 +1,56 @@
+/* Design System Colors
+ * This file defines all color tokens as CSS custom properties
+ */
+
+:root {
+  /* Primary Colors */
+  --color-green:  #2A8A31; /* Darkened significantly for better contrast with white text */
+  --color-orange: #D44C0A; /* Darkened for better contrast with white text */
+  --color-yellow: #FFDA6B;
+  --color-blue:   #5B7CFA;
+  --color-black:  #121212;
+  --color-white:  #FFFFFF;
+
+  /* Secondary Colors */
+  --color-green-light:  #76E07F; /* Original green moved to light variant */
+  --color-green-dark:   #2A8A31; /* Darkened further for better contrast */
+  --color-orange-light: #FE6A25; /* Original orange moved to light variant */
+  --color-orange-dark:  #B33A00;
+  --color-yellow-light: #FFE59A;
+  --color-yellow-dark:  #E5B83C;
+  --color-blue-light:   #8A9FFF;
+  --color-blue-dark:    #3A5AD7;
+
+  /* Neutral Colors */
+  --color-background:      #FFFFFF;
+  --color-surface:         #F5F5F5;
+  --color-surface-variant: #EEEEEE;
+  --color-border:          #DDDDDD;
+
+  /* Text Colors */
+  --color-text-primary:    #121212;
+  --color-text-secondary:  #555555;
+  --color-text-hint:       #888888;
+  --color-text-on-primary: #FFFFFF;
+  --color-text-on-dark:    #FFFFFF;
+
+  /* Feedback Colors */
+  --color-success: #4BE246;
+  --color-error:   #F4464F;
+  --color-warning: #D3BC0E;
+  --color-info:    #097BF4;
+}
+
+/* Future support for dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* These would be customized for dark mode when implemented */
+    --color-background:      #121212;
+    --color-surface:         #1E1E1E;
+    --color-surface-variant: #2A2A2A;
+    --color-border:          #333333;
+    --color-text-primary:    #FFFFFF;
+    --color-text-secondary:  #CCCCCC;
+    --color-text-hint:       #999999;
+  }
+}

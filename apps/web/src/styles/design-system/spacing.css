@@ -1,0 +1,90 @@
+/* Design System Spacing
+ * This file defines all spacing tokens as CSS custom properties
+ */
+
+:root {
+  /* Base Unit */
+  --space-unit: 0.25rem; /* 4px */
+
+  /* Spacing Scale */
+  --space-0: 0;
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem;  /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem;    /* 16px */
+  --space-5: 1.5rem;  /* 24px */
+  --space-6: 2rem;    /* 32px */
+  --space-8: 2.5rem;  /* 40px */
+  --space-10: 3rem;   /* 48px */
+  --space-12: 4rem;   /* 64px */
+  --space-16: 6rem;   /* 96px */
+  --space-20: 8rem;   /* 128px */
+
+  /* Layout Spacing - will be made fluid */
+  --layout-gutter-sm: 1rem;   /* 16px on small screens */
+  --layout-gutter-lg: 2rem;   /* 32px on larger screens */
+  --container-padding-sm: 1rem;  /* 16px on small screens */
+  --container-padding-lg: 3rem;  /* 48px on larger screens */
+  --section-spacing-sm: 2.5rem;  /* 40px on small screens */
+  --section-spacing-lg: 6rem;    /* 96px on larger screens */
+}
+
+/* Fluid spacing for layout elements using utopia.fyi approach */
+@media (min-width: 640px) {
+  :root {
+    --layout-gutter: clamp(1rem, 0.8571rem + 0.7143vw, 2rem);
+    --container-padding: clamp(1rem, 0.2857rem + 3.5714vw, 3rem);
+    --section-spacing: clamp(2.5rem, 1.0714rem + 7.1429vw, 6rem);
+  }
+}
+
+/* Layout utility classes */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding, var(--container-padding-sm));
+  padding-right: var(--container-padding, var(--container-padding-sm));
+}
+
+.section {
+  margin-top: var(--section-spacing, var(--section-spacing-sm));
+  margin-bottom: var(--section-spacing, var(--section-spacing-sm));
+}
+
+.gutter {
+  padding-left: var(--layout-gutter, var(--layout-gutter-sm));
+  padding-right: var(--layout-gutter, var(--layout-gutter-sm));
+}
+
+/* Spacing utility classes */
+.space-stack-xs { margin-bottom: var(--space-1); }
+.space-stack-sm { margin-bottom: var(--space-2); }
+.space-stack-md { margin-bottom: var(--space-4); }
+.space-stack-lg { margin-bottom: var(--space-6); }
+.space-stack-xl { margin-bottom: var(--space-10); }
+
+.space-inline-xs { margin-right: var(--space-1); }
+.space-inline-sm { margin-right: var(--space-2); }
+.space-inline-md { margin-right: var(--space-4); }
+.space-inline-lg { margin-right: var(--space-6); }
+.space-inline-xl { margin-right: var(--space-10); }
+
+.pad-xs { padding: var(--space-1); }
+.pad-sm { padding: var(--space-2); }
+.pad-md { padding: var(--space-4); }
+.pad-lg { padding: var(--space-6); }
+.pad-xl { padding: var(--space-10); }
+
+.pad-inline-xs { padding-left: var(--space-1); padding-right: var(--space-1); }
+.pad-inline-sm { padding-left: var(--space-2); padding-right: var(--space-2); }
+.pad-inline-md { padding-left: var(--space-4); padding-right: var(--space-4); }
+.pad-inline-lg { padding-left: var(--space-6); padding-right: var(--space-6); }
+.pad-inline-xl { padding-left: var(--space-10); padding-right: var(--space-10); }
+
+.pad-stack-xs { padding-top: var(--space-1); padding-bottom: var(--space-1); }
+.pad-stack-sm { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+.pad-stack-md { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+.pad-stack-lg { padding-top: var(--space-6); padding-bottom: var(--space-6); }
+.pad-stack-xl { padding-top: var(--space-10); padding-bottom: var(--space-10); }
