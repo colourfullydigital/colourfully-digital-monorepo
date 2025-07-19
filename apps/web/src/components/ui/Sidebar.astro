@@ -1,0 +1,304 @@
+---
+/**
+ * Sidebar Component
+ * 
+ * A layout component for common sidebar layouts.
+ * Based on every-layout.dev's Sidebar primitive for intrinsic web design.
+ * 
+ * Features:
+ * - Configurable sidebar width and position
+ * - Responsive behavior on different screen sizes
+ * - Flexible content area sizing
+ * - Support for collapsible sidebars
+ * - Responsive and bilingual support
+ */
+
+interface Props {
+  /** Minimum width of the sidebar */
+  sidebarWidth?: string;
+  /** Minimum width of the content area */
+  contentMin?: string;
+  /** Position of the sidebar */
+  side?: 'left' | 'right';
+  /** Gap between sidebar and content */
+  gap?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  /** Breakpoint where sidebar stacks vertically */
+  stackAt?: string;
+  /** Whether sidebar should be collapsible on mobile */
+  collapsible?: boolean;
+  /** Additional CSS classes */
+  class?: string;
+  /** HTML element to render as */
+  as?: keyof HTMLElementTagNameMap;
+}
+
+const { 
+  sidebarWidth = '250px',
+  contentMin = '50%',
+  side = 'left',
+  gap = 'md',
+  stackAt = '768px',
+  collapsible = true,
+  class: className = '',
+  as: Element = 'div'
+} = Astro.props;
+
+// Map gap prop to CSS custom property values
+const gapMap = {
+  'none': '0',
+  'xs': 'var(--space-1)',
+  'sm': 'var(--space-2)', 
+  'md': 'var(--space-4)',
+  'lg': 'var(--space-6)',
+  'xl': 'var(--space-10)',
+  '2xl': 'var(--space-12)',
+};
+
+const gapValue = gapMap[gap];
+
+// Build CSS custom properties for the component
+const customProperties = {
+  '--sidebar-width': sidebarWidth,
+  '--content-min': contentMin,
+  '--sidebar-gap': gapValue,
+  '--stack-at': stackAt,
+};
+
+// Build CSS classes
+const classes = [
+  'sidebar',
+  `sidebar--${side}`,
+  collapsible && 'sidebar--collapsible',
+  className,
+].filter(Boolean);
+---
+
+<Element 
+  class:list={classes}
+  style={customProperties}
+>
+  <div class="sidebar__aside">
+    <slot name="sidebar" />
+  </div>
+  <div class="sidebar__content">
+    <slot />
+  </div>
+</Element>
+
+<style>
+  .sidebar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sidebar-gap, var(--space-4));
+  }
+
+  .sidebar__aside {
+    flex-basis: var(--sidebar-width, 250px);
+    flex-grow: 1;
+  }
+
+  .sidebar__content {
+    flex-basis: 0;
+    flex-grow: 999;
+    min-inline-size: var(--content-min, 50%);
+  }
+
+  /* Right sidebar variant */
+  .sidebar--right {
+    flex-direction: row-reverse;
+  }
+
+  /* Left sidebar variant (default) */
+  .sidebar--left {
+    flex-direction: row;
+  }
+
+  /* Responsive stacking behavior */
+  @container (max-width: 768px) {
+    .sidebar {
+      flex-direction: column;
+    }
+    
+    .sidebar--right {
+      flex-direction: column;
+    }
+    
+    .sidebar__aside {
+      flex-basis: auto;
+    }
+    
+    .sidebar__content {
+      flex-basis: auto;
+      min-inline-size: auto;
+    }
+  }
+
+  /* Fallback for browsers without container queries */
+  @media (max-width: 768px) {
+    .sidebar {
+      flex-direction: column;
+    }
+    
+    .sidebar--right {
+      flex-direction: column;
+    }
+    
+    .sidebar__aside {
+      flex-basis: auto;
+    }
+    
+    .sidebar__content {
+      flex-basis: auto;
+      min-inline-size: auto;
+    }
+  }
+
+  /* Collapsible sidebar behavior */
+  .sidebar--collapsible .sidebar__aside {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar--collapsible .sidebar__aside {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      z-index: 1000;
+      background: var(--color-surface);
+      border-right: var(--border-width-normal) solid var(--color-border);
+      transform: translateX(-100%);
+      overflow-y: auto;
+      padding: var(--space-4);
+    }
+    
+    .sidebar--collapsible.sidebar--right .sidebar__aside {
+      left: auto;
+      right: 0;
+      border-right: none;
+      border-left: var(--border-width-normal) solid var(--color-border);
+      transform: translateX(100%);
+    }
+    
+    .sidebar--collapsible.sidebar--open .sidebar__aside {
+      transform: translateX(0);
+    }
+    
+    /* Overlay for mobile sidebar */
+    .sidebar--collapsible.sidebar--open::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+  }
+
+  /* Remove default margins from direct children */
+  .sidebar > * {
+    margin: 0;
+  }
+
+  .sidebar__aside > *,
+  .sidebar__content > * {
+    margin-block: 0;
+  }
+
+  /* Add spacing between adjacent elements inside sidebar and content */
+  .sidebar__aside > * + *,
+  .sidebar__content > * + * {
+    margin-block-start: var(--space-2);
+  }
+
+  /* Support for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .sidebar--collapsible .sidebar__aside {
+      transition: none;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .sidebar__aside {
+      border: 1px solid CanvasText;
+    }
+  }
+
+  /* Focus management for keyboard navigation */
+  .sidebar:focus-within {
+    outline: 2px solid var(--color-blue-light);
+    outline-offset: 2px;
+  }
+
+  /* RTL support */
+  [dir="rtl"] .sidebar--left {
+    flex-direction: row-reverse;
+  }
+  
+  [dir="rtl"] .sidebar--right {
+    flex-direction: row;
+  }
+  
+  [dir="rtl"] .sidebar--collapsible .sidebar__aside {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+    border-right: none;
+    border-left: var(--border-width-normal) solid var(--color-border);
+  }
+  
+  [dir="rtl"] .sidebar--collapsible.sidebar--right .sidebar__aside {
+    left: 0;
+    right: auto;
+    transform: translateX(-100%);
+    border-left: none;
+    border-right: var(--border-width-normal) solid var(--color-border);
+  }
+
+  /* Ensure proper spacing for interactive elements */
+  .sidebar__aside button,
+  .sidebar__aside a,
+  .sidebar__aside [role="button"] {
+    min-height: 44px; /* Minimum touch target size */
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  /* Special sidebar variants */
+  .sidebar.navigation-sidebar .sidebar__aside {
+    background: var(--color-surface-variant);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+  }
+
+  .sidebar.content-sidebar .sidebar__content {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+  }
+
+  /* Sticky sidebar behavior */
+  .sidebar.sticky-sidebar .sidebar__aside {
+    position: sticky;
+    top: var(--space-4);
+    align-self: flex-start;
+    max-height: calc(100vh - var(--space-8));
+    overflow-y: auto;
+  }
+
+  /* Equal height variant */
+  .sidebar.equal-height {
+    align-items: stretch;
+  }
+
+  .sidebar.equal-height .sidebar__aside,
+  .sidebar.equal-height .sidebar__content {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

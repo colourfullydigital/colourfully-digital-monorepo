@@ -1,0 +1,129 @@
+---
+/**
+ * Stack Component
+ * 
+ * A layout component for stacking elements vertically with consistent spacing.
+ * Based on every-layout.dev's Stack primitive for intrinsic web design.
+ * 
+ * Features:
+ * - Configurable spacing between elements
+ * - Recursive stacking support
+ * - Split option to push last element to bottom
+ * - Responsive and bilingual support
+ */
+
+interface Props {
+  /** Spacing between stacked elements */
+  space?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  /** Apply spacing recursively to nested elements */
+  recursive?: boolean;
+  /** Split the stack after nth element (pushes remaining to bottom) */
+  splitAfter?: number;
+  /** Additional CSS classes */
+  class?: string;
+  /** HTML element to render as */
+  as?: keyof HTMLElementTagNameMap;
+}
+
+const { 
+  space = 'md', 
+  recursive = false, 
+  splitAfter,
+  class: className = '',
+  as: Element = 'div'
+} = Astro.props;
+
+// Map space prop to CSS custom property values
+const spaceMap = {
+  'none': '0',
+  'xs': 'var(--space-1)',
+  'sm': 'var(--space-2)', 
+  'md': 'var(--space-4)',
+  'lg': 'var(--space-6)',
+  'xl': 'var(--space-10)',
+  '2xl': 'var(--space-12)',
+};
+
+const spaceValue = spaceMap[space];
+
+// Build CSS custom properties for the component
+const customProperties = {
+  '--stack-space': spaceValue,
+  ...(splitAfter && { '--stack-split-after': splitAfter.toString() }),
+};
+
+// Build CSS classes
+const classes = [
+  'stack',
+  recursive && 'stack--recursive',
+  splitAfter && 'stack--split',
+  className,
+].filter(Boolean);
+---
+
+<Element 
+  class:list={classes}
+  style={customProperties}
+>
+  <slot />
+</Element>
+
+<style>
+  .stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  /* Remove default margins from direct children */
+  .stack > * {
+    margin-block: 0;
+  }
+
+  /* Add consistent spacing between adjacent elements */
+  .stack > * + * {
+    margin-block-start: var(--stack-space, var(--space-4));
+  }
+
+  /* Recursive variant: apply spacing to all nested elements */
+  .stack--recursive * + * {
+    margin-block-start: var(--stack-space, var(--space-4));
+  }
+
+  /* Split variant: push elements after nth child to bottom */
+  .stack--split {
+    min-height: 100%;
+  }
+
+  .stack--split > :nth-child(var(--stack-split-after)) {
+    margin-block-end: auto;
+  }
+
+  /* Ensure the stack takes full height when splitting */
+  .stack--split > :nth-child(var(--stack-split-after)) ~ * {
+    margin-block-start: var(--stack-space, var(--space-4));
+  }
+
+  /* Responsive adjustments for better mobile experience */
+  @media (max-width: 640px) {
+    .stack {
+      /* Slightly reduce spacing on mobile for better content density */
+      --stack-space-mobile: calc(var(--stack-space, var(--space-4)) * 0.75);
+    }
+    
+    .stack > * + * {
+      margin-block-start: var(--stack-space-mobile, var(--stack-space, var(--space-4)));
+    }
+    
+    .stack--recursive * + * {
+      margin-block-start: var(--stack-space-mobile, var(--stack-space, var(--space-4)));
+    }
+  }
+
+  /* Support for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .stack * {
+      transition: none;
+    }
+  }
+</style>

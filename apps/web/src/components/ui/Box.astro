@@ -1,0 +1,176 @@
+---
+/**
+ * Box Component
+ * 
+ * A layout component for containing elements with padding and borders.
+ * Based on every-layout.dev's Box primitive for intrinsic web design.
+ * 
+ * Features:
+ * - Configurable padding sizes
+ * - Neo-brutalist border styles
+ * - Responsive and bilingual support
+ * - Flexible container for content
+ */
+
+interface Props {
+  /** Padding size for the box */
+  padding?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  /** Border style variant */
+  border?: 'none' | 'thin' | 'normal' | 'thick' | 'brutalist';
+  /** Background color variant */
+  background?: 'none' | 'surface' | 'surface-variant' | 'primary' | 'secondary';
+  /** Shadow variant for neo-brutalist styling */
+  shadow?: 'none' | 'sm' | 'md' | 'lg';
+  /** Additional CSS classes */
+  class?: string;
+  /** HTML element to render as */
+  as?: keyof HTMLElementTagNameMap;
+}
+
+const { 
+  padding = 'md',
+  border = 'none',
+  background = 'none',
+  shadow = 'none',
+  class: className = '',
+  as: Element = 'div'
+} = Astro.props;
+
+// Map padding prop to CSS custom property values
+const paddingMap = {
+  'none': '0',
+  'xs': 'var(--space-1)',
+  'sm': 'var(--space-2)', 
+  'md': 'var(--space-4)',
+  'lg': 'var(--space-6)',
+  'xl': 'var(--space-10)',
+  '2xl': 'var(--space-12)',
+};
+
+// Map border prop to CSS classes
+const borderMap = {
+  'none': '',
+  'thin': 'border-thin border-black',
+  'normal': 'border-normal border-black',
+  'thick': 'border-thick border-black',
+  'brutalist': 'neo-brutalist-border',
+};
+
+// Map background prop to CSS classes
+const backgroundMap = {
+  'none': '',
+  'surface': 'bg-surface',
+  'surface-variant': 'bg-surface-variant',
+  'primary': 'bg-green',
+  'secondary': 'bg-blue',
+};
+
+// Map shadow prop to CSS classes
+const shadowMap = {
+  'none': '',
+  'sm': 'shadow-sm',
+  'md': 'shadow-md',
+  'lg': 'shadow-lg',
+};
+
+const paddingValue = paddingMap[padding];
+
+// Build CSS custom properties for the component
+const customProperties = {
+  '--box-padding': paddingValue,
+};
+
+// Build CSS classes
+const classes = [
+  'box',
+  borderMap[border],
+  backgroundMap[background],
+  shadowMap[shadow],
+  className,
+].filter(Boolean);
+---
+
+<Element 
+  class:list={classes}
+  style={customProperties}
+>
+  <slot />
+</Element>
+
+<style>
+  .box {
+    padding: var(--box-padding, var(--space-4));
+    box-sizing: border-box;
+  }
+
+  /* Ensure consistent spacing for nested content */
+  .box > * {
+    margin-block: 0;
+  }
+
+  /* Add spacing between adjacent elements inside the box */
+  .box > * + * {
+    margin-block-start: var(--space-2);
+  }
+
+  /* Neo-brutalist styling enhancements */
+  .box.neo-brutalist-border {
+    position: relative;
+  }
+
+  /* Responsive padding adjustments */
+  @media (max-width: 640px) {
+    .box {
+      /* Slightly reduce padding on mobile for better space utilization */
+      --box-padding-mobile: calc(var(--box-padding, var(--space-4)) * 0.75);
+      padding: var(--box-padding-mobile, var(--box-padding, var(--space-4)));
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .box {
+      border-color: CanvasText;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .box * {
+      transition: none;
+    }
+  }
+
+  /* Focus management for interactive boxes */
+  .box:focus-within {
+    outline: 2px solid var(--color-blue-light);
+    outline-offset: 2px;
+  }
+
+  /* Ensure proper text color contrast */
+  .box.bg-green,
+  .box.bg-blue {
+    color: var(--color-text-on-dark);
+  }
+
+  .box.bg-surface,
+  .box.bg-surface-variant {
+    color: var(--color-text-primary);
+  }
+
+  /* Support for bilingual content - ensure adequate line height */
+  .box {
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* Intrinsic sizing - let content determine size */
+  .box {
+    width: fit-content;
+    min-width: 0; /* Allow shrinking */
+  }
+
+  /* Full width variant when needed */
+  .box.w-full {
+    width: 100%;
+  }
+</style>

@@ -1,0 +1,185 @@
+---
+/**
+ * Cluster Component
+ * 
+ * A layout component for horizontal layouts with wrapping.
+ * Based on every-layout.dev's Cluster primitive for intrinsic web design.
+ * 
+ * Features:
+ * - Configurable spacing between elements
+ * - Flexible wrapping behavior
+ * - Alignment options (horizontal and vertical)
+ * - Responsive and bilingual support
+ */
+
+interface Props {
+  /** Spacing between clustered elements */
+  space?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  /** Horizontal alignment of items */
+  justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+  /** Vertical alignment of items */
+  align?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
+  /** Whether items should wrap to new lines */
+  wrap?: boolean;
+  /** Additional CSS classes */
+  class?: string;
+  /** HTML element to render as */
+  as?: keyof HTMLElementTagNameMap;
+}
+
+const { 
+  space = 'md',
+  justify = 'start',
+  align = 'center',
+  wrap = true,
+  class: className = '',
+  as: Element = 'div'
+} = Astro.props;
+
+// Map space prop to CSS custom property values
+const spaceMap = {
+  'none': '0',
+  'xs': 'var(--space-1)',
+  'sm': 'var(--space-2)', 
+  'md': 'var(--space-4)',
+  'lg': 'var(--space-6)',
+  'xl': 'var(--space-10)',
+  '2xl': 'var(--space-12)',
+};
+
+// Map justify prop to CSS values
+const justifyMap = {
+  'start': 'flex-start',
+  'center': 'center',
+  'end': 'flex-end',
+  'between': 'space-between',
+  'around': 'space-around',
+  'evenly': 'space-evenly',
+};
+
+// Map align prop to CSS values
+const alignMap = {
+  'start': 'flex-start',
+  'center': 'center',
+  'end': 'flex-end',
+  'stretch': 'stretch',
+  'baseline': 'baseline',
+};
+
+const spaceValue = spaceMap[space];
+const justifyValue = justifyMap[justify];
+const alignValue = alignMap[align];
+
+// Build CSS custom properties for the component
+const customProperties = {
+  '--cluster-space': spaceValue,
+  '--cluster-justify': justifyValue,
+  '--cluster-align': alignValue,
+};
+
+// Build CSS classes
+const classes = [
+  'cluster',
+  wrap ? 'cluster--wrap' : 'cluster--nowrap',
+  className,
+].filter(Boolean);
+---
+
+<Element 
+  class:list={classes}
+  style={customProperties}
+>
+  <slot />
+</Element>
+
+<style>
+  .cluster {
+    display: flex;
+    justify-content: var(--cluster-justify, flex-start);
+    align-items: var(--cluster-align, center);
+    gap: var(--cluster-space, var(--space-4));
+  }
+
+  .cluster--wrap {
+    flex-wrap: wrap;
+  }
+
+  .cluster--nowrap {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    /* Add scroll padding for better UX */
+    scroll-padding-inline: var(--cluster-space, var(--space-4));
+  }
+
+  /* Remove default margins from direct children */
+  .cluster > * {
+    margin: 0;
+    flex-shrink: 0; /* Prevent items from shrinking too much */
+  }
+
+  /* Responsive adjustments for better mobile experience */
+  @media (max-width: 640px) {
+    .cluster {
+      /* Slightly reduce spacing on mobile for better content density */
+      --cluster-space-mobile: calc(var(--cluster-space, var(--space-4)) * 0.75);
+      gap: var(--cluster-space-mobile, var(--cluster-space, var(--space-4)));
+    }
+    
+    /* Force wrap on mobile for better readability */
+    .cluster--nowrap {
+      flex-wrap: wrap;
+      overflow-x: visible;
+    }
+  }
+
+  /* Support for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .cluster--nowrap {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .cluster--nowrap {
+      border: 1px solid CanvasText;
+    }
+  }
+
+  /* RTL support for future internationalization */
+  [dir="rtl"] .cluster--nowrap {
+    scroll-padding-inline-start: var(--cluster-space, var(--space-4));
+    scroll-padding-inline-end: var(--cluster-space, var(--space-4));
+  }
+
+  /* Focus management for keyboard navigation */
+  .cluster:focus-within {
+    outline: 2px solid var(--color-blue-light);
+    outline-offset: 2px;
+  }
+
+  /* Ensure proper spacing for interactive elements */
+  .cluster > button,
+  .cluster > a,
+  .cluster > [role="button"] {
+    min-height: 44px; /* Minimum touch target size */
+    min-width: 44px;
+  }
+
+  /* Special handling for text-only clusters */
+  .cluster.text-cluster > * {
+    white-space: nowrap;
+  }
+
+  /* Special handling for tag-like clusters */
+  .cluster.tag-cluster {
+    --cluster-space: var(--space-1);
+  }
+
+  .cluster.tag-cluster > * {
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-variant);
+    font-size: var(--font-size-sm);
+  }
+</style>

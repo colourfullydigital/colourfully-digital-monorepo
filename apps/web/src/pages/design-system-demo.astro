@@ -1,0 +1,226 @@
+---
+/**
+ * Design System Demo Page
+ * 
+ * This page demonstrates the layout components from the design system
+ * implementation. It shows how to use Stack, Box, Cluster, Grid, and Sidebar
+ * components with various configurations.
+ */
+
+import { Stack, Box, Cluster, Grid, Sidebar } from '../components/ui';
+---
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="generator" content={Astro.generator} />
+  <title>Design System Demo - Layout Components</title>
+  <link rel="stylesheet" href="../styles/global.css" />
+</head>
+<body>
+  <main class="container mx-auto py-8">
+    <Stack space="xl">
+      <Box padding="lg" border="normal" background="surface">
+        <h1 class="text-style-heading-1">Design System Layout Components</h1>
+        <p class="text-style-body">
+          This page demonstrates the layout components implemented using every-layout.dev patterns.
+          All components are responsive, accessible, and support bilingual content.
+        </p>
+      </Box>
+
+      <!-- Stack Component Demo -->
+      <section>
+        <Box padding="md" border="thin" background="surface-variant">
+          <h2 class="text-style-heading-3">Stack Component</h2>
+          <p class="text-style-body-sm">Vertical layout with consistent spacing</p>
+        </Box>
+        
+        <Stack space="md" class="mt-4">
+          <Box padding="sm" border="normal" background="primary">
+            <p class="text-style-body text-white">Stack Item 1</p>
+          </Box>
+          <Box padding="sm" border="normal" background="secondary">
+            <p class="text-style-body text-white">Stack Item 2</p>
+          </Box>
+          <Box padding="sm" border="normal" background="surface">
+            <p class="text-style-body">Stack Item 3</p>
+          </Box>
+        </Stack>
+      </section>
+
+      <!-- Cluster Component Demo -->
+      <section>
+        <Box padding="md" border="thin" background="surface-variant">
+          <h2 class="text-style-heading-3">Cluster Component</h2>
+          <p class="text-style-body-sm">Horizontal layout with wrapping</p>
+        </Box>
+        
+        <Cluster space="sm" justify="start" class="mt-4">
+          <Box padding="xs" border="normal" background="primary">
+            <span class="text-style-body-sm text-white">Tag 1</span>
+          </Box>
+          <Box padding="xs" border="normal" background="secondary">
+            <span class="text-style-body-sm text-white">Tag 2</span>
+          </Box>
+          <Box padding="xs" border="normal" background="surface">
+            <span class="text-style-body-sm">Tag 3</span>
+          </Box>
+          <Box padding="xs" border="normal" background="primary">
+            <span class="text-style-body-sm text-white">Tag 4</span>
+          </Box>
+          <Box padding="xs" border="normal" background="secondary">
+            <span class="text-style-body-sm text-white">Tag 5</span>
+          </Box>
+        </Cluster>
+      </section>
+
+      <!-- Grid Component Demo -->
+      <section>
+        <Box padding="md" border="thin" background="surface-variant">
+          <h2 class="text-style-heading-3">Grid Component</h2>
+          <p class="text-style-body-sm">Two-dimensional layout with auto-fit columns</p>
+        </Box>
+        
+        <Grid minItemWidth="200px" gap="md" class="mt-4">
+          <Box padding="md" border="normal" background="primary">
+            <h3 class="text-style-heading-6 text-white">Card 1</h3>
+            <p class="text-style-body-sm text-white">This is a sample card in the grid layout.</p>
+          </Box>
+          <Box padding="md" border="normal" background="secondary">
+            <h3 class="text-style-heading-6 text-white">Card 2</h3>
+            <p class="text-style-body-sm text-white">Another card that demonstrates responsive behavior.</p>
+          </Box>
+          <Box padding="md" border="normal" background="surface">
+            <h3 class="text-style-heading-6">Card 3</h3>
+            <p class="text-style-body-sm">A third card showing the auto-fit behavior.</p>
+          </Box>
+          <Box padding="md" border="normal" background="primary">
+            <h3 class="text-style-heading-6 text-white">Card 4</h3>
+            <p class="text-style-body-sm text-white">Fourth card in the responsive grid.</p>
+          </Box>
+        </Grid>
+      </section>
+
+      <!-- Box Component Demo -->
+      <section>
+        <Box padding="md" border="thin" background="surface-variant">
+          <h2 class="text-style-heading-3">Box Component</h2>
+          <p class="text-style-body-sm">Container with configurable padding and borders</p>
+        </Box>
+        
+        <Stack space="sm" class="mt-4">
+          <Box padding="sm" border="thin" background="surface">
+            <p class="text-style-body">Small padding, thin border</p>
+          </Box>
+          <Box padding="md" border="normal" background="surface">
+            <p class="text-style-body">Medium padding, normal border</p>
+          </Box>
+          <Box padding="lg" border="thick" background="surface">
+            <p class="text-style-body">Large padding, thick border</p>
+          </Box>
+          <Box padding="md" border="brutalist" background="primary" shadow="md">
+            <p class="text-style-body text-white">Neo-brutalist styling with shadow</p>
+          </Box>
+        </Stack>
+      </section>
+
+      <!-- Sidebar Component Demo -->
+      <section>
+        <Box padding="md" border="thin" background="surface-variant">
+          <h2 class="text-style-heading-3">Sidebar Component</h2>
+          <p class="text-style-body-sm">Flexible sidebar layout with responsive behavior</p>
+        </Box>
+        
+        <Sidebar sidebarWidth="200px" contentMin="60%" gap="md" class="mt-4 min-h-64">
+          <Box padding="md" border="normal" background="surface" slot="sidebar">
+            <h4 class="text-style-heading-6">Sidebar</h4>
+            <Stack space="xs">
+              <a href="#" class="text-style-link">Navigation Item 1</a>
+              <a href="#" class="text-style-link">Navigation Item 2</a>
+              <a href="#" class="text-style-link">Navigation Item 3</a>
+            </Stack>
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <h4 class="text-style-heading-6">Main Content</h4>
+            <p class="text-style-body">
+              This is the main content area. The sidebar will stack vertically on smaller screens
+              and maintain a horizontal layout on larger screens. The layout is intrinsically responsive
+              and adapts to content length.
+            </p>
+            <p class="text-style-body">
+              The sidebar component supports both left and right positioning, collapsible behavior,
+              and various width configurations to accommodate different use cases.
+            </p>
+          </Box>
+        </Sidebar>
+      </section>
+
+      <!-- Bilingual Support Demo -->
+      <section>
+        <Box padding="md" border="thin" background="surface-variant">
+          <h2 class="text-style-heading-3">Bilingual Support</h2>
+          <p class="text-style-body-sm">Components adapt to longer French text</p>
+        </Box>
+        
+        <Stack space="md" class="mt-4">
+          <Cluster space="sm" justify="start">
+            <Box padding="xs" border="normal" background="primary">
+              <span class="text-style-body-sm text-white">English</span>
+            </Box>
+            <Box padding="xs" border="normal" background="secondary">
+              <span class="text-style-body-sm text-white">Français (plus long)</span>
+            </Box>
+            <Box padding="xs" border="normal" background="surface">
+              <span class="text-style-body-sm">Multilingual Support</span>
+            </Box>
+          </Cluster>
+          
+          <Grid minItemWidth="250px" gap="md">
+            <Box padding="md" border="normal" background="surface">
+              <h4 class="text-style-heading-6">English Content</h4>
+              <p class="text-style-body-sm">Short and concise text content.</p>
+            </Box>
+            <Box padding="md" border="normal" background="surface">
+              <h4 class="text-style-heading-6">Contenu Français</h4>
+              <p class="text-style-body-sm">Texte plus long qui démontre l'adaptation aux langues avec plus de caractères.</p>
+            </Box>
+          </Grid>
+        </Stack>
+      </section>
+
+      <!-- Accessibility Features Demo -->
+      <section>
+        <Box padding="md" border="thin" background="surface-variant">
+          <h2 class="text-style-heading-3">Accessibility Features</h2>
+          <p class="text-style-body-sm">Components include focus management and touch-friendly sizing</p>
+        </Box>
+        
+        <Stack space="md" class="mt-4">
+          <Cluster space="md" justify="start">
+            <button class="neo-brutalist-button bg-green text-white px-4 py-2">
+              Accessible Button 1
+            </button>
+            <button class="neo-brutalist-button bg-blue text-white px-4 py-2">
+              Accessible Button 2
+            </button>
+            <button class="neo-brutalist-button bg-surface border-black px-4 py-2">
+              Accessible Button 3
+            </button>
+          </Cluster>
+          
+          <Box padding="md" border="normal" background="surface">
+            <p class="text-style-body">
+              All components include proper focus management, adequate spacing for touch targets,
+              and support for reduced motion preferences. They work well with screen readers
+              and maintain proper contrast ratios.
+            </p>
+          </Box>
+        </Stack>
+      </section>
+    </Stack>
+  </main>
+</body>
+</html>
