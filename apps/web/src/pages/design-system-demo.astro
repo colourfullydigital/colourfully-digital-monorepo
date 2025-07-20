@@ -2,13 +2,13 @@
 /**
  * Design System Demo Page
  * 
- * This page demonstrates the layout components from the design system
- * implementation. It shows how to use Stack, Box, Cluster, Grid, and Sidebar
- * components with various configurations.
+ * This page demonstrates the components from the design system
+ * implementation. It shows how to use Stack, Box, Cluster, Grid, Sidebar,
+ * Heading, Text, and Link components with various configurations.
  */
 
 import '../styles/global.css';
-import { Stack, Box, Cluster, Grid, Sidebar } from '../components/ui';
+import { Stack, Box, Cluster, Grid, Sidebar, Heading, Text, Link } from '../components/ui';
 ---
 
 <html lang="en">
@@ -90,18 +90,63 @@ import { Stack, Box, Cluster, Grid, Sidebar } from '../components/ui';
   <main class="container mx-auto py-8">
     <Stack space="xl">
       <Box padding="lg" border="normal" background="surface">
-        <h1 class="text-style-heading-1">Design System Layout Components</h1>
-        <p class="text-style-body">
-          This page demonstrates the layout components implemented using every-layout.dev patterns.
+        <Heading level={1}>Design System Components</Heading>
+        <Text variant="body">
+          This page demonstrates the components implemented for the design system.
           All components are responsive, accessible, and support bilingual content.
-        </p>
+        </Text>
       </Box>
+
+      <!-- Typography Components Demo -->
+      <section>
+        <Box padding="md" border="thin" background="surface-variant">
+          <Heading level={2}>Typography Components</Heading>
+          <Text variant="body-sm">Heading, Text, and Link components with various configurations</Text>
+        </Box>
+        
+        <Stack space="md" class="mt-4">
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={2}>Heading Component</Heading>
+            <Stack space="md">
+              <Heading level={1}>Heading Level 1</Heading>
+              <Heading level={2}>Heading Level 2</Heading>
+              <Heading level={3}>Heading Level 3</Heading>
+              <Heading level={4}>Heading Level 4</Heading>
+              <Heading level={5}>Heading Level 5</Heading>
+              <Heading level={6}>Heading Level 6</Heading>
+            </Stack>
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={2}>Text Component</Heading>
+            <Stack space="md">
+              <Text variant="body-lg">Body Large: This is larger body text for important paragraphs.</Text>
+              <Text variant="body">Body: This is standard body text for most content.</Text>
+              <Text variant="body-sm">Body Small: This is smaller body text for less important content.</Text>
+              <Text variant="caption">Caption: This is caption text for images and supplementary content.</Text>
+              <Text variant="overline">OVERLINE: THIS IS OVERLINE TEXT FOR LABELS AND CATEGORIES</Text>
+            </Stack>
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={2}>Link Component</Heading>
+            <Stack space="md">
+              <Link href="#" variant="default">Default Link Style</Link>
+              <Link href="#" variant="button">Button-Style Link</Link>
+              <Link href="#" variant="nav">Navigation Link Style</Link>
+              <Link href="#" variant="inline">Inline Link Style</Link>
+              <Link href="https://example.com" variant="default">External Link (opens in new tab)</Link>
+              <Link href="#" variant="default" disabled>Disabled Link</Link>
+            </Stack>
+          </Box>
+        </Stack>
+      </section>
 
       <!-- Stack Component Demo -->
       <section>
         <Box padding="md" border="thin" background="surface-variant">
-          <h2 class="text-style-heading-3">Stack Component</h2>
-          <p class="text-style-body-sm">Vertical layout with consistent spacing</p>
+          <Heading level={2}>Stack Component</Heading>
+          <Text variant="body-sm">Vertical layout with consistent spacing</Text>
         </Box>
         
         <Stack space="md" class="mt-4">
@@ -120,8 +165,8 @@ import { Stack, Box, Cluster, Grid, Sidebar } from '../components/ui';
       <!-- Cluster Component Demo -->
       <section>
         <Box padding="md" border="thin" background="surface-variant">
-          <h2 class="text-style-heading-3">Cluster Component</h2>
-          <p class="text-style-body-sm">Horizontal layout with wrapping</p>
+          <Heading level={2}>Cluster Component</Heading>
+          <Text variant="body-sm">Horizontal layout with wrapping</Text>
         </Box>
         
         <Cluster space="sm" justify="start" class="mt-4">
@@ -146,8 +191,8 @@ import { Stack, Box, Cluster, Grid, Sidebar } from '../components/ui';
       <!-- Grid Component Demo -->
       <section>
         <Box padding="md" border="thin" background="surface-variant">
-          <h2 class="text-style-heading-3">Grid Component</h2>
-          <p class="text-style-body-sm">Two-dimensional layout with auto-fit columns</p>
+          <Heading level={2}>Grid Component</Heading>
+          <Text variant="body-sm">Two-dimensional layout with auto-fit columns</Text>
         </Box>
         
         <Grid minItemWidth="200px" gap="md" class="mt-4">
@@ -173,8 +218,8 @@ import { Stack, Box, Cluster, Grid, Sidebar } from '../components/ui';
       <!-- Box Component Demo -->
       <section>
         <Box padding="md" border="thin" background="surface-variant">
-          <h2 class="text-style-heading-3">Box Component</h2>
-          <p class="text-style-body-sm">Container with configurable padding and borders</p>
+          <Heading level={2}>Box Component</Heading>
+          <Text variant="body-sm">Container with configurable padding and borders</Text>
         </Box>
         
         <Stack space="sm" class="mt-4">
@@ -196,8 +241,8 @@ import { Stack, Box, Cluster, Grid, Sidebar } from '../components/ui';
       <!-- Sidebar Component Demo -->
       <section>
         <Box padding="md" border="thin" background="surface-variant">
-          <h2 class="text-style-heading-3">Sidebar Component</h2>
-          <p class="text-style-body-sm">Flexible sidebar layout with responsive behavior</p>
+          <Heading level={2}>Sidebar Component</Heading>
+          <Text variant="body-sm">Flexible sidebar layout with responsive behavior</Text>
         </Box>
         
         <Sidebar sidebarWidth="200px" contentMin="60%" gap="md" class="mt-4 min-h-64">
@@ -228,8 +273,8 @@ import { Stack, Box, Cluster, Grid, Sidebar } from '../components/ui';
       <!-- Bilingual Support Demo -->
       <section>
         <Box padding="md" border="thin" background="surface-variant">
-          <h2 class="text-style-heading-3">Bilingual Support</h2>
-          <p class="text-style-body-sm">Components adapt to longer French text</p>
+          <Heading level={2}>Bilingual Support</Heading>
+          <Text variant="body-sm">Components adapt to longer French text</Text>
         </Box>
         
         <Stack space="md" class="mt-4">
@@ -261,8 +306,8 @@ import { Stack, Box, Cluster, Grid, Sidebar } from '../components/ui';
       <!-- Contrast Testing Demo -->
       <section>
         <Box padding="md" border="thin" background="surface-variant">
-          <h2 class="text-style-heading-3">Contrast Testing</h2>
-          <p class="text-style-body-sm">Testing color combinations in both light and dark modes</p>
+          <Heading level={2}>Contrast Testing</Heading>
+          <Text variant="body-sm">Testing color combinations in both light and dark modes</Text>
         </Box>
         
         <Stack space="lg" class="mt-4">
@@ -363,8 +408,8 @@ import { Stack, Box, Cluster, Grid, Sidebar } from '../components/ui';
       <!-- Accessibility Features Demo -->
       <section>
         <Box padding="md" border="thin" background="surface-variant">
-          <h2 class="text-style-heading-3">Accessibility Features</h2>
-          <p class="text-style-body-sm">Components include focus management and touch-friendly sizing</p>
+          <Heading level={2}>Accessibility Features</Heading>
+          <Text variant="body-sm">Components include focus management and touch-friendly sizing</Text>
         </Box>
         
         <Stack space="md" class="mt-4">

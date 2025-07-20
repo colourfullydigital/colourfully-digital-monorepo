@@ -1,7 +1,7 @@
 /**
  * Design System UI Components
  * 
- * This file exports all the layout components from the design system
+ * This file exports all the UI components from the design system
  * for easier importing throughout the application.
  */
 
@@ -11,6 +11,11 @@ export { default as Box } from './Box.astro';
 export { default as Cluster } from './Cluster.astro';
 export { default as Grid } from './Grid.astro';
 export { default as Sidebar } from './Sidebar.astro';
+
+// Typography Components
+export { default as Heading } from './Heading.astro';
+export { default as Text } from './Text.astro';
+export { default as Link } from './Link.astro';
 
 // Type exports for component props
 export type {
@@ -32,3 +37,15 @@ export type {
 export type {
   Props as SidebarProps
 } from './Sidebar.astro';
+
+export type {
+  Props as HeadingProps
+} from './Heading.astro';
+
+export type {
+  Props as TextProps
+} from './Text.astro';
+
+export type {
+  Props as LinkProps
+} from './Link.astro';

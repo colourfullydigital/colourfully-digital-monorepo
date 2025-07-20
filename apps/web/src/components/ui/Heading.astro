@@ -1,0 +1,64 @@
+---
+/**
+ * Heading Component
+ * 
+ * A semantic heading component that supports all heading levels (h1-h6)
+ * and follows the design system's typography styles.
+ * 
+ * Features:
+ * - Support for all heading levels (h1-h6)
+ * - Semantic HTML elements based on heading level
+ * - Neo-brutalist typography styling with bold, high-contrast text
+ * - Bilingual support (English/French)
+ * - Accessibility compliant
+ */
+
+export interface Props {
+  /** The heading level (1-6) which determines the HTML element and styling */
+  level: 1 | 2 | 3 | 4 | 5 | 6;
+  /** Additional CSS classes to apply */
+  class?: string;
+  /** HTML id attribute for linking/navigation */
+  id?: string;
+}
+
+const { 
+  level,
+  class: className = '',
+  id
+} = Astro.props;
+
+// Map heading levels to their corresponding CSS classes
+const headingClasses = {
+  1: 'text-6xl leading-tight font-black',
+  2: 'text-5xl leading-tight font-black', 
+  3: 'text-4xl leading-snug font-black',
+  4: 'text-3xl leading-snug font-black',
+  5: 'text-2xl leading-normal font-bold',
+  6: 'text-xl leading-normal font-bold'
+} as const;
+
+// Validate heading level
+if (level < 1 || level > 6 || !Number.isInteger(level)) {
+  throw new Error(`Invalid heading level: ${level}. Must be an integer between 1 and 6.`);
+}
+
+// Base classes that apply to all headings
+const baseClasses = [
+  'font-primary',
+  'text-text-primary',
+  'break-words', // Prevent text overflow on long words
+  headingClasses[level],
+  className
+].filter(Boolean);
+
+// Dynamic component based on heading level
+const HeadingTag = `h${level}` as keyof HTMLElementTagNameMap;
+---
+
+<HeadingTag 
+  class:list={baseClasses}
+  id={id}
+>
+  <slot />
+</HeadingTag>

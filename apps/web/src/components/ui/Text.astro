@@ -1,0 +1,73 @@
+---
+/**
+ * Text Component
+ * 
+ * A semantic text component that supports different text styles and variants
+ * and follows the design system's typography styles.
+ * 
+ * Features:
+ * - Multiple text variants (body-lg, body, body-sm, caption, overline)
+ * - Semantic HTML elements based on text variant
+ * - Neo-brutalist typography styling
+ * - Bilingual support (English/French)
+ * - Accessibility compliant
+ */
+
+export interface Props {
+  /** The text variant which determines styling and semantic element */
+  variant?: 'body-lg' | 'body' | 'body-sm' | 'caption' | 'overline';
+  /** The HTML element to render (defaults based on variant) */
+  as?: 'p' | 'span' | 'div' | 'small' | 'strong' | 'em';
+  /** Additional CSS classes to apply */
+  class?: string;
+  /** HTML id attribute for linking/navigation */
+  id?: string;
+}
+
+const { 
+  variant = 'body',
+  as,
+  class: className = '',
+  id
+} = Astro.props;
+
+// Map text variants to their corresponding CSS classes
+const variantClasses = {
+  'body-lg': 'text-lg leading-relaxed font-regular',
+  'body': 'text-base leading-relaxed font-regular',
+  'body-sm': 'text-sm leading-normal font-regular',
+  'caption': 'text-xs leading-normal font-medium',
+  'overline': 'text-xs leading-normal font-bold uppercase tracking-wider'
+} as const;
+
+// Default HTML elements for each variant
+const defaultElements = {
+  'body-lg': 'p',
+  'body': 'p',
+  'body-sm': 'p',
+  'caption': 'small',
+  'overline': 'span'
+} as const;
+
+// Determine the HTML element to use
+const element = as || defaultElements[variant];
+
+// Base classes that apply to all text variants
+const baseClasses = [
+  'font-primary',
+  'text-text-primary',
+  'break-words', // Prevent text overflow on long words
+  variantClasses[variant],
+  className
+];
+
+// Dynamic component based on element type
+const TextElement = element as keyof HTMLElementTagNameMap;
+---
+
+<TextElement 
+  class:list={baseClasses}
+  id={id}
+>
+  <slot />
+</TextElement>

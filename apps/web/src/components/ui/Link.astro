@@ -1,0 +1,108 @@
+---
+/**
+ * Link Component
+ * 
+ * A semantic link component that supports both internal and external links
+ * and follows the design system's link styling.
+ * 
+ * Features:
+ * - Support for internal and external links
+ * - Automatic external link detection and security attributes
+ * - Neo-brutalist link styling with underlines
+ * - Bilingual support (English/French)
+ * - Accessibility compliant with proper ARIA attributes
+ * - Focus management and keyboard navigation
+ */
+
+export interface Props {
+  /** The URL to link to */
+  href: string;
+  /** Link text variant for different styling */
+  variant?: 'default' | 'button' | 'nav' | 'inline';
+  /** Additional CSS classes to apply */
+  class?: string;
+  /** HTML id attribute for linking/navigation */
+  id?: string;
+  /** Target attribute for the link */
+  target?: '_blank' | '_self' | '_parent' | '_top';
+  /** Rel attribute for the link (auto-generated for external links) */
+  rel?: string;
+  /** ARIA label for accessibility */
+  'aria-label'?: string;
+  /** Whether the link is disabled */
+  disabled?: boolean;
+}
+
+const { 
+  href,
+  variant = 'default',
+  class: className = '',
+  id,
+  target,
+  rel,
+  'aria-label': ariaLabel,
+  disabled = false
+} = Astro.props;
+
+// Check if the link is external
+const isExternal = href.startsWith('http') || href.startsWith('//');
+
+// Auto-generate rel attribute for external links
+const linkRel = rel || (isExternal ? 'noopener noreferrer' : undefined);
+
+// Auto-set target for external links if not specified
+const linkTarget = target || (isExternal ? '_blank' : undefined);
+
+// Map link variants to their corresponding CSS classes
+const variantClasses = {
+  'default': 'text-base leading-normal font-medium underline decoration-2 underline-offset-2',
+  'button': 'text-base leading-tight font-bold no-underline',
+  'nav': 'text-base leading-normal font-medium no-underline',
+  'inline': 'text-base leading-normal font-medium underline decoration-1 underline-offset-1'
+} as const;
+
+// Base classes that apply to all links
+const baseClasses = [
+  'font-primary',
+  'text-text-primary',
+  'break-words',
+  'transition-colors',
+  'duration-200',
+  'focus:outline-none',
+  'focus-visible:ring-2',
+  'focus-visible:ring-blue-light',
+  'focus-visible:ring-offset-2',
+  disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer',
+  !disabled && 'hover:text-blue-dark',
+  !disabled && variant === 'default' && 'hover:decoration-blue-dark',
+  !disabled && variant === 'inline' && 'hover:decoration-blue-dark',
+  variantClasses[variant],
+  className
+].filter(Boolean);
+---
+
+{disabled ? (
+  <span 
+    class:list={baseClasses}
+    id={id}
+    aria-label={ariaLabel}
+    role="link"
+    aria-disabled="true"
+  >
+    <slot />
+  </span>
+) : (
+  <a 
+    href={href}
+    class:list={baseClasses}
+    id={id}
+    target={linkTarget}
+    rel={linkRel}
+    aria-label={ariaLabel}
+  >
+    <slot />
+    {isExternal && (
+      <span class="sr-only"> (opens in new tab)</span>
+    )}
+  </a>
+)}
