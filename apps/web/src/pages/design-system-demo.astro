@@ -18,7 +18,51 @@ import { Stack, Box, Cluster, Grid, Sidebar } from '../components/ui';
   <meta name="viewport" content="width=device-width" />
   <meta name="generator" content={Astro.generator} />
   <title>Design System Demo - Layout Components</title>
-
+  <style>
+    /* Force light mode for demo page */
+    :root {
+      /* Override any dark mode settings */
+      --color-background: #FFFFFF !important;
+      --color-surface: #F5F5F5 !important;
+      --color-surface-variant: #EEEEEE !important;
+      --color-border: #DDDDDD !important;
+      --color-text-primary: #121212 !important;
+      --color-text-secondary: #555555 !important;
+      --color-text-hint: #888888 !important;
+    }
+    
+    body {
+      background-color: var(--color-background);
+      color: var(--color-text-primary);
+    }
+    
+    /* Ensure all text elements use the correct color */
+    h1, h2, h3, h4, h5, h6, p, span, div {
+      color: var(--color-text-primary);
+    }
+    
+    /* Override dark mode completely for demo */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-background: #FFFFFF !important;
+        --color-surface: #F5F5F5 !important;
+        --color-surface-variant: #EEEEEE !important;
+        --color-border: #DDDDDD !important;
+        --color-text-primary: #121212 !important;
+        --color-text-secondary: #555555 !important;
+        --color-text-hint: #888888 !important;
+      }
+      
+      body {
+        background-color: var(--color-background) !important;
+        color: var(--color-text-primary) !important;
+      }
+      
+      h1, h2, h3, h4, h5, h6, p, span, div {
+        color: var(--color-text-primary) !important;
+      }
+    }
+  </style>
 </head>
 <body>
   <main class="container mx-auto py-8">
