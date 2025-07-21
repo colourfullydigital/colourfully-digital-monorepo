@@ -1,0 +1,156 @@
+---
+/**
+ * Radio Component
+ * 
+ * A form radio button component with label and error states.
+ * 
+ * Features:
+ * - Custom styled radio button with neo-brutalist design
+ * - Label and error message display
+ * - Required field indication
+ * - Disabled state support
+ * - Accessibility compliant with proper ARIA attributes
+ * - Focus management and keyboard navigation
+ */
+
+export interface Props {
+  /** Radio button label text */
+  label: string;
+  /** Radio button name attribute */
+  name: string;
+  /** Radio button id attribute (defaults to name + value if not provided) */
+  id?: string;
+  /** Whether the radio button is checked */
+  checked?: boolean;
+  /** Whether the radio button is required */
+  required?: boolean;
+  /** Whether the radio button is disabled */
+  disabled?: boolean;
+  /** Error message to display */
+  error?: string;
+  /** Value attribute for the radio button */
+  value: string;
+  /** Additional CSS classes to apply */
+  class?: string;
+  /** ARIA description for accessibility */
+  'aria-describedby'?: string;
+}
+
+const { 
+  label,
+  name,
+  value,
+  id = `${name}-${value}`,
+  checked = false,
+  required = false,
+  disabled = false,
+  error,
+  class: className = '',
+  'aria-describedby': ariaDescribedby
+} = Astro.props;
+
+// Generate unique IDs for error message
+const errorId = `${id}-error`;
+const describedBy = error 
+  ? ariaDescribedby 
+    ? `${errorId} ${ariaDescribedby}` 
+    : errorId
+  : ariaDescribedby;
+
+// Base classes for the radio container
+const containerClasses = [
+  'flex',
+  'items-start',
+  'gap-2',
+  'mb-2',
+  disabled ? 'opacity-50 cursor-not-allowed' : '',
+  className
+].filter(Boolean);
+
+// Base classes for the custom radio
+const radioClasses = [
+  'relative',
+  'w-5',
+  'h-5',
+  'rounded-full',
+  'border-2',
+  'border-black',
+  'bg-white',
+  'flex-shrink-0',
+  'mt-0.5',
+  disabled ? 'bg-surface' : '',
+  error ? 'border-red' : '',
+].filter(Boolean);
+
+// Base classes for the label
+const labelClasses = [
+  'font-primary',
+  'text-base',
+  disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+].filter(Boolean);
+
+// Base classes for the error message
+const errorClasses = [
+  'text-red',
+  'font-primary',
+  'text-sm',
+  'mt-1',
+  'ml-7'
+].filter(Boolean);
+---
+
+<div class="radio-wrapper">
+  <div class:list={containerClasses}>
+    <div class:list={radioClasses}>
+      <input
+        type="radio"
+        id={id}
+        name={name}
+        value={value}
+        checked={checked}
+        required={required}
+        disabled={disabled}
+        aria-invalid={error ? 'true' : undefined}
+        aria-describedby={describedBy}
+        class="absolute w-full h-full opacity-0 cursor-pointer z-10"
+      />
+      <div class="radio-indicator absolute inset-0 pointer-events-none border-2 border-black rounded-full">
+        {checked && (
+          <div class="absolute inset-0 m-1 rounded-full bg-current"></div>
+        )}
+      </div>
+    </div>
+    
+    <label for={id} class:list={labelClasses}>
+      {label}
+      {required && <span class="text-red ml-1" aria-hidden="true">*</span>}
+    </label>
+  </div>
+  
+  {error && (
+    <div id={errorId} class:list={errorClasses} role="alert">
+      {error}
+    </div>
+  )}
+</div>
+
+<style>
+  .radio-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  input:focus-visible + .radio-indicator {
+    outline: 2px solid var(--color-blue-light);
+    outline-offset: 2px;
+  }
+  
+  input:checked + .radio-indicator {
+    color: var(--color-green);
+  }
+  
+  input:disabled + .radio-indicator {
+    background-color: var(--color-surface);
+  }
+</style>

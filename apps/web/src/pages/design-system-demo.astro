@@ -4,11 +4,11 @@
  * 
  * This page demonstrates the components from the design system
  * implementation. It shows how to use Stack, Box, Cluster, Grid, Sidebar,
- * Heading, Text, and Link components with various configurations.
+ * Heading, Text, Link, Button, Input, Select, Checkbox, and Radio components with various configurations.
  */
 
 import '../styles/global.css';
-import { Stack, Box, Cluster, Grid, Sidebar, Heading, Text, Link } from '../components/ui';
+import { Stack, Box, Cluster, Grid, Sidebar, Heading, Text, Link, Button, Input, Select, Checkbox, Radio } from '../components/ui';
 ---
 
 <html lang="en">
@@ -23,6 +23,34 @@ import { Stack, Box, Cluster, Grid, Sidebar, Heading, Text, Link } from '../comp
     body {
       background-color: var(--color-background);
       color: var(--color-text-primary);
+    }
+    
+    /* Debug styles for buttons */
+    .debug-info {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.875rem;
+    }
+    
+    /* Neo-brutalist shadow for demo */
+    .neo-shadow {
+      position: relative;
+      top: -6px;
+      left: -6px;
+      box-shadow: 6px 6px 0 0 rgba(0, 0, 0, 0.9);
+    }
+    
+    /* Form element styles */
+    input, select, textarea {
+      border: 2px solid var(--color-black);
+    }
+    
+    .checkbox-indicator, .radio-indicator {
+      border: 2px solid var(--color-black);
     }
     
     /* Contrast testing sections */
@@ -405,6 +433,569 @@ import { Stack, Box, Cluster, Grid, Sidebar, Heading, Text, Link } from '../comp
         </Stack>
       </section>
 
+      <!-- Button Component Demo -->
+      <section>
+        <Box padding="md" border="thin" background="surface-variant">
+          <Heading level={2}>Button Component</Heading>
+          <Text variant="body-sm">Interactive button with different variants, sizes, and states</Text>
+        </Box>
+        
+        <Stack space="md" class="mt-4">
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Button Variants</Heading>
+            <Cluster space="md" justify="start" class="mt-4">
+              <Button variant="primary">Primary Button</Button>
+              <Button variant="secondary">Secondary Button</Button>
+              <Button variant="tertiary">Tertiary Button</Button>
+              <Button variant="ghost">Ghost Button</Button>
+            </Cluster>
+            
+            <div class="debug-info">
+              <p>CSS Variables:</p>
+              <ul>
+                <li>--color-green: <span id="color-green"></span></li>
+                <li>--color-blue: <span id="color-blue"></span></li>
+                <li>--color-yellow: <span id="color-yellow"></span></li>
+                <li>--color-black: <span id="color-black"></span></li>
+                <li>--color-white: <span id="color-white"></span></li>
+              </ul>
+              
+              <p>Raw HTML Buttons with CSS Variables:</p>
+              <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                <button style="background-color: var(--color-green); color: white; padding: 0.5rem 1rem; border: 2px solid black; font-weight: bold;">Primary Button</button>
+                <button style="background-color: var(--color-blue); color: white; padding: 0.5rem 1rem; border: 2px solid black; font-weight: bold;">Secondary Button</button>
+                <button style="background-color: var(--color-yellow); color: black; padding: 0.5rem 1rem; border: 2px solid black; font-weight: bold;">Tertiary Button</button>
+                <button style="background-color: transparent; color: black; padding: 0.5rem 1rem; border: 2px solid black; font-weight: bold;">Ghost Button</button>
+              </div>
+              
+              <p>Tailwind Classes:</p>
+              <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                <button class="bg-green text-white px-4 py-2 border-2 border-black font-bold">Primary Button</button>
+                <button class="bg-blue text-white px-4 py-2 border-2 border-black font-bold">Secondary Button</button>
+                <button class="bg-yellow text-black px-4 py-2 border-2 border-black font-bold">Tertiary Button</button>
+                <button class="bg-transparent text-black px-4 py-2 border-2 border-black font-bold">Ghost Button</button>
+              </div>
+            </div>
+            
+            <script>
+              // Display CSS variable values
+              const root = document.documentElement;
+              const cssVars = [
+                'green',
+                'blue',
+                'yellow',
+                'black',
+                'white'
+              ];
+              
+              cssVars.forEach(varName => {
+                const value = getComputedStyle(root).getPropertyValue(`--color-${varName}`);
+                const el = document.getElementById(`color-${varName}`);
+                if (el) {
+                  el.textContent = value;
+                  el.style.backgroundColor = value;
+                  el.style.color = varName === 'black' || varName === 'blue' || varName === 'green' ? 'white' : 'black';
+                  el.style.padding = '0 0.5rem';
+                }
+              });
+            </script>
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Button Sizes</Heading>
+            <Cluster space="md" justify="start" class="mt-4">
+              <Button variant="primary" size="sm">Small Button</Button>
+              <Button variant="primary" size="md">Medium Button</Button>
+              <Button variant="primary" size="lg">Large Button</Button>
+            </Cluster>
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Button States</Heading>
+            <Cluster space="md" justify="start" class="mt-4">
+              <Button variant="primary">Normal Button</Button>
+              <Button variant="primary" disabled>Disabled Button</Button>
+              <Button variant="primary" loading>Loading Button</Button>
+              <Button variant="primary" fullWidth>Full Width Button</Button>
+            </Cluster>
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Button Interactive States</Heading>
+            <Text variant="body-sm" class="mb-4">Interact with these buttons to see their hover and active states</Text>
+            
+            <div class="grid grid-cols-2 gap-8 mb-8">
+              <div>
+                <Heading level={4} class="mb-2">Primary Button</Heading>
+                <div class="flex flex-col gap-4">
+                  <div class="flex items-center gap-8">
+                    <div>
+                      <Text variant="body-sm" class="mb-1">Normal</Text>
+                      <Button variant="primary">Primary</Button>
+                    </div>
+                    <div>
+                      <Text variant="body-sm" class="mb-1">Hover</Text>
+                      <div class="bg-green-dark text-white px-4 py-2 border-brutalist neo-shadow font-bold">Primary</div>
+                    </div>
+                    <div>
+                      <Text variant="body-sm" class="mb-1">Active</Text>
+                      <div class="bg-green-dark text-white px-4 py-2 border-brutalist font-bold">Primary</div>
+                    </div>
+                  </div>
+                  <Text variant="caption">Try it: <Button variant="primary">Click Me</Button></Text>
+                </div>
+              </div>
+              
+              <div>
+                <Heading level={4} class="mb-2">Secondary Button</Heading>
+                <div class="flex flex-col gap-4">
+                  <div class="flex items-center gap-8">
+                    <div>
+                      <Text variant="body-sm" class="mb-1">Normal</Text>
+                      <Button variant="secondary">Secondary</Button>
+                    </div>
+                    <div>
+                      <Text variant="body-sm" class="mb-1">Hover</Text>
+                      <div class="bg-blue-dark text-white px-4 py-2 border-brutalist neo-shadow font-bold">Secondary</div>
+                    </div>
+                    <div>
+                      <Text variant="body-sm" class="mb-1">Active</Text>
+                      <div class="bg-blue-dark text-white px-4 py-2 border-brutalist font-bold">Secondary</div>
+                    </div>
+                  </div>
+                  <Text variant="caption">Try it: <Button variant="secondary">Click Me</Button></Text>
+                </div>
+              </div>
+              
+              <div>
+                <Heading level={4} class="mb-2">Tertiary Button</Heading>
+                <div class="flex flex-col gap-4">
+                  <div class="flex items-center gap-8">
+                    <div>
+                      <Text variant="body-sm" class="mb-1">Normal</Text>
+                      <Button variant="tertiary">Tertiary</Button>
+                    </div>
+                    <div>
+                      <Text variant="body-sm" class="mb-1">Hover</Text>
+                      <div class="bg-yellow-dark text-black px-4 py-2 border-brutalist neo-shadow font-bold">Tertiary</div>
+                    </div>
+                    <div>
+                      <Text variant="body-sm" class="mb-1">Active</Text>
+                      <div class="bg-yellow-dark text-black px-4 py-2 border-brutalist font-bold">Tertiary</div>
+                    </div>
+                  </div>
+                  <Text variant="caption">Try it: <Button variant="tertiary">Click Me</Button></Text>
+                </div>
+              </div>
+              
+              <div>
+                <Heading level={4} class="mb-2">Ghost Button</Heading>
+                <div class="flex flex-col gap-4">
+                  <div class="flex items-center gap-8">
+                    <div>
+                      <Text variant="body-sm" class="mb-1">Normal</Text>
+                      <Button variant="ghost">Ghost</Button>
+                    </div>
+                    <div>
+                      <Text variant="body-sm" class="mb-1">Hover</Text>
+                      <div class="bg-surface text-black px-4 py-2 border-normal font-bold">Ghost</div>
+                    </div>
+                    <div>
+                      <Text variant="body-sm" class="mb-1">Active</Text>
+                      <div class="bg-surface text-black px-4 py-2 border-normal font-bold">Ghost</div>
+                    </div>
+                  </div>
+                  <Text variant="caption">Try it: <Button variant="ghost">Click Me</Button></Text>
+                </div>
+              </div>
+            </div>
+            
+            <Box padding="md" border="thin" background="surface-variant">
+              <Heading level={4}>Neo-Brutalist Button Interaction</Heading>
+              <Text variant="body-sm">
+                The buttons follow neo-brutalist design principles:
+                <ul class="list-disc ml-6 mt-2">
+                  <li>Bold borders and strong shadows create a 3D effect</li>
+                  <li>On hover, the shadow increases slightly</li>
+                  <li>When clicked, the button moves diagonally toward the shadow</li>
+                  <li>The shadow stays in place during the click, creating a "pressing" effect</li>
+                </ul>
+              </Text>
+            </Box>
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Button as Link</Heading>
+            <Cluster space="md" justify="start" class="mt-4">
+              <Button variant="primary" href="#">Link Button</Button>
+              <Button variant="secondary" href="https://example.com">External Link Button</Button>
+              <Button variant="ghost" href="#" disabled>Disabled Link Button</Button>
+            </Cluster>
+          </Box>
+        </Stack>
+      </section>
+      
+      <!-- Input Component Demo -->
+      <section>
+        <Box padding="md" border="thin" background="surface-variant">
+          <Heading level={2}>Input Component</Heading>
+          <Text variant="body-sm">Form input with label and error states</Text>
+        </Box>
+        
+        <Stack space="md" class="mt-4">
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Input Types</Heading>
+            <Grid minItemWidth="250px" gap="md" class="mt-4">
+              <Input 
+                type="text" 
+                label="Text Input" 
+                name="text-input" 
+                placeholder="Enter text"
+              />
+              <Input 
+                type="email" 
+                label="Email Input" 
+                name="email-input" 
+                placeholder="Enter email"
+              />
+              <Input 
+                type="password" 
+                label="Password Input" 
+                name="password-input" 
+                placeholder="Enter password"
+              />
+              <Input 
+                type="number" 
+                label="Number Input" 
+                name="number-input" 
+                placeholder="Enter number"
+              />
+            </Grid>
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Input States</Heading>
+            <Grid minItemWidth="250px" gap="md" class="mt-4">
+              <Input 
+                label="Required Input" 
+                name="required-input" 
+                placeholder="This field is required"
+                required
+              />
+              <Input 
+                label="Disabled Input" 
+                name="disabled-input" 
+                placeholder="This field is disabled"
+                value="Disabled value"
+                disabled
+              />
+              <Input 
+                label="Input with Error" 
+                name="error-input" 
+                placeholder="This field has an error"
+                value="Invalid value"
+                error="This field contains an error"
+              />
+              <Input 
+                label="Input with Value" 
+                name="value-input" 
+                placeholder="This field has a value"
+                value="Prefilled value"
+              />
+            </Grid>
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Bilingual Support</Heading>
+            <Grid minItemWidth="250px" gap="md" class="mt-4">
+              <Input 
+                label="First Name" 
+                name="first-name" 
+                placeholder="Enter your first name"
+              />
+              <Input 
+                label="Prénom (French is typically longer)" 
+                name="prenom" 
+                placeholder="Entrez votre prénom"
+              />
+            </Grid>
+          </Box>
+        </Stack>
+      </section>
+      
+      <!-- Select Component Demo -->
+      <section>
+        <Box padding="md" border="thin" background="surface-variant">
+          <Heading level={2}>Select Component</Heading>
+          <Text variant="body-sm">Form select with label, option groups, and error states</Text>
+        </Box>
+        
+        <Stack space="md" class="mt-4">
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Basic Select</Heading>
+            <Grid minItemWidth="250px" gap="md" class="mt-4">
+              <Select 
+                label="Country" 
+                name="country" 
+                placeholder="Select a country"
+                options={[
+                  { value: 'ca', label: 'Canada' },
+                  { value: 'us', label: 'United States' },
+                  { value: 'mx', label: 'Mexico' },
+                  { value: 'fr', label: 'France' }
+                ]}
+              />
+              
+              <Select 
+                label="Language" 
+                name="language" 
+                placeholder="Select a language"
+                value="fr"
+                options={[
+                  { value: 'en', label: 'English' },
+                  { value: 'fr', label: 'French' },
+                  { value: 'es', label: 'Spanish' }
+                ]}
+              />
+            </Grid>
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Select with Option Groups</Heading>
+            <Select 
+              label="Region" 
+              name="region" 
+              placeholder="Select a region"
+              options={[
+                { 
+                  label: 'North America', 
+                  options: [
+                    { value: 'ca', label: 'Canada' },
+                    { value: 'us', label: 'United States' },
+                    { value: 'mx', label: 'Mexico' }
+                  ]
+                },
+                { 
+                  label: 'Europe', 
+                  options: [
+                    { value: 'fr', label: 'France' },
+                    { value: 'de', label: 'Germany' },
+                    { value: 'uk', label: 'United Kingdom' }
+                  ]
+                }
+              ]}
+            />
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Select States</Heading>
+            <Grid minItemWidth="250px" gap="md" class="mt-4">
+              <Select 
+                label="Required Select" 
+                name="required-select" 
+                placeholder="This field is required"
+                required
+                options={[
+                  { value: 'option1', label: 'Option 1' },
+                  { value: 'option2', label: 'Option 2' }
+                ]}
+              />
+              
+              <Select 
+                label="Disabled Select" 
+                name="disabled-select" 
+                placeholder="This field is disabled"
+                disabled
+                options={[
+                  { value: 'option1', label: 'Option 1' },
+                  { value: 'option2', label: 'Option 2' }
+                ]}
+              />
+              
+              <Select 
+                label="Select with Error" 
+                name="error-select" 
+                placeholder="This field has an error"
+                error="Please select a valid option"
+                options={[
+                  { value: 'option1', label: 'Option 1' },
+                  { value: 'option2', label: 'Option 2' }
+                ]}
+              />
+              
+              <Select 
+                label="Select with Disabled Options" 
+                name="disabled-options-select" 
+                placeholder="Some options are disabled"
+                options={[
+                  { value: 'option1', label: 'Option 1' },
+                  { value: 'option2', label: 'Option 2', disabled: true },
+                  { value: 'option3', label: 'Option 3' }
+                ]}
+              />
+            </Grid>
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Bilingual Support</Heading>
+            <Grid minItemWidth="250px" gap="md" class="mt-4">
+              <Select 
+                label="Preferred Language" 
+                name="preferred-language" 
+                placeholder="Select your preferred language"
+                options={[
+                  { value: 'en', label: 'English' },
+                  { value: 'fr', label: 'French' }
+                ]}
+              />
+              
+              <Select 
+                label="Langue préférée (French is typically longer)" 
+                name="langue-preferee" 
+                placeholder="Sélectionnez votre langue préférée"
+                options={[
+                  { value: 'en', label: 'Anglais' },
+                  { value: 'fr', label: 'Français' }
+                ]}
+              />
+            </Grid>
+          </Box>
+        </Stack>
+      </section>
+      
+      <!-- Checkbox and Radio Components Demo -->
+      <section>
+        <Box padding="md" border="thin" background="surface-variant">
+          <Heading level={2}>Checkbox and Radio Components</Heading>
+          <Text variant="body-sm">Form checkbox and radio button components with custom styling</Text>
+        </Box>
+        
+        <Stack space="md" class="mt-4">
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Checkbox Component</Heading>
+            <Stack space="sm" class="mt-4">
+              <Checkbox 
+                label="Default Checkbox" 
+                name="default-checkbox"
+              />
+              
+              <Checkbox 
+                label="Checked Checkbox" 
+                name="checked-checkbox"
+                checked
+              />
+              
+              <Checkbox 
+                label="Required Checkbox" 
+                name="required-checkbox"
+                required
+              />
+              
+              <Checkbox 
+                label="Disabled Checkbox" 
+                name="disabled-checkbox"
+                disabled
+              />
+              
+              <Checkbox 
+                label="Disabled Checked Checkbox" 
+                name="disabled-checked-checkbox"
+                checked
+                disabled
+              />
+              
+              <Checkbox 
+                label="Checkbox with Error" 
+                name="error-checkbox"
+                error="This field has an error"
+              />
+            </Stack>
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Radio Component</Heading>
+            <Stack space="sm" class="mt-4">
+              <div>
+                <Heading level={4} class="mb-2">Gender</Heading>
+                <Radio 
+                  label="Male" 
+                  name="gender"
+                  value="male"
+                />
+                
+                <Radio 
+                  label="Female" 
+                  name="gender"
+                  value="female"
+                  checked
+                />
+                
+                <Radio 
+                  label="Non-binary" 
+                  name="gender"
+                  value="non-binary"
+                />
+              </div>
+              
+              <div class="mt-4">
+                <Heading level={4} class="mb-2">Radio States</Heading>
+                <Radio 
+                  label="Required Radio" 
+                  name="radio-states"
+                  value="required"
+                  required
+                />
+                
+                <Radio 
+                  label="Disabled Radio" 
+                  name="radio-states"
+                  value="disabled"
+                  disabled
+                />
+                
+                <Radio 
+                  label="Disabled Checked Radio" 
+                  name="radio-states"
+                  value="disabled-checked"
+                  checked
+                  disabled
+                />
+                
+                <Radio 
+                  label="Radio with Error" 
+                  name="radio-states"
+                  value="error"
+                  error="This field has an error"
+                />
+              </div>
+            </Stack>
+          </Box>
+          
+          <Box padding="md" border="normal" background="surface">
+            <Heading level={3}>Bilingual Support</Heading>
+            <Grid minItemWidth="250px" gap="md" class="mt-4">
+              <div>
+                <Heading level={4} class="mb-2">English</Heading>
+                <Checkbox 
+                  label="I agree to the terms and conditions" 
+                  name="terms-en"
+                  required
+                />
+              </div>
+              
+              <div>
+                <Heading level={4} class="mb-2">French</Heading>
+                <Checkbox 
+                  label="J'accepte les termes et conditions (French is typically longer)" 
+                  name="terms-fr"
+                  required
+                />
+              </div>
+            </Grid>
+          </Box>
+        </Stack>
+      </section>
+      
       <!-- Accessibility Features Demo -->
       <section>
         <Box padding="md" border="thin" background="surface-variant">
@@ -414,15 +1005,9 @@ import { Stack, Box, Cluster, Grid, Sidebar, Heading, Text, Link } from '../comp
         
         <Stack space="md" class="mt-4">
           <Cluster space="md" justify="start">
-            <button class="neo-brutalist-button bg-green text-white px-4 py-2">
-              Accessible Button 1
-            </button>
-            <button class="neo-brutalist-button bg-blue text-white px-4 py-2">
-              Accessible Button 2
-            </button>
-            <button class="neo-brutalist-button bg-surface border-black px-4 py-2">
-              Accessible Button 3
-            </button>
+            <Button variant="primary">Accessible Button 1</Button>
+            <Button variant="secondary">Accessible Button 2</Button>
+            <Button variant="ghost">Accessible Button 3</Button>
           </Cluster>
           
           <Box padding="md" border="normal" background="surface">

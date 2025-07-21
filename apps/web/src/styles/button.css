@@ -1,0 +1,76 @@
+/* Button color fixes */
+.bg-green {
+  background-color: var(--color-green) !important;
+}
+
+.bg-blue {
+  background-color: var(--color-blue) !important;
+}
+
+.bg-yellow {
+  background-color: var(--color-yellow) !important;
+}
+
+.text-white {
+  color: var(--color-white) !important;
+}
+
+.text-black {
+  color: var(--color-black) !important;
+}
+
+/* Hover state fixes */
+button.bg-green:hover,
+a.bg-green:hover {
+  background-color: var(--color-green-dark) !important;
+}
+
+button.bg-blue:hover,
+a.bg-blue:hover {
+  background-color: var(--color-blue-dark) !important;
+}
+
+button.bg-yellow:hover,
+a.bg-yellow:hover {
+  background-color: var(--color-yellow-dark) !important;
+}
+
+button.bg-transparent:hover,
+a.bg-transparent:hover {
+  background-color: var(--color-surface) !important;
+}
+
+/* Neo-brutalist button styling */
+.border-brutalist {
+  border-width: 3px !important;
+  border-style: solid !important;
+  border-color: var(--color-black) !important;
+}
+
+/* Neo-brutalist shadow */
+.neo-shadow {
+  position: relative !important;
+  top: -6px !important;
+  left: -6px !important;
+  box-shadow: 6px 6px 0 0 rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Active state - move button toward shadow */
+button:not([disabled]):active,
+a:not([aria-disabled="true"]):active {
+  top: 0 !important;
+  left: 0 !important;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Hover effect - increase shadow slightly */
+button:not([disabled]):hover,
+a:not([aria-disabled="true"]):hover {
+  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Transition effects */
+button, 
+a[href] {
+  transition: all 0.2s ease !important;
+}

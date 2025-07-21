@@ -17,6 +17,13 @@ export { default as Heading } from './Heading.astro';
 export { default as Text } from './Text.astro';
 export { default as Link } from './Link.astro';
 
+// Interactive Components
+export { default as Button } from './Button.astro';
+export { default as Input } from './Input.astro';
+export { default as Select } from './Select.astro';
+export { default as Checkbox } from './Checkbox.astro';
+export { default as Radio } from './Radio.astro';
+
 // Type exports for component props
 export type {
   Props as StackProps
@@ -49,3 +56,25 @@ export type {
 export type {
   Props as LinkProps
 } from './Link.astro';
+
+export type {
+  Props as ButtonProps
+} from './Button.astro';
+
+export type {
+  Props as InputProps
+} from './Input.astro';
+
+export type {
+  Props as SelectProps,
+  SelectOption,
+  SelectOptionGroup
+} from './Select.astro';
+
+export type {
+  Props as CheckboxProps
+} from './Checkbox.astro';
+
+export type {
+  Props as RadioProps
+} from './Radio.astro';

@@ -1,0 +1,132 @@
+---
+/**
+ * Input Component
+ * 
+ * A form input component with label and error states.
+ * 
+ * Features:
+ * - Support for different input types (text, email, password, etc.)
+ * - Label and error message display
+ * - Required field indication
+ * - Disabled state support
+ * - Neo-brutalist styling with bold borders
+ * - Accessibility compliant with proper ARIA attributes
+ * - Focus management and keyboard navigation
+ */
+
+export interface Props {
+  /** Input type */
+  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date';
+  /** Input label text */
+  label: string;
+  /** Input name attribute */
+  name: string;
+  /** Input id attribute (defaults to name if not provided) */
+  id?: string;
+  /** Input placeholder text */
+  placeholder?: string;
+  /** Whether the input is required */
+  required?: boolean;
+  /** Whether the input is disabled */
+  disabled?: boolean;
+  /** Error message to display */
+  error?: string;
+  /** Input value */
+  value?: string | number;
+  /** Additional CSS classes to apply */
+  class?: string;
+  /** ARIA description for accessibility */
+  'aria-describedby'?: string;
+}
+
+const { 
+  type = 'text',
+  label,
+  name,
+  id = name,
+  placeholder = '',
+  required = false,
+  disabled = false,
+  error,
+  value = '',
+  class: className = '',
+  'aria-describedby': ariaDescribedby
+} = Astro.props;
+
+// Generate unique IDs for error message
+const errorId = `${id}-error`;
+const describedBy = error 
+  ? ariaDescribedby 
+    ? `${errorId} ${ariaDescribedby}` 
+    : errorId
+  : ariaDescribedby;
+
+// Base classes for the input
+const inputClasses = [
+  'w-full',
+  'font-primary',
+  'text-base',
+  'px-3',
+  'py-2',
+  'border-2',
+  'border-black',
+  'bg-white',
+  'focus:outline-none',
+  'focus:ring-2',
+  'focus:ring-blue-light',
+  'focus:border-blue',
+  disabled ? 'opacity-50 cursor-not-allowed bg-surface' : '',
+  error ? 'border-red' : '',
+  className
+].filter(Boolean);
+
+// Base classes for the label
+const labelClasses = [
+  'block',
+  'font-primary',
+  'font-medium',
+  'text-base',
+  'mb-1',
+  disabled ? 'opacity-50' : ''
+].filter(Boolean);
+
+// Base classes for the error message
+const errorClasses = [
+  'text-red',
+  'font-primary',
+  'text-sm',
+  'mt-1'
+].filter(Boolean);
+---
+
+<div class="input-container">
+  <label for={id} class:list={labelClasses}>
+    {label}
+    {required && <span class="text-red ml-1" aria-hidden="true">*</span>}
+  </label>
+  
+  <input
+    type={type}
+    id={id}
+    name={name}
+    value={value}
+    placeholder={placeholder}
+    required={required}
+    disabled={disabled}
+    aria-invalid={error ? 'true' : undefined}
+    aria-describedby={describedBy}
+    class:list={inputClasses}
+  />
+  
+  {error && (
+    <div id={errorId} class:list={errorClasses} role="alert">
+      {error}
+    </div>
+  )}
+</div>
+
+<style>
+  .input-container {
+    margin-bottom: 1rem;
+  }
+</style>

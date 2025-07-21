@@ -73,9 +73,16 @@ const baseClasses = [
   'focus-visible:ring-blue-light',
   'focus-visible:ring-offset-2',
   disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer',
+  // Hover state
   !disabled && 'hover:text-blue-dark',
   !disabled && variant === 'default' && 'hover:decoration-blue-dark',
   !disabled && variant === 'inline' && 'hover:decoration-blue-dark',
+  // Active state
+  !disabled && 'active:text-green',
+  !disabled && (variant === 'default' || variant === 'inline') && 'active:decoration-green',
+  // Visited state
+  !disabled && 'visited:text-purple-700',
+  !disabled && (variant === 'default' || variant === 'inline') && 'visited:decoration-purple-700',
   variantClasses[variant],
   className
 ].filter(Boolean);

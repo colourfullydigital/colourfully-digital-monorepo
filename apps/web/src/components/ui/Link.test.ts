@@ -57,8 +57,15 @@ export function buildLinkClasses(
     disabled ? 'opacity-50' : 'cursor-pointer',
     disabled ? 'cursor-not-allowed' : undefined,
     disabled ? 'pointer-events-none' : undefined,
+    // Hover state
     !disabled && 'hover:text-blue-dark',
     !disabled && (variant === 'default' || variant === 'inline') && 'hover:decoration-blue-dark',
+    // Active state
+    !disabled && 'active:text-green',
+    !disabled && (variant === 'default' || variant === 'inline') && 'active:decoration-green',
+    // Visited state
+    !disabled && 'visited:text-purple-700',
+    !disabled && (variant === 'default' || variant === 'inline') && 'visited:decoration-purple-700',
     getVariantClasses(variant),
     customClass,
   ].filter(Boolean) as string[];
@@ -215,6 +222,8 @@ describe('Link Component Logic', () => {
       expect(classes).toContain('focus-visible:ring-offset-2');
       expect(classes).toContain('cursor-pointer');
       expect(classes).toContain('hover:text-blue-dark');
+      expect(classes).toContain('active:text-green');
+      expect(classes).toContain('visited:text-purple-700');
     });
 
     it('should handle disabled state correctly', () => {
@@ -224,6 +233,8 @@ describe('Link Component Logic', () => {
       expect(classes).toContain('pointer-events-none');
       expect(classes).not.toContain('cursor-pointer');
       expect(classes).not.toContain('hover:text-blue-dark');
+      expect(classes).not.toContain('active:text-green');
+      expect(classes).not.toContain('visited:text-purple-700');
     });
 
     it('should include hover effects for underlined variants', () => {
@@ -236,6 +247,30 @@ describe('Link Component Logic', () => {
       expect(inlineClasses).toContain('hover:decoration-blue-dark');
       expect(buttonClasses).not.toContain('hover:decoration-blue-dark');
       expect(navClasses).not.toContain('hover:decoration-blue-dark');
+    });
+    
+    it('should include active effects for underlined variants', () => {
+      const defaultClasses = buildLinkClasses('default');
+      const inlineClasses = buildLinkClasses('inline');
+      const buttonClasses = buildLinkClasses('button');
+      const navClasses = buildLinkClasses('nav');
+      
+      expect(defaultClasses).toContain('active:decoration-green');
+      expect(inlineClasses).toContain('active:decoration-green');
+      expect(buttonClasses).not.toContain('active:decoration-green');
+      expect(navClasses).not.toContain('active:decoration-green');
+    });
+    
+    it('should include visited effects for underlined variants', () => {
+      const defaultClasses = buildLinkClasses('default');
+      const inlineClasses = buildLinkClasses('inline');
+      const buttonClasses = buildLinkClasses('button');
+      const navClasses = buildLinkClasses('nav');
+      
+      expect(defaultClasses).toContain('visited:decoration-purple-700');
+      expect(inlineClasses).toContain('visited:decoration-purple-700');
+      expect(buttonClasses).not.toContain('visited:decoration-purple-700');
+      expect(navClasses).not.toContain('visited:decoration-purple-700');
     });
 
     it('should include custom classes when provided', () => {

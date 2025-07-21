@@ -1,0 +1,197 @@
+---
+/**
+ * Button Component
+ * 
+ * A neo-brutalist button component with different variants, sizes, and states.
+ * 
+ * Features:
+ * - Multiple variants (primary, secondary, tertiary, ghost)
+ * - Multiple sizes (sm, md, lg)
+ * - Support for disabled state
+ * - Support for loading state
+ * - Can render as button or link (with href)
+ * - Accessibility compliant with proper ARIA attributes
+ * - Focus management and keyboard navigation
+ * - Neo-brutalist styling with bold borders and shadows
+ */
+
+export interface Props {
+  /** Button variant for different styling */
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'ghost';
+  /** Button size */
+  size?: 'sm' | 'md' | 'lg';
+  /** Whether the button should take full width of its container */
+  fullWidth?: boolean;
+  /** Whether the button is disabled */
+  disabled?: boolean;
+  /** Whether the button is in loading state */
+  loading?: boolean;
+  /** Button type attribute */
+  type?: 'button' | 'submit' | 'reset';
+  /** URL to navigate to (renders as <a> instead of <button>) */
+  href?: string;
+  /** Additional CSS classes to apply */
+  class?: string;
+  /** HTML id attribute */
+  id?: string;
+  /** ARIA label for accessibility */
+  'aria-label'?: string;
+}
+
+const { 
+  variant = 'primary', 
+  size = 'md', 
+  fullWidth = false,
+  disabled = false,
+  loading = false,
+  type = 'button',
+  href,
+  class: className = '',
+  id,
+  'aria-label': ariaLabel
+} = Astro.props;
+
+// Determine which element to render (button or anchor)
+const Element = href && !disabled ? 'a' : 'button';
+
+// Base classes that apply to all buttons
+const baseClasses = [
+  'inline-flex',
+  'items-center',
+  'justify-center',
+  'font-primary',
+  'font-bold',
+  'transition-all',
+  'border-black',
+  'focus:outline-none',
+  'focus-visible:ring-2',
+  'focus-visible:ring-blue-light',
+  'focus-visible:ring-offset-2',
+  'relative',
+  disabled || loading ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer',
+  fullWidth ? 'w-full' : '',
+];
+
+// Size-specific classes
+const sizeClasses = {
+  sm: 'text-sm py-1 px-3',
+  md: 'text-base py-2 px-4',
+  lg: 'text-lg py-3 px-6',
+};
+
+// Variant-specific classes
+const variantClasses = {
+  primary: 'bg-green text-white border-brutalist neo-shadow hover:bg-green-dark',
+  secondary: 'bg-blue text-white border-brutalist neo-shadow hover:bg-blue-dark',
+  tertiary: 'bg-yellow text-black border-brutalist neo-shadow hover:bg-yellow-dark',
+  ghost: 'bg-transparent text-black border-normal hover:bg-surface',
+};
+
+const classes = [
+  ...baseClasses,
+  sizeClasses[size],
+  variantClasses[variant],
+  className,
+].filter(Boolean);
+
+// Add explicit color classes based on variant for debugging
+const debugClasses = {
+  primary: 'bg-green text-white',
+  secondary: 'bg-blue text-white',
+  tertiary: 'bg-yellow text-black',
+  ghost: 'bg-transparent text-black'
+};
+
+const allClasses = [...classes, debugClasses[variant]];
+---
+
+{
+  href && !disabled ? (
+    <a 
+      href={href} 
+      class:list={allClasses} 
+      id={id}
+      aria-label={ariaLabel}
+      aria-disabled={disabled || loading ? 'true' : undefined}
+      style={`--variant: ${variant}; --debug-bg: var(--color-${variant === 'ghost' ? 'transparent' : variant})`}
+    >
+      {loading ? (
+        <span class="inline-block animate-spin mr-2">⟳</span>
+      ) : null}
+      <slot />
+    </a>
+  ) : (
+    <button 
+      type={type} 
+      class:list={allClasses} 
+      id={id}
+      disabled={disabled || loading}
+      aria-label={ariaLabel}
+      aria-busy={loading ? 'true' : undefined}
+      style={`--variant: ${variant}; --debug-bg: var(--color-${variant === 'ghost' ? 'transparent' : variant})`}
+    >
+      {loading ? (
+        <span class="inline-block animate-spin mr-2">⟳</span>
+      ) : null}
+      <slot />
+    </button>
+  )
+}
+
+<style>
+  /* Hover state styles */
+  button.bg-green:hover,
+  a.bg-green:hover {
+    background-color: var(--color-green-dark);
+  }
+  
+  button.bg-blue:hover,
+  a.bg-blue:hover {
+    background-color: var(--color-blue-dark);
+  }
+  
+  button.bg-yellow:hover,
+  a.bg-yellow:hover {
+    background-color: var(--color-yellow-dark);
+  }
+  
+  button.bg-transparent:hover,
+  a.bg-transparent:hover {
+    background-color: var(--color-surface);
+  }
+  
+  /* Neo-brutalist styling */
+  .border-brutalist {
+    border-width: 3px;
+    border-style: solid;
+    border-color: var(--color-black);
+  }
+  
+  /* Neo-brutalist shadow */
+  .neo-shadow {
+    position: relative;
+    top: -6px;
+    left: -6px;
+    box-shadow: 6px 6px 0 0 rgba(0, 0, 0, 0.9);
+  }
+  
+  /* Active state styles - move button toward shadow */
+  button:not([disabled]):active,
+  a:not([aria-disabled="true"]):active {
+    top: 0;
+    left: 0;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.9);
+  }
+  
+  /* Hover effect - increase shadow slightly */
+  button:not([disabled]):hover,
+  a:not([aria-disabled="true"]):hover {
+    box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9);
+  }
+  
+  /* Transition effects */
+  button, 
+  a[href] {
+    transition: all 0.2s ease;
+  }
+</style>

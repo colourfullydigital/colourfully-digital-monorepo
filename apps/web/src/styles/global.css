@@ -6,3 +6,7 @@
 
 /* Import Tailwind */
 @import "tailwindcss";
+
+/* Import component fixes */
+@import "./button.css";
+@import "./form.css";

@@ -1,0 +1,59 @@
+/* Form element fixes */
+
+/* Input border fixes */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+select,
+textarea {
+  border: 2px solid var(--color-black) !important;
+}
+
+/* Focus state */
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-blue) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px var(--color-blue-light) !important;
+}
+
+/* Error state */
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: var(--color-error) !important;
+}
+
+/* Checkbox and Radio border fixes */
+.checkbox-indicator,
+.radio-indicator {
+  border: 2px solid var(--color-black) !important;
+}
+
+/* Border width classes */
+.border-normal {
+  border-width: 2px !important;
+}
+
+.border-thin {
+  border-width: 1px !important;
+}
+
+.border-thick {
+  border-width: 3px !important;
+}
+
+/* Border color */
+.border-black {
+  border-color: var(--color-black) !important;
+}
+
+.border-red {
+  border-color: var(--color-error) !important;
+}

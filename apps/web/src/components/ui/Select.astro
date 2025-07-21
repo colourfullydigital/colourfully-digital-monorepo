@@ -1,0 +1,188 @@
+---
+/**
+ * Select Component
+ * 
+ * A form select component with label and error states.
+ * 
+ * Features:
+ * - Support for option groups
+ * - Label and error message display
+ * - Required field indication
+ * - Disabled state support
+ * - Neo-brutalist styling with bold borders
+ * - Accessibility compliant with proper ARIA attributes
+ * - Focus management and keyboard navigation
+ */
+
+export interface SelectOption {
+  /** Option value */
+  value: string;
+  /** Option label */
+  label: string;
+  /** Whether the option is disabled */
+  disabled?: boolean;
+}
+
+export interface SelectOptionGroup {
+  /** Option group label */
+  label: string;
+  /** Options in the group */
+  options: SelectOption[];
+}
+
+export interface Props {
+  /** Select label text */
+  label: string;
+  /** Select name attribute */
+  name: string;
+  /** Select id attribute (defaults to name if not provided) */
+  id?: string;
+  /** Select options */
+  options: (SelectOption | SelectOptionGroup)[];
+  /** Whether the select is required */
+  required?: boolean;
+  /** Whether the select is disabled */
+  disabled?: boolean;
+  /** Error message to display */
+  error?: string;
+  /** Selected value */
+  value?: string;
+  /** Placeholder text (first empty option) */
+  placeholder?: string;
+  /** Additional CSS classes to apply */
+  class?: string;
+  /** ARIA description for accessibility */
+  'aria-describedby'?: string;
+}
+
+const { 
+  label,
+  name,
+  id = name,
+  options,
+  required = false,
+  disabled = false,
+  error,
+  value = '',
+  placeholder,
+  class: className = '',
+  'aria-describedby': ariaDescribedby
+} = Astro.props;
+
+// Generate unique IDs for error message
+const errorId = `${id}-error`;
+const describedBy = error 
+  ? ariaDescribedby 
+    ? `${errorId} ${ariaDescribedby}` 
+    : errorId
+  : ariaDescribedby;
+
+// Helper function to check if an option is a group
+const isOptionGroup = (option: SelectOption | SelectOptionGroup): option is SelectOptionGroup => {
+  return 'options' in option && Array.isArray(option.options);
+};
+
+// Base classes for the select
+const selectClasses = [
+  'w-full',
+  'font-primary',
+  'text-base',
+  'px-3',
+  'py-2',
+  'border-2',
+  'border-black',
+  'bg-white',
+  'appearance-none',
+  'focus:outline-none',
+  'focus:ring-2',
+  'focus:ring-blue-light',
+  'focus:border-blue',
+  disabled ? 'opacity-50 cursor-not-allowed bg-surface' : '',
+  error ? 'border-red' : '',
+  className
+].filter(Boolean);
+
+// Base classes for the label
+const labelClasses = [
+  'block',
+  'font-primary',
+  'font-medium',
+  'text-base',
+  'mb-1',
+  disabled ? 'opacity-50' : ''
+].filter(Boolean);
+
+// Base classes for the error message
+const errorClasses = [
+  'text-red',
+  'font-primary',
+  'text-sm',
+  'mt-1'
+].filter(Boolean);
+---
+
+<div class="select-container">
+  <label for={id} class:list={labelClasses}>
+    {label}
+    {required && <span class="text-red ml-1" aria-hidden="true">*</span>}
+  </label>
+  
+  <div class="relative">
+    <select
+      id={id}
+      name={name}
+      required={required}
+      disabled={disabled}
+      aria-invalid={error ? 'true' : undefined}
+      aria-describedby={describedBy}
+      class:list={selectClasses}
+    >
+      {placeholder && (
+        <option value="" disabled selected={!value}>{placeholder}</option>
+      )}
+      
+      {options.map(option => (
+        isOptionGroup(option) ? (
+          <optgroup label={option.label}>
+            {option.options.map(groupOption => (
+              <option 
+                value={groupOption.value} 
+                disabled={groupOption.disabled}
+                selected={value === groupOption.value}
+              >
+                {groupOption.label}
+              </option>
+            ))}
+          </optgroup>
+        ) : (
+          <option 
+            value={option.value} 
+            disabled={option.disabled}
+            selected={value === option.value}
+          >
+            {option.label}
+          </option>
+        )
+      ))}
+    </select>
+    
+    <!-- Custom arrow indicator -->
+    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black">
+      <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+      </svg>
+    </div>
+  </div>
+  
+  {error && (
+    <div id={errorId} class:list={errorClasses} role="alert">
+      {error}
+    </div>
+  )}
+</div>
+
+<style>
+  .select-container {
+    margin-bottom: 1rem;
+  }
+</style>

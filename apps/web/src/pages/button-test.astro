@@ -1,0 +1,90 @@
+---
+import '../styles/global.css';
+---
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Button Test</title>
+  <style>
+    body {
+      padding: 2rem;
+      font-family: system-ui, sans-serif;
+    }
+    .button-container {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .primary {
+      background-color: var(--color-green);
+      color: white;
+      padding: 0.5rem 1rem;
+      border: 2px solid black;
+      font-weight: bold;
+    }
+    .secondary {
+      background-color: var(--color-blue);
+      color: white;
+      padding: 0.5rem 1rem;
+      border: 2px solid black;
+      font-weight: bold;
+    }
+    .tertiary {
+      background-color: var(--color-yellow);
+      color: black;
+      padding: 0.5rem 1rem;
+      border: 2px solid black;
+      font-weight: bold;
+    }
+    .ghost {
+      background-color: transparent;
+      color: black;
+      padding: 0.5rem 1rem;
+      border: 2px solid black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Button Test</h1>
+  
+  <h2>Raw HTML Buttons with CSS Variables</h2>
+  <div class="button-container">
+    <button class="primary">Primary Button</button>
+    <button class="secondary">Secondary Button</button>
+    <button class="tertiary">Tertiary Button</button>
+    <button class="ghost">Ghost Button</button>
+  </div>
+  
+  <h2>Tailwind Classes</h2>
+  <div class="button-container">
+    <button class="bg-green text-white px-4 py-2 border-2 border-black font-bold">Primary Button</button>
+    <button class="bg-blue text-white px-4 py-2 border-2 border-black font-bold">Secondary Button</button>
+    <button class="bg-yellow text-black px-4 py-2 border-2 border-black font-bold">Tertiary Button</button>
+    <button class="bg-transparent text-black px-4 py-2 border-2 border-black font-bold">Ghost Button</button>
+  </div>
+  
+  <h2>CSS Variable Values</h2>
+  <pre id="css-vars"></pre>
+  
+  <script>
+    // Display CSS variable values
+    const root = document.documentElement;
+    const cssVars = [
+      '--color-green',
+      '--color-blue',
+      '--color-yellow',
+      '--color-black',
+      '--color-white'
+    ];
+    
+    const cssVarsEl = document.getElementById('css-vars');
+    cssVarsEl.textContent = cssVars.map(varName => {
+      const value = getComputedStyle(root).getPropertyValue(varName);
+      return `${varName}: ${value}`;
+    }).join('\n');
+  </script>
+</body>
+</html>

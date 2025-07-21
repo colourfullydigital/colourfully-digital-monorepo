@@ -1,0 +1,158 @@
+---
+/**
+ * Checkbox Component
+ * 
+ * A form checkbox component with label and error states.
+ * 
+ * Features:
+ * - Custom styled checkbox with neo-brutalist design
+ * - Label and error message display
+ * - Required field indication
+ * - Disabled state support
+ * - Accessibility compliant with proper ARIA attributes
+ * - Focus management and keyboard navigation
+ */
+
+export interface Props {
+  /** Checkbox label text */
+  label: string;
+  /** Checkbox name attribute */
+  name: string;
+  /** Checkbox id attribute (defaults to name if not provided) */
+  id?: string;
+  /** Whether the checkbox is checked */
+  checked?: boolean;
+  /** Whether the checkbox is required */
+  required?: boolean;
+  /** Whether the checkbox is disabled */
+  disabled?: boolean;
+  /** Error message to display */
+  error?: string;
+  /** Value attribute for the checkbox */
+  value?: string;
+  /** Additional CSS classes to apply */
+  class?: string;
+  /** ARIA description for accessibility */
+  'aria-describedby'?: string;
+}
+
+const { 
+  label,
+  name,
+  id = name,
+  checked = false,
+  required = false,
+  disabled = false,
+  error,
+  value = 'on',
+  class: className = '',
+  'aria-describedby': ariaDescribedby
+} = Astro.props;
+
+// Generate unique IDs for error message
+const errorId = `${id}-error`;
+const describedBy = error 
+  ? ariaDescribedby 
+    ? `${errorId} ${ariaDescribedby}` 
+    : errorId
+  : ariaDescribedby;
+
+// Base classes for the checkbox container
+const containerClasses = [
+  'flex',
+  'items-start',
+  'gap-2',
+  'mb-2',
+  disabled ? 'opacity-50 cursor-not-allowed' : '',
+  className
+].filter(Boolean);
+
+// Base classes for the custom checkbox
+const checkboxClasses = [
+  'relative',
+  'w-5',
+  'h-5',
+  'border-2',
+  'border-black',
+  'bg-white',
+  'flex-shrink-0',
+  'mt-0.5',
+  disabled ? 'bg-surface' : '',
+  error ? 'border-red' : '',
+].filter(Boolean);
+
+// Base classes for the label
+const labelClasses = [
+  'font-primary',
+  'text-base',
+  disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+].filter(Boolean);
+
+// Base classes for the error message
+const errorClasses = [
+  'text-red',
+  'font-primary',
+  'text-sm',
+  'mt-1',
+  'ml-7'
+].filter(Boolean);
+---
+
+<div class="checkbox-wrapper">
+  <div class:list={containerClasses}>
+    <div class:list={checkboxClasses}>
+      <input
+        type="checkbox"
+        id={id}
+        name={name}
+        value={value}
+        checked={checked}
+        required={required}
+        disabled={disabled}
+        aria-invalid={error ? 'true' : undefined}
+        aria-describedby={describedBy}
+        class="absolute w-full h-full opacity-0 cursor-pointer z-10"
+      />
+      <div class="checkbox-indicator absolute inset-0 pointer-events-none border-2 border-black bg-white">
+        {checked && (
+          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" fill="currentColor" />
+          </svg>
+        )}
+      </div>
+    </div>
+    
+    <label for={id} class:list={labelClasses}>
+      {label}
+      {required && <span class="text-red ml-1" aria-hidden="true">*</span>}
+    </label>
+  </div>
+  
+  {error && (
+    <div id={errorId} class:list={errorClasses} role="alert">
+      {error}
+    </div>
+  )}
+</div>
+
+<style>
+  .checkbox-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  input:focus-visible + .checkbox-indicator {
+    outline: 2px solid var(--color-blue-light);
+    outline-offset: 2px;
+  }
+  
+  input:checked + .checkbox-indicator {
+    background-color: var(--color-green);
+    color: white;
+  }
+  
+  input:disabled + .checkbox-indicator {
+    background-color: var(--color-surface);
+  }
+</style>
