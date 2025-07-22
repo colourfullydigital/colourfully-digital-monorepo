@@ -51,8 +51,7 @@ const {
   'aria-label': ariaLabel
 } = Astro.props;
 
-// Determine which element to render (button or anchor)
-const Element = href && !disabled ? 'a' : 'button';
+// We'll use conditional rendering instead of a dynamic element
 
 // Base classes that apply to all buttons
 const baseClasses = [

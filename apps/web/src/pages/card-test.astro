@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Card, Heading, Text, Button, Stack } from '../components/ui';
+---
+
+<BaseLayout title="Card Component Test">
+  <div class="p-8 bg-surface">
+    <Stack space="xl">
+      <Heading level={1}>Card Component Examples</Heading>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Default Card -->
+        <Card space="md">
+          <Heading level={3}>Default Card</Heading>
+          <Text>This is a default card with normal styling.</Text>
+          <Button>Learn More</Button>
+        </Card>
+
+        <!-- Elevated Card -->
+        <Card variant="elevated" space="md">
+          <Heading level={3}>Elevated Card</Heading>
+          <Text>This card has neo-brutalist styling with an offset shadow.</Text>
+          <Button variant="secondary">Explore</Button>
+        </Card>
+
+        <!-- Outlined Card -->
+        <Card variant="outlined" space="md">
+          <Heading level={3}>Outlined Card</Heading>
+          <Text>This card has a thick border with transparent background.</Text>
+          <Button variant="tertiary">Details</Button>
+        </Card>
+
+        <!-- Card with Header and Footer -->
+        <Card variant="elevated" space="md">
+          <div slot="header">
+            <Heading level={4}>Card with Header</Heading>
+          </div>
+          <Text>This card demonstrates the use of header and footer slots.</Text>
+          <Text>The content area is separate from the header and footer.</Text>
+          <div slot="footer">
+            <Button fullWidth>Footer Action</Button>
+          </div>
+        </Card>
+
+        <!-- Interactive Card -->
+        <Card interactive href="/design-system-demo" space="md">
+          <Heading level={3}>Interactive Card</Heading>
+          <Text>This entire card is clickable and will navigate to the design system demo page.</Text>
+        </Card>
+
+        <!-- Full Width Card -->
+        <Card fullWidth space="md">
+          <Heading level={3}>Full Width Card</Heading>
+          <Text>This card takes up the full width of its container.</Text>
+          <Button variant="ghost">Learn More</Button>
+        </Card>
+      </div>
+    </Stack>
+  </div>
+</BaseLayout>

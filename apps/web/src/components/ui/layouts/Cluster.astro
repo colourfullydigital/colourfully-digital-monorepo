@@ -12,13 +12,18 @@
  * - Responsive and bilingual support
  */
 
-interface Props {
+// Define types for the props
+type SpaceOption = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+type JustifyOption = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+type AlignOption = 'start' | 'center' | 'end' | 'stretch' | 'baseline';
+
+export interface Props {
   /** Spacing between clustered elements */
-  space?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  space?: SpaceOption;
   /** Horizontal alignment of items */
-  justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+  justify?: JustifyOption;
   /** Vertical alignment of items */
-  align?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
+  align?: AlignOption;
   /** Whether items should wrap to new lines */
   wrap?: boolean;
   /** Additional CSS classes */
@@ -28,16 +33,16 @@ interface Props {
 }
 
 const { 
-  space = 'md',
-  justify = 'start',
-  align = 'center',
+  space = 'md' as SpaceOption,
+  justify = 'start' as JustifyOption,
+  align = 'center' as AlignOption,
   wrap = true,
   class: className = '',
   as: Element = 'div'
 } = Astro.props;
 
 // Map space prop to CSS custom property values
-const spaceMap = {
+const spaceMap: Record<SpaceOption, string> = {
   'none': '0',
   'xs': 'var(--space-1)',
   'sm': 'var(--space-2)', 
@@ -48,7 +53,7 @@ const spaceMap = {
 };
 
 // Map justify prop to CSS values
-const justifyMap = {
+const justifyMap: Record<JustifyOption, string> = {
   'start': 'flex-start',
   'center': 'center',
   'end': 'flex-end',
@@ -58,7 +63,7 @@ const justifyMap = {
 };
 
 // Map align prop to CSS values
-const alignMap = {
+const alignMap: Record<AlignOption, string> = {
   'start': 'flex-start',
   'center': 'center',
   'end': 'flex-end',

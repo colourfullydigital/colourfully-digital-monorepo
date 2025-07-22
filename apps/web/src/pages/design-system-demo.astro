@@ -7,24 +7,12 @@
  * Heading, Text, Link, Button, Input, Select, Checkbox, and Radio components with various configurations.
  */
 
-import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import { Stack, Box, Cluster, Grid, Sidebar, Heading, Text, Link, Button, Input, Select, Checkbox, Radio } from '../components/ui';
 ---
 
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width" />
-  <meta name="generator" content={Astro.generator} />
-  <title>Design System Demo - Layout Components</title>
+<BaseLayout title="Design System Demo - Layout Components">
   <style>
-    /* Base styles for demo page */
-    body {
-      background-color: var(--color-background);
-      color: var(--color-text-primary);
-    }
-    
     /* Debug styles for buttons */
     .debug-info {
       margin-top: 1rem;
@@ -113,8 +101,6 @@ import { Stack, Box, Cluster, Grid, Sidebar, Heading, Text, Link, Button, Input,
       }
     }
   </style>
-</head>
-<body>
   <main class="container mx-auto py-8">
     <Stack space="xl">
       <Box padding="lg" border="normal" background="surface">
@@ -1021,5 +1007,4 @@ import { Stack, Box, Cluster, Grid, Sidebar, Heading, Text, Link, Button, Input,
       </section>
     </Stack>
   </main>
-</body>
-</html>
+</BaseLayout>

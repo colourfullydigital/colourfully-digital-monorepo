@@ -1,10 +1,10 @@
 ---
 /**
  * Grid Component
- * 
+ *
  * A layout component for two-dimensional layouts using CSS Grid.
  * Based on every-layout.dev's Grid primitive for intrinsic web design.
- * 
+ *
  * Features:
  * - Configurable grid columns and rows
  * - Responsive grid configurations
@@ -13,7 +13,13 @@
  * - Responsive and bilingual support
  */
 
-interface Props {
+// Define types for the props
+type GapOption = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+type BehaviorOption = 'auto-fit' | 'auto-fill' | 'fixed';
+type AlignOption = 'start' | 'center' | 'end' | 'stretch';
+type JustifyOption = 'start' | 'center' | 'end' | 'stretch';
+
+export interface Props {
   /** Minimum width for auto-fit/auto-fill columns */
   minItemWidth?: string;
   /** Fixed number of columns (overrides minItemWidth) */
@@ -21,36 +27,36 @@ interface Props {
   /** Fixed number of rows */
   rows?: number;
   /** Gap between grid items */
-  gap?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  gap?: GapOption;
   /** Grid behavior: auto-fit, auto-fill, or fixed */
-  behavior?: 'auto-fit' | 'auto-fill' | 'fixed';
+  behavior?: BehaviorOption;
   /** Alignment of grid items */
-  align?: 'start' | 'center' | 'end' | 'stretch';
+  align?: AlignOption;
   /** Justification of grid items */
-  justify?: 'start' | 'center' | 'end' | 'stretch';
+  justify?: JustifyOption;
   /** Additional CSS classes */
   class?: string;
   /** HTML element to render as */
   as?: keyof HTMLElementTagNameMap;
 }
 
-const { 
+const {
   minItemWidth = '250px',
   columns,
   rows,
-  gap = 'md',
-  behavior = 'auto-fit',
-  align = 'stretch',
-  justify = 'stretch',
+  gap = 'md' as GapOption,
+  behavior = 'auto-fit' as BehaviorOption,
+  align = 'stretch' as AlignOption,
+  justify = 'stretch' as JustifyOption,
   class: className = '',
-  as: Element = 'div'
+  as: Element = 'div',
 } = Astro.props;
 
 // Map gap prop to CSS custom property values
-const gapMap = {
+const gapMap: Record<GapOption, string> = {
   'none': '0',
   'xs': 'var(--space-1)',
-  'sm': 'var(--space-2)', 
+  'sm': 'var(--space-2)',
   'md': 'var(--space-4)',
   'lg': 'var(--space-6)',
   'xl': 'var(--space-10)',
@@ -58,7 +64,7 @@ const gapMap = {
 };
 
 // Map align prop to CSS values
-const alignMap = {
+const alignMap: Record<AlignOption, string> = {
   'start': 'start',
   'center': 'center',
   'end': 'end',
@@ -66,7 +72,7 @@ const alignMap = {
 };
 
 // Map justify prop to CSS values
-const justifyMap = {
+const justifyMap: Record<JustifyOption, string> = {
   'start': 'start',
   'center': 'center',
   'end': 'end',
@@ -107,17 +113,10 @@ const customProperties = {
 };
 
 // Build CSS classes
-const classes = [
-  'grid',
-  `grid--${behavior}`,
-  className,
-].filter(Boolean);
+const classes = ['grid', `grid--${behavior}`, className].filter(Boolean);
 ---
 
-<Element 
-  class:list={classes}
-  style={customProperties}
->
+<Element class:list={classes} style={customProperties}>
   <slot />
 </Element>
 
@@ -157,11 +156,11 @@ const classes = [
       /* Reduce gap on mobile for better space utilization */
       --grid-gap-mobile: calc(var(--grid-gap, var(--space-4)) * 0.75);
       gap: var(--grid-gap-mobile, var(--grid-gap, var(--space-4)));
-      
+
       /* Force single column on very small screens for auto-fit/auto-fill */
       --grid-min-width-mobile: 100%;
     }
-    
+
     .grid--auto-fit,
     .grid--auto-fill {
       grid-template-columns: 1fr;
@@ -173,7 +172,10 @@ const classes = [
     .grid--auto-fit,
     .grid--auto-fill {
       /* Adjust minimum width for tablet */
-      grid-template-columns: repeat(var(--grid-behavior, auto-fit), minmax(200px, 1fr));
+      grid-template-columns: repeat(
+        var(--grid-behavior, auto-fit),
+        minmax(200px, 1fr)
+      );
     }
   }
 
@@ -200,7 +202,7 @@ const classes = [
   /* Ensure proper spacing for interactive elements */
   .grid > button,
   .grid > a,
-  .grid > [role="button"] {
+  .grid > [role='button'] {
     min-height: 44px; /* Minimum touch target size */
   }
 

@@ -13,15 +13,19 @@
  * - Responsive and bilingual support
  */
 
-interface Props {
+// Define types for the props
+type GapOption = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+type SideOption = 'left' | 'right';
+
+export interface Props {
   /** Minimum width of the sidebar */
   sidebarWidth?: string;
   /** Minimum width of the content area */
   contentMin?: string;
   /** Position of the sidebar */
-  side?: 'left' | 'right';
+  side?: SideOption;
   /** Gap between sidebar and content */
-  gap?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  gap?: GapOption;
   /** Breakpoint where sidebar stacks vertically */
   stackAt?: string;
   /** Whether sidebar should be collapsible on mobile */
@@ -35,8 +39,8 @@ interface Props {
 const { 
   sidebarWidth = '250px',
   contentMin = '50%',
-  side = 'left',
-  gap = 'md',
+  side = 'left' as SideOption,
+  gap = 'md' as GapOption,
   stackAt = '768px',
   collapsible = true,
   class: className = '',
@@ -44,7 +48,7 @@ const {
 } = Astro.props;
 
 // Map gap prop to CSS custom property values
-const gapMap = {
+const gapMap: Record<GapOption, string> = {
   'none': '0',
   'xs': 'var(--space-1)',
   'sm': 'var(--space-2)', 

@@ -6,11 +6,11 @@
  */
 
 // Layout Components based on every-layout.dev patterns
-export { default as Stack } from './Stack.astro';
-export { default as Box } from './Box.astro';
-export { default as Cluster } from './Cluster.astro';
-export { default as Grid } from './Grid.astro';
-export { default as Sidebar } from './Sidebar.astro';
+export { default as Stack } from './layouts/Stack.astro';
+export { default as Box } from './layouts/Box.astro';
+export { default as Cluster } from './layouts/Cluster.astro';
+export { default as Grid } from './layouts/Grid.astro';
+export { default as Sidebar } from './layouts/Sidebar.astro';
 
 // Typography Components
 export { default as Heading } from './Heading.astro';
@@ -24,57 +24,25 @@ export { default as Select } from './Select.astro';
 export { default as Checkbox } from './Checkbox.astro';
 export { default as Radio } from './Radio.astro';
 
+// Structural Components
+export { default as Card } from './Card.astro';
+
 // Type exports for component props
 export type {
-  Props as StackProps
-} from './Stack.astro';
-
-export type {
-  Props as BoxProps
-} from './Box.astro';
-
-export type {
-  Props as ClusterProps
-} from './Cluster.astro';
-
-export type {
-  Props as GridProps
-} from './Grid.astro';
-
-export type {
-  Props as SidebarProps
-} from './Sidebar.astro';
-
-export type {
-  Props as HeadingProps
-} from './Heading.astro';
-
-export type {
-  Props as TextProps
-} from './Text.astro';
-
-export type {
-  Props as LinkProps
-} from './Link.astro';
-
-export type {
-  Props as ButtonProps
-} from './Button.astro';
-
-export type {
-  Props as InputProps
-} from './Input.astro';
-
-export type {
-  Props as SelectProps,
+  StackProps,
+  BoxProps,
+  ClusterProps,
+  GridProps,
+  SidebarProps,
+  HeadingProps,
+  TextProps,
+  LinkProps,
+  ButtonProps,
+  InputProps,
+  SelectProps,
   SelectOption,
-  SelectOptionGroup
-} from './Select.astro';
-
-export type {
-  Props as CheckboxProps
-} from './Checkbox.astro';
-
-export type {
-  Props as RadioProps
-} from './Radio.astro';
+  SelectOptionGroup,
+  CheckboxProps,
+  RadioProps,
+  CardProps
+} from './components.ts';

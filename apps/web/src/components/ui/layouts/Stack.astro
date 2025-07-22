@@ -12,9 +12,12 @@
  * - Responsive and bilingual support
  */
 
-interface Props {
+// Define types for the props
+type SpaceOption = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+
+export interface Props {
   /** Spacing between stacked elements */
-  space?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  space?: SpaceOption;
   /** Apply spacing recursively to nested elements */
   recursive?: boolean;
   /** Split the stack after nth element (pushes remaining to bottom) */
@@ -26,7 +29,7 @@ interface Props {
 }
 
 const { 
-  space = 'md', 
+  space = 'md' as SpaceOption, 
   recursive = false, 
   splitAfter,
   class: className = '',
@@ -34,7 +37,7 @@ const {
 } = Astro.props;
 
 // Map space prop to CSS custom property values
-const spaceMap = {
+const spaceMap: Record<SpaceOption, string> = {
   'none': '0',
   'xs': 'var(--space-1)',
   'sm': 'var(--space-2)', 

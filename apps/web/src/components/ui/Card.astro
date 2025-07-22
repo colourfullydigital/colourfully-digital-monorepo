@@ -1,0 +1,261 @@
+---
+/**
+ * Card Component
+ *
+ * A neo-brutalist card component with different variants and sections.
+ * Uses Stack component internally for consistent spacing of content.
+ *
+ * Features:
+ * - Multiple variants (default, elevated, outlined)
+ * - Support for header, body, and footer sections
+ * - Neo-brutalist styling with bold borders and shadows
+ * - Responsive and bilingual support
+ * - Accessible design
+ * - Built-in vertical spacing with Stack component
+ *
+ * Usage:
+ * ```astro
+ * <Card>
+ *   <div slot="header">Card Header</div>
+ *   <Heading level={3}>Card Title</Heading>
+ *   <Text>Card content goes here</Text>
+ *   <Button>Action Button</Button>
+ *   <div slot="footer">Card Footer</div>
+ * </Card>
+ *
+ * <!-- Interactive Card -->
+ * <Card interactive href="/some-page">
+ *   <Heading level={3}>Clickable Card</Heading>
+ *   <Text>This entire card is clickable</Text>
+ * </Card>
+ *
+ * <!-- Elevated Card with Neo-brutalist styling -->
+ * <Card variant="elevated">
+ *   <Heading level={3}>Elevated Card</Heading>
+ *   <Text>Card with shadow and brutalist styling</Text>
+ * </Card>
+ * ```
+ */
+
+// We'll implement our own spacing instead of using the Stack component
+
+interface Props {
+  /** Card variant for different styling */
+  variant?: 'default' | 'elevated' | 'outlined';
+  /** Padding size for the card */
+  padding?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  /** Whether the card should take full width of its container */
+  fullWidth?: boolean;
+  /** Whether the card is interactive (clickable) */
+  interactive?: boolean;
+  /** URL to navigate to if the card is interactive */
+  href?: string;
+  /** Spacing between elements inside the card */
+  space?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  /** Additional CSS classes */
+  class?: string;
+  /** HTML id attribute */
+  id?: string;
+  /** ARIA label for accessibility */
+  'aria-label'?: string;
+}
+
+const {
+  variant = 'default',
+  padding = 'md',
+  fullWidth = false,
+  interactive = false,
+  href,
+  space = 'md',
+  class: className = '',
+  id,
+  'aria-label': ariaLabel,
+} = Astro.props;
+
+// Determine which element to render
+const Element = href ? 'a' : interactive ? 'button' : 'div';
+
+// Map padding prop to CSS custom property values
+const paddingMap = {
+  none: '0',
+  xs: 'var(--space-1)',
+  sm: 'var(--space-2)',
+  md: 'var(--space-4)',
+  lg: 'var(--space-6)',
+  xl: 'var(--space-10)',
+};
+
+// Map space prop to CSS custom property values
+const spaceMap = {
+  none: '0',
+  xs: 'var(--space-1)',
+  sm: 'var(--space-2)',
+  md: 'var(--space-4)',
+  lg: 'var(--space-6)',
+  xl: 'var(--space-10)',
+};
+
+// Map variant to styling
+const variantMap = {
+  default: {
+    border: 'border-normal border-black',
+    background: 'bg-surface',
+    shadow: '',
+  },
+  elevated: {
+    border: 'border-brutalist',
+    background: 'bg-surface',
+    shadow: 'neo-shadow',
+  },
+  outlined: {
+    border: 'border-thick border-black',
+    background: 'bg-transparent',
+    shadow: '',
+  },
+};
+
+const paddingValue = paddingMap[padding];
+const variantStyle = variantMap[variant];
+
+// Build CSS custom properties for the component
+const customProperties = {
+  '--card-padding': paddingValue,
+};
+
+// Build CSS classes
+const classes = [
+  'card',
+  variantStyle.border,
+  variantStyle.background,
+  variantStyle.shadow,
+  fullWidth ? 'w-full' : '',
+  interactive
+    ? 'cursor-pointer hover:transform hover:translate-y-[-2px] transition-transform'
+    : '',
+  className,
+].filter(Boolean);
+
+// We'll handle interactive attributes directly in the element
+---
+
+<Element
+  class:list={classes}
+  style={customProperties}
+  id={id}
+  href={href}
+  aria-label={ariaLabel}
+  tabindex={(interactive || href) ? "0" : undefined}
+  role={(!href && interactive) ? "button" : undefined}
+>
+  <slot name="header" />
+  <div class="card-body" style={`--card-content-space: ${spaceMap[space]}`}>
+    <slot />
+  </div>
+  <slot name="footer" />
+</Element>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow: hidden;
+    width: fit-content;
+    min-width: 0;
+  }
+
+  .card.w-full {
+    width: 100%;
+  }
+
+  /* Card body styling */
+  .card-body {
+    padding: var(--card-padding, var(--space-4));
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Add spacing between elements inside the card body */
+  .card-body > * {
+    margin-block: 0;
+  }
+
+  .card-body > * + * {
+    margin-block-start: var(--card-content-space, var(--space-4));
+  }
+
+  /* Slot styling for header and footer */
+  .card ::slotted([slot='header']) {
+    padding: var(--card-padding, var(--space-4));
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .card ::slotted([slot='footer']) {
+    padding: var(--card-padding, var(--space-4));
+    border-top: 1px solid var(--color-border);
+    margin-top: auto;
+  }
+
+  /* Neo-brutalist styling */
+  .border-brutalist {
+    border-width: 3px;
+    border-style: solid;
+    border-color: var(--color-black);
+  }
+
+  /* Neo-brutalist shadow */
+  .neo-shadow {
+    position: relative;
+    top: -6px;
+    left: -6px;
+    box-shadow: 6px 6px 0 0 rgba(0, 0, 0, 0.9);
+  }
+
+  /* Interactive card states */
+  .card[href]:hover,
+  .card[role='button']:hover {
+    box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9);
+  }
+
+  .card[href]:active,
+  .card[role='button']:active {
+    top: 0;
+    left: 0;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.9);
+  }
+
+  /* Focus styles for accessibility */
+  .card[href]:focus,
+  .card[role='button']:focus {
+    outline: none;
+  }
+
+  .card[href]:focus-visible,
+  .card[role='button']:focus-visible {
+    outline: 2px solid var(--color-blue-light);
+    outline-offset: 2px;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .card {
+      --card-padding-mobile: calc(var(--card-padding, var(--space-4)) * 0.75);
+      padding: var(--card-padding-mobile, var(--card-padding, var(--space-4)));
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .card {
+      border-color: CanvasText;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .card {
+      transition: none;
+    }
+  }
+</style>
