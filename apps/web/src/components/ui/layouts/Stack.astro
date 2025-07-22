@@ -29,12 +29,12 @@ export interface Props {
 }
 
 const { 
-  space = 'md' as SpaceOption, 
+  space = 'md', 
   recursive = false, 
   splitAfter,
   class: className = '',
   as: Element = 'div'
-} = Astro.props;
+} = Astro.props as Props;
 
 // Map space prop to CSS custom property values
 const spaceMap: Record<SpaceOption, string> = {
@@ -47,7 +47,7 @@ const spaceMap: Record<SpaceOption, string> = {
   '2xl': 'var(--space-12)',
 };
 
-const spaceValue = spaceMap[space];
+const spaceValue = spaceMap[space as SpaceOption];
 
 // Build CSS custom properties for the component
 const customProperties = {

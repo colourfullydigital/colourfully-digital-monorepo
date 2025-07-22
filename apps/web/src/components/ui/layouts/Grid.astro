@@ -44,13 +44,13 @@ const {
   minItemWidth = '250px',
   columns,
   rows,
-  gap = 'md' as GapOption,
-  behavior = 'auto-fit' as BehaviorOption,
-  align = 'stretch' as AlignOption,
-  justify = 'stretch' as JustifyOption,
+  gap = 'md',
+  behavior = 'auto-fit',
+  align = 'stretch',
+  justify = 'stretch',
   class: className = '',
   as: Element = 'div',
-} = Astro.props;
+} = Astro.props as Props;
 
 // Map gap prop to CSS custom property values
 const gapMap: Record<GapOption, string> = {
@@ -79,9 +79,9 @@ const justifyMap: Record<JustifyOption, string> = {
   'stretch': 'stretch',
 };
 
-const gapValue = gapMap[gap];
-const alignValue = alignMap[align];
-const justifyValue = justifyMap[justify];
+const gapValue = gapMap[gap as GapOption];
+const alignValue = alignMap[align as AlignOption];
+const justifyValue = justifyMap[justify as JustifyOption];
 
 // Build grid template columns based on behavior and props
 let gridTemplateColumns: string;

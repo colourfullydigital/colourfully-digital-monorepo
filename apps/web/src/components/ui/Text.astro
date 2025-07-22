@@ -29,7 +29,7 @@ const {
   as,
   class: className = '',
   id
-} = Astro.props;
+} = Astro.props as Props;
 
 // Map text variants to their corresponding CSS classes
 const variantClasses = {
@@ -50,14 +50,14 @@ const defaultElements = {
 } as const;
 
 // Determine the HTML element to use
-const element = as || defaultElements[variant];
+const element = as || defaultElements[variant as keyof typeof defaultElements];
 
 // Base classes that apply to all text variants
 const baseClasses = [
   'font-primary',
   'text-text-primary',
   'break-words', // Prevent text overflow on long words
-  variantClasses[variant],
+  variantClasses[variant as keyof typeof variantClasses],
   className
 ];
 

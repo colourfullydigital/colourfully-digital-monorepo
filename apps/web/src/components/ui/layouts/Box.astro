@@ -31,16 +31,19 @@ export interface Props {
   class?: string;
   /** HTML element to render as */
   as?: keyof HTMLElementTagNameMap;
+  /** Inline styles */
+  style?: string;
 }
 
 const {
-  padding = 'md' as PaddingOption,
-  border = 'none' as BorderOption,
-  background = 'none' as BackgroundOption,
-  shadow = 'none' as ShadowOption,
+  padding = 'md',
+  border = 'none',
+  background = 'none',
+  shadow = 'none',
   class: className = '',
   as: Element = 'div',
-} = Astro.props;
+  style = '',
+} = Astro.props as Props;
 
 // Map padding prop to CSS custom property values
 const paddingMap: Record<PaddingOption, string> = {
@@ -79,7 +82,7 @@ const shadowMap: Record<ShadowOption, string> = {
   'lg': 'shadow-lg',
 };
 
-const paddingValue = paddingMap[padding];
+const paddingValue = paddingMap[padding as PaddingOption];
 
 // Build CSS custom properties for the component
 const customProperties = {
@@ -89,14 +92,14 @@ const customProperties = {
 // Build CSS classes
 const classes = [
   'box',
-  borderMap[border],
-  backgroundMap[background],
-  shadowMap[shadow],
+  borderMap[border as BorderOption],
+  backgroundMap[background as BackgroundOption],
+  shadowMap[shadow as ShadowOption],
   className,
 ].filter(Boolean);
 ---
 
-<Element class:list={classes} style={customProperties}>
+<Element class:list={classes} style={`${Object.entries(customProperties).map(([key, value]) => `${key}: ${value}`).join('; ')}; ${style}`}>
   <slot />
 </Element>
 

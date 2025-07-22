@@ -39,13 +39,13 @@ export interface Props {
 const { 
   sidebarWidth = '250px',
   contentMin = '50%',
-  side = 'left' as SideOption,
-  gap = 'md' as GapOption,
+  side = 'left',
+  gap = 'md',
   stackAt = '768px',
   collapsible = true,
   class: className = '',
   as: Element = 'div'
-} = Astro.props;
+} = Astro.props as Props;
 
 // Map gap prop to CSS custom property values
 const gapMap: Record<GapOption, string> = {
@@ -58,7 +58,7 @@ const gapMap: Record<GapOption, string> = {
   '2xl': 'var(--space-12)',
 };
 
-const gapValue = gapMap[gap];
+const gapValue = gapMap[gap as GapOption];
 
 // Build CSS custom properties for the component
 const customProperties = {

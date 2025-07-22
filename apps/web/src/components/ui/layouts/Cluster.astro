@@ -33,13 +33,13 @@ export interface Props {
 }
 
 const { 
-  space = 'md' as SpaceOption,
-  justify = 'start' as JustifyOption,
-  align = 'center' as AlignOption,
+  space = 'md',
+  justify = 'start',
+  align = 'center',
   wrap = true,
   class: className = '',
   as: Element = 'div'
-} = Astro.props;
+} = Astro.props as Props;
 
 // Map space prop to CSS custom property values
 const spaceMap: Record<SpaceOption, string> = {
@@ -71,9 +71,9 @@ const alignMap: Record<AlignOption, string> = {
   'baseline': 'baseline',
 };
 
-const spaceValue = spaceMap[space];
-const justifyValue = justifyMap[justify];
-const alignValue = alignMap[align];
+const spaceValue = spaceMap[space as SpaceOption];
+const justifyValue = justifyMap[justify as JustifyOption];
+const alignValue = alignMap[align as AlignOption];
 
 // Build CSS custom properties for the component
 const customProperties = {
